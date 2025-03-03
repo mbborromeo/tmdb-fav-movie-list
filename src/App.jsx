@@ -3,6 +3,7 @@ import './App.css'
 
 function App() {
   const [data, setData] = useState([]);
+  const [moviesSorted, setMoviesSorted] = useState([]);
 
   const options = {
     method: 'GET',
@@ -18,17 +19,54 @@ function App() {
         .then(res => res.json())
         .then(
           (res) => {
-            console.log(res);
+            console.log('res', res);
             setData(res);
+            return res;
           }
-        ).catch(err => console.error(err));
+        ).then( 
+          (res) => {
+            const sorted = [...res.results];
+            sorted.sort( (a, b) => Date.parse(a.release_date) - Date.parse(b.release_date) );
+            console.log('sorted', sorted);
+            setMoviesSorted( sorted );
+          }
+        )
+        .then( 
+          () => {
+            console.log('moviesSorted', moviesSorted); // why is this an empty array?
+          }
+        )
+        .catch(err => console.error(err));
     }, 
     []
   );  
 
   return (
     <>
-      <h1>Vite + React</h1>
+      {
+        data && data.page && data.total_pages &&
+        <span>
+          Page { data.page } / { data.total_pages }.
+        </span> 
+      }
+
+      {
+        data && data.total_results &&
+        <span>
+          Results: { data.total_results }
+        </span> 
+      }
+
+      <ol>
+        {
+          moviesSorted && moviesSorted.map( (movie) => (
+            <li key={movie.id}>
+              <span>{movie.original_title} ({movie.release_date})</span>
+            </li>
+          ))
+        }
+      </ol>
+
     </>
   )
 }
