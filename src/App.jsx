@@ -31,15 +31,21 @@ function App() {
             setMoviesSorted( sorted );
           }
         )
-        .then( 
-          () => {
-            console.log('moviesSorted', moviesSorted); // why is this an empty array?
-          }
-        )
+        // .then( 
+        //   () => {
+        //     console.log('moviesSorted', moviesSorted); // why is this an empty array?
+        //   }
+        // )
         .catch(err => console.error(err));
     }, 
     []
   );  
+
+  useEffect(() => {
+    // This will log whenever moviesSorted changes
+    console.log('moviesSorted updated:', moviesSorted);
+  }, [moviesSorted]); // Dependency array ensures this runs when moviesSorted changes
+
 
   return (
     <>
@@ -61,7 +67,7 @@ function App() {
         {
           moviesSorted && moviesSorted.map( (movie) => (
             <li key={movie.id}>
-              <span>{movie.original_title} ({movie.release_date})</span>
+              <span>{movie.original_title} ({movie.release_date.split("-")[0]})</span>
             </li>
           ))
         }
