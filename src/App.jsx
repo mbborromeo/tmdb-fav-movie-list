@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+// https://vite.dev/guide/env-and-mode
+
 function App() {
   const [data, setData] = useState([]);
   const [moviesSorted, setMoviesSorted] = useState([]);
@@ -9,7 +11,7 @@ function App() {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNTY5ZWVhZjMzZWRlOGE0MjIxMjc3NmRmZDU5M2Y3OCIsIm5iZiI6MTc0MDM0NDU5MS42MDE5OTk4LCJzdWIiOiI2N2JiOGQwZmJmNTIxZjE5MGYwYTdlMDIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.DlkosZ7jr-U2IS5uC2nNj34zUQbVMcpoSoqaxvtt4Kg'
+      Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`
     }
   };
   
