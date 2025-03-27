@@ -10,3 +10,16 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Installation
+
+`npm install`
+
+## Running on [localhost](http://localhost:5173/)
+
+`npm run build`
+
+## Environment Variables
+
+Since this project makes a REST API call to [The Movie Database](https://developer.themoviedb.org/docs/getting-started),
+I've put my API Key in an Environment Variable.  Note: If you're cloning this project, you will need your own .env file in the root folder.
