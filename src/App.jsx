@@ -73,8 +73,15 @@ function App() {
         {
           moviesSorted && moviesSorted.map( (movie) => (
             <li key={movie.id}>
-              <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
-              <span>{movie.original_title} ({movie.release_date.split("-")[0]})</span>
+              <div className="row">
+                <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
+                <div class="column">
+                  <span>{movie.original_title} ({movie.release_date.split("-")[0]})</span>
+                  <p>
+                    {movie.overview}
+                  </p>
+                </div>
+              </div>
             </li>
           ))
         }
