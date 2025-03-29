@@ -19,3 +19,11 @@
   text-align: left;
   font-size: 13px;
 }
+
+.column a {
+  text-decoration: underline;
+}
+
+.column a:hover {
+  text-decoration: none;
+}
