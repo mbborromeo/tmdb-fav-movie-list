@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 const Credits = ({id}) => {
     const [directors, setDirectors] = useState([]);
+    const [actors, setActors] = useState([]);
 
     const options = {
         method: 'GET',
@@ -20,14 +21,22 @@ const Credits = ({id}) => {
                             return res;
                         })
                 .then(res => {
-                    let directorArray = [];
+                    let directorsArray = [];
+                    let actorsArray = [];
+                    
                     res.crew.forEach( (person) => {
                         if (person.job === 'Director') {
-                            // setDirectors( directors => [...directors, person] );
-                            directorArray.push(person);
+                            directorsArray.push(person);
                         }
                     });
-                    setDirectors(directorArray);
+                    setDirectors(directorsArray);
+
+                    res.cast.forEach( (person) => {
+                        if (person.order < 3) {
+                            actorsArray.push(person);
+                        }
+                    });
+                    setActors(actorsArray);
                 })
                 .catch(err => console.error(err));
         },
@@ -42,6 +51,17 @@ const Credits = ({id}) => {
                 directors && directors.length > 0 && directors.map( (director) => (
                     <li key={director.id}>
                         {director.name}
+                    </li>
+                ))
+            }
+            </ul>
+
+            Actors:
+            <ul>
+            {
+                actors && actors.length > 0 && actors.map( (actor) => (
+                    <li key={actor.id}>
+                        {actor.name}
                     </li>
                 ))
             }
