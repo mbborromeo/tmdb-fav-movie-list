@@ -7,6 +7,10 @@ function App() {
   const [data, setData] = useState([]);
   const [moviesSorted, setMoviesSorted] = useState([]);
 
+  // https://developer.themoviedb.org/reference/configuration-details
+  const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
+  const POSTER_SIZE = "w92";
+
   const options = {
     method: 'GET',
     headers: {
@@ -69,7 +73,16 @@ function App() {
         {
           moviesSorted && moviesSorted.map( (movie) => (
             <li key={movie.id}>
-              <span>{movie.original_title} ({movie.release_date.split("-")[0]})</span>
+              <div className="row">
+                <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
+                <div class="column">
+                  <span>{movie.original_title} ({movie.release_date.split("-")[0]})</span>
+                  <p>
+                    {movie.overview}
+                  </p>
+                  <p>{ Math.round(movie.vote_average * 2)/2 }/10 from {movie.vote_count} votes</p>
+                </div>
+              </div>
             </li>
           ))
         }
