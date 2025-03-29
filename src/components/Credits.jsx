@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import Actor from './Actor';
+
 const Credits = ({id}) => {
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
@@ -60,9 +62,7 @@ const Credits = ({id}) => {
             <ul>
             {
                 actors && actors.length > 0 && actors.map( (actor) => (
-                    <li key={actor.id}>
-                        {actor.name}
-                    </li>
+                    <Actor actor={actor} />
                 ))
             }
             </ul>
