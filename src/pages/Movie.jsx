@@ -7,7 +7,7 @@ const Movie = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
-//   console.log('Movie', movie);
+  console.log('Movie', movie);
 
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
@@ -41,7 +41,18 @@ const Movie = () => {
                     <h2>{movie.title} ({movie.release_date.split("-")[0]})</h2>
                     <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
                     <p>{movie.overview}</p>
+                    <p>{ Math.round(movie.vote_average * 2)/2 }/10 from {movie.vote_count} votes</p>
 
+                    Genres:
+                    <ul>
+                        { movie.genres.map( (genre) => (
+                            <li key={genre.id}>
+                                {genre.name}
+                            </li>
+                          ))
+                        }
+                    </ul>
+                    
                     <Trailer id={id} />
                 </div>
             }
