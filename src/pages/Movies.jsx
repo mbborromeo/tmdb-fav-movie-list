@@ -77,7 +77,7 @@ const Movies = () => {
                   <p>
                     {movie.overview}
                   </p>
-                  <p>{ Math.round(movie.vote_average * 2)/2 }/10 from {movie.vote_count} votes</p>
+                  <p>Stars: { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
                 </div>
               </div>
             </li>
