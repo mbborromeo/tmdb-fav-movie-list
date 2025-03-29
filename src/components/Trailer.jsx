@@ -15,10 +15,10 @@ const Trailer = ( {id} ) => {
         () => {
             fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options)
                 .then(res => res.json())
-                .then(res => { 
-                        console.log(res);
-                        return res;
-                    })
+                // .then(res => { 
+                //         console.log(res);
+                //         return res;
+                //     })
                 .then(res => { 
                         if (res.results.length > 0) {
                             const trailer = res.results.find( (video) => video.type === 'Trailer' );
