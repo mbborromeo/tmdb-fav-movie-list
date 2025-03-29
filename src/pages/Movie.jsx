@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import Trailer from "../components/Trailer";
+
 const Movie = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
-  console.log('Movie', movie);
+//   console.log('Movie', movie);
 
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
@@ -39,6 +41,8 @@ const Movie = () => {
                     <h2>{movie.title} ({movie.release_date.split("-")[0]})</h2>
                     <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
                     <p>{movie.overview}</p>
+
+                    <Trailer id={id} />
                 </div>
             }
         </>
