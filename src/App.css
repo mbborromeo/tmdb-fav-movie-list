@@ -27,3 +27,14 @@
 .column a:hover {
   text-decoration: none;
 }
+
+ul {
+  display: inline-block;
+  padding: 0;
+}
+
+ul li {
+  display: inline;
+  padding-left: 10px;
+  list-style-type: none;
+}

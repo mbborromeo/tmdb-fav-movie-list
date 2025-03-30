@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 
+import Genres from '../components/Genres';
+
 const Movies = () => {
   const [data, setData] = useState([]);
   const [moviesSorted, setMoviesSorted] = useState([]);
+  const [genreLookup, setGenreLookup] = useState([]);
 
   // https://developer.themoviedb.org/reference/configuration-details
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
@@ -22,7 +25,6 @@ const Movies = () => {
         .then(res => res.json())
         .then(
           (res) => {
-            console.log('res', res);
             setData(res);
             return res;
           }
@@ -30,7 +32,6 @@ const Movies = () => {
           (res) => {
             const sorted = [...res.results];
             sorted.sort( (a, b) => Date.parse(a.release_date) - Date.parse(b.release_date) );
-            console.log('sorted', sorted);
             setMoviesSorted( sorted );
           }
         )
@@ -44,11 +45,25 @@ const Movies = () => {
     []
   );  
 
-  useEffect(() => {
-    // This will log whenever moviesSorted changes
-    console.log('moviesSorted updated:', moviesSorted);
-  }, [moviesSorted]); // Dependency array ensures this runs when moviesSorted changes
+  useEffect( 
+    () => {
+      fetch(`https://api.themoviedb.org/3/genre/movie/list?language=en`, options)
+        .then(res => res.json())
+        .then(
+          (res) => {
+            setGenreLookup(res.genres);
+          }
+        )
+        .catch(err => console.error(err));
+    }, 
+    []
+  );  
 
+//   useEffect(() => {
+//       console.log('moviesSorted updated:', moviesSorted);
+//     }, 
+//     [moviesSorted]
+//   );
 
   return (
     <>
@@ -78,6 +93,8 @@ const Movies = () => {
                     {movie.overview}
                   </p>
                   <p>Stars: { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
+
+                  <Genres gids={ movie.genre_ids } possibleGenres={ genreLookup } />
                 </div>
               </div>
             </li>

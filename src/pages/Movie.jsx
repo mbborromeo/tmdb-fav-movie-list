@@ -8,8 +8,6 @@ const Movie = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
-//   console.log('Movie', movie);
-
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
 
@@ -25,10 +23,6 @@ const Movie = () => {
     () => {
         fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
             .then(res => res.json())
-            // .then(res => { 
-            //     console.log(res);
-            //     return res;
-            // })
             .then((res) => setMovie(res))
             .catch(err => console.error(err));
     }, 
@@ -44,15 +38,17 @@ const Movie = () => {
                     <p>{movie.overview}</p>
                     <p>Stars: { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
 
-                    Genre:
-                    <ul>
-                        { movie.genres.map( (genre) => (
-                            <li key={genre.id}>
-                                {genre.name}
-                            </li>
-                          ))
-                        }
-                    </ul>
+                    <span>
+                        Genre:
+                        <ul>
+                            { movie.genres.map( (genre) => (
+                                <li key={genre.id}>
+                                    {genre.name}
+                                </li>
+                            ))
+                            }
+                        </ul>
+                    </span>
 
                     <Credits id={id} />
                     
