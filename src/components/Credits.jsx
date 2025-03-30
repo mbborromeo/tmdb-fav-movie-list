@@ -47,25 +47,29 @@ const Credits = ({id}) => {
     
     return (
         <>
-            Director/s:
-            <ul>
-            {
-                directors && directors.length > 0 && directors.map( (director) => (
-                    <li key={director.id}>
-                        {director.name}
-                    </li>
-                ))
-            }
-            </ul>
+            <div>
+                Director/s:
+                <ul>
+                {
+                    directors && directors.length > 0 && directors.map( (director) => (
+                        <li key={director.id}>
+                            {director.name}
+                        </li>
+                    ))
+                }
+                </ul>
+            </div>
 
-            Actors:
-            <ul>
-            {
-                actors && actors.length > 0 && actors.map( (actor) => (
-                    <Actor actor={actor} />
-                ))
-            }
-            </ul>
+            <div>
+                Actors:
+                <ul>
+                {
+                    actors && actors.length > 0 && actors.map( (actor) => (
+                        <Actor actor={actor} />
+                    ))
+                }
+                </ul>
+            </div>
         </>
     );
 };
