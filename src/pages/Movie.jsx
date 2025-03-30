@@ -8,6 +8,8 @@ const Movie = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
+  console.log('movie', movie);
+
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
 
