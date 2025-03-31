@@ -12,6 +12,8 @@ const Movie = () => {
 
   const [movie, setMovie] = useState(location.state ? location.state.movieState : null);
 
+  console.log('movie', movie);
+
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
 
