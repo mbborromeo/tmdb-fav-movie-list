@@ -59,7 +59,7 @@ const Movie = ({ id }) => {
                             </ul>
                         </span>
 
-                        <Credits id={id} />                    
+                        <Credits id={id} actorsDisplayMaxThree={true} />                    
                     </div>
                 </div>
             }

@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 
 import Actor from './Actor';
 
-const Credits = ({id, showActorsPic = false}) => {
+const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false}) => {
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
+
+    const MAX_ACTORS = 6;
 
     const options = {
         method: 'GET',
@@ -34,7 +36,7 @@ const Credits = ({id, showActorsPic = false}) => {
                     setDirectors(directorsArray);
 
                     res.cast.forEach( (person) => {
-                        if (person.order < 3) {
+                        if (person.order < MAX_ACTORS) {
                             actorsArray.push(person);
                         }
                     });
@@ -64,17 +66,11 @@ const Credits = ({id, showActorsPic = false}) => {
                 Actors:
                 <ul>
                 {
-                    actors && actors.length > 0 && actors.map( (actor) => {
-                        if(showActorsPic){
-                            return (
-                                <Actor actor={actor} showActorsPic={true} />
-                            );
-                        } else {
-                            return (
-                                <Actor actor={actor} />
-                            );
-                        }
-                    })
+                    actors && actors.length > 0 && actors.map( (actor, index) => (
+                        actorsDisplayMaxThree ?
+                            index < 3 && (showActorsPic ? <Actor actor={actor} showActorsPic={true} /> : <Actor actor={actor} />)
+                            : showActorsPic ? <Actor actor={actor} showActorsPic={true} /> : <Actor actor={actor} />
+                    ))
                 }
                 </ul>
             </div>
