@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Movie from '../components/Movie';
 
 const Movies = () => {
-  // const [data, setData] = useState([]);
   const [moviesSorted, setMoviesSorted] = useState([]);
   // const [genreLookup, setGenreLookup] = useState([]);
 
@@ -26,12 +25,6 @@ const Movies = () => {
     () => {
       fetch('https://api.themoviedb.org/3/account/21839127/favorite/movies?language=en-US&page=1&sort_by=created_at.asc', options)
         .then(res => res.json())
-        // .then(
-        //   (res) => {
-        //     setData(res);
-        //     return res;
-        //   }
-        // )
         .then( 
           (res) => {
             const sorted = [...res.results];
@@ -39,11 +32,6 @@ const Movies = () => {
             setMoviesSorted( sorted );
           }
         )
-        // .then( 
-        //   () => {
-        //     console.log('moviesSorted', moviesSorted); // why is this an empty array?
-        //   }
-        // )
         .catch(err => console.error(err));
     }, 
     []
@@ -63,28 +51,8 @@ const Movies = () => {
   //   []
   // );  
 
-//   useEffect(() => {
-//       console.log('moviesSorted updated:', moviesSorted);
-//     }, 
-//     [moviesSorted]
-//   );
-
   return (
     <>
-      {/* {
-        data && data.page && data.total_pages &&
-        <span>
-          Page { data.page } / { data.total_pages }.
-        </span> 
-      }
-
-      {
-        data && data.total_results &&
-        <span>
-          Results: { data.total_results }
-        </span> 
-      } */}
-
       <ol>
         {
           moviesSorted && moviesSorted.map( (movie) => (

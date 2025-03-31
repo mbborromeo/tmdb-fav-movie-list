@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import Trailer from "../components/Trailer";
 import Credits from "../components/Credits";
 
 const Movie = () => {
   const { id } = useParams();
-  const [movie, setMovie] = useState(null);
+  const location = useLocation();
 
-  console.log('movie', movie);
+  const [movie, setMovie] = useState(location.state ? location.state.movieState : null);
 
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
@@ -21,12 +21,18 @@ const Movie = () => {
     }
   };
 
-  useEffect(
-    () => {
-        fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
+  const getMovie = () => {
+    fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
             .then(res => res.json())
             .then((res) => setMovie(res))
             .catch(err => console.error(err));
+  }
+
+  useEffect(
+    () => {
+        if (!movie) {
+            getMovie();
+        }
     }, 
     []
   );
@@ -52,7 +58,7 @@ const Movie = () => {
                         </ul>
                     </span>
 
-                    <Credits id={id} />
+                    <Credits id={id} showActorsPic={true} />
                     
                     <Trailer id={id} />
                 </div>

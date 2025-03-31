@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import Trailer from "../components/Trailer";
 import Credits from "../components/Credits";
 
 const Movie = ({ id }) => {
   const [movie, setMovie] = useState(null);
 
-//   console.log('movie', movie);
+  console.log('movie', movie);
 
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w92";
@@ -35,8 +35,9 @@ const Movie = ({ id }) => {
                 <div className="row">
                     <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
                     <div className="column">
-                        {/* <a href={`/movie/${movie.id}`} title={`${movie.title} - details`}>{movie.title} ({movie.release_date.split("-")[0]})</a> */}
-                        <h3>{movie.title} ({movie.release_date.split("-")[0]})</h3>
+                        <Link to={`/movie/${movie.id}`} state={{ movieState: movie }}>
+                            {movie.title} ({movie.release_date.split("-")[0]})
+                        </Link>
                         <p>
                             {movie.overview}
                         </p>
@@ -55,7 +56,6 @@ const Movie = ({ id }) => {
                         </span>
 
                         <Credits id={id} />                    
-                        <Trailer id={id} />
                     </div>
                 </div>
             }
