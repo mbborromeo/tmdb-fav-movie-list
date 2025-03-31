@@ -4,6 +4,8 @@ import { useParams, useLocation } from "react-router-dom";
 import Trailer from "../components/Trailer";
 import Credits from "../components/Credits";
 
+import { formatRuntimeHoursAndMinutes } from "../utils/utils.jsx";
+
 const Movie = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -57,6 +59,8 @@ const Movie = () => {
                             }
                         </ul>
                     </span>
+
+                    <p>Runtime: { formatRuntimeHoursAndMinutes(movie.runtime) }</p>
 
                     <Credits id={id} showActorsPic={true} />
                     
