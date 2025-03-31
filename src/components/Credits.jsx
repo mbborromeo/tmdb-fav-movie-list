@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import Actor from './Actor';
 
-const Credits = ({id}) => {
+const Credits = ({id, showActorsPic = false}) => {
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
 
@@ -64,9 +64,17 @@ const Credits = ({id}) => {
                 Actors:
                 <ul>
                 {
-                    actors && actors.length > 0 && actors.map( (actor) => (
-                        <Actor actor={actor} />
-                    ))
+                    actors && actors.length > 0 && actors.map( (actor) => {
+                        if(showActorsPic){
+                            return (
+                                <Actor actor={actor} showActorsPic={true} />
+                            );
+                        } else {
+                            return (
+                                <Actor actor={actor} />
+                            );
+                        }
+                    })
                 }
                 </ul>
             </div>

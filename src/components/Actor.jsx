@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const Actor = ({actor}) => {
+const Actor = ({actor, showActorsPic = false}) => {
     const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
     const PROFILE_SIZE = "w138_and_h175_face/";
 
@@ -19,8 +19,6 @@ const Actor = ({actor}) => {
             fetch(`https://api.themoviedb.org/3/person/${actor.id}/images`, options)
                 .then(res => res.json())
                 .then(res => { 
-                    console.log('actor images:', res);
-
                     if (res.profiles.length > 0) {
                         setProfileImage( res.profiles[0].file_path );
                     }
@@ -32,8 +30,10 @@ const Actor = ({actor}) => {
 
     return (
         <li key={actor.id}>
-            {actor.name}
-            <img src={ BASE_URL_IMAGE + PROFILE_SIZE + profileImage} alt={`${actor.name}'s profile pic`} />
+            { actor.name }
+            { showActorsPic &&
+                <img src={ BASE_URL_IMAGE + PROFILE_SIZE + profileImage} alt={`${actor.name}'s profile pic`} />
+            }
         </li>
     );
 }
