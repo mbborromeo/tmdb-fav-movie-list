@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import Credits from "../components/Credits";
 
+import { formatRuntimeHoursAndMinutes } from "../utils/utils.jsx";
+
 const Movie = ({ id }) => {
   const [movie, setMovie] = useState(null);
 
@@ -42,6 +44,8 @@ const Movie = ({ id }) => {
                             {movie.overview}
                         </p>
                         <p>Stars: { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
+
+                        <p>Runtime: { formatRuntimeHoursAndMinutes(movie.runtime) }</p>
 
                         <span>
                             Genre:
