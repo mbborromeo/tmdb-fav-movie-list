@@ -10,12 +10,14 @@ const Movie = () => {
   const { id } = useParams();
   const location = useLocation();
 
-  const [movie, setMovie] = useState(location.state ? location.state.movieState : null);
-
-  console.log('movie', movie);
+  const [movie, setMovie] = useState(location.state ? location.state.movie : null);
+  const [directors, setDirectors] = useState(location.state ? location.state.directors : null);
+  const [actors, setActors] = useState(location.state ? location.state.actors : null);
 
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
+
+  const MAX_ACTORS = 6;
 
   const options = {
     method: 'GET',
@@ -27,15 +29,47 @@ const Movie = () => {
 
   const getMovie = () => {
     fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
-            .then(res => res.json())
-            .then((res) => setMovie(res))
-            .catch(err => console.error(err));
+        .then(res => res.json())
+        .then((res) => setMovie(res))
+        .catch(err => console.error(err));
+  }
+
+  const getCredits = () => {
+    fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options)
+        .then(res => res.json())
+        .then(res => { 
+                    console.log('credits:', res);
+                    return res;
+                })
+        .then(res => {
+            let directorsArray = [];
+            let actorsArray = [];
+            
+            res.crew.forEach( (person) => {
+                if (person.job === 'Director') {
+                    directorsArray.push(person);
+                }
+            });
+            setDirectors(directorsArray);
+
+            res.cast.forEach( (person) => {
+                if (person.order < MAX_ACTORS) {
+                    actorsArray.push(person);
+                }
+            });
+            setActors(actorsArray);
+        })
+        .catch(err => console.error(err));
   }
 
   useEffect(
     () => {
         if (!movie) {
             getMovie();
+        }
+
+        if (!directors || !actors) {
+            getCredits();
         }
     }, 
     []
@@ -64,7 +98,7 @@ const Movie = () => {
 
                     <p>Runtime: { formatRuntimeHoursAndMinutes(movie.runtime) }</p>
 
-                    <Credits id={id} showActorsPic={true} />
+                    <Credits id={id} directors={directors} actors={actors} showActorsPic={true} />
                     
                     <Trailer id={id} />
                 </div>

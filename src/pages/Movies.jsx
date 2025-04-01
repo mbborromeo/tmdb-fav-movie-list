@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react'
 
-// import Genres from '../components/Genres';
 import Movie from '../components/Movie';
 
 const Movies = () => {
   const [moviesSorted, setMoviesSorted] = useState([]);
-  // const [genreLookup, setGenreLookup] = useState([]);
 
   console.log('moviesSorted', moviesSorted);
 
@@ -36,20 +34,6 @@ const Movies = () => {
     }, 
     []
   );  
-
-  // useEffect( 
-  //   () => {
-  //     fetch(`https://api.themoviedb.org/3/genre/movie/list?language=en`, options)
-  //       .then(res => res.json())
-  //       .then(
-  //         (res) => {
-  //           setGenreLookup(res.genres);
-  //         }
-  //       )
-  //       .catch(err => console.error(err));
-  //   }, 
-  //   []
-  // );  
 
   return (
     <>
