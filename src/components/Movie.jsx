@@ -7,11 +7,15 @@ import { formatRuntimeHoursAndMinutes } from "../utils/utils.jsx";
 
 const Movie = ({ id }) => {
   const [movie, setMovie] = useState(null);
+  const [directors, setDirectors] = useState([]);
+  const [actors, setActors] = useState([]);
 
   console.log('movie', movie);
 
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w92";
+
+  const MAX_ACTORS = 6;
 
   const options = {
     method: 'GET',
@@ -31,13 +35,44 @@ const Movie = ({ id }) => {
     []
   );
 
+  useEffect(
+      () => {
+          fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
+              .then(res => res.json())
+              .then(res => { 
+                          console.log('credits:', res);
+                          return res;
+                      })
+              .then(res => {
+                  let directorsArray = [];
+                  let actorsArray = [];
+                  
+                  res.crew.forEach( (person) => {
+                      if (person.job === 'Director') {
+                          directorsArray.push(person);
+                      }
+                  });
+                  setDirectors(directorsArray);
+
+                  res.cast.forEach( (person) => {
+                      if (person.order < MAX_ACTORS) {
+                          actorsArray.push(person);
+                      }
+                  });
+                  setActors(actorsArray);
+              })
+              .catch(err => console.error(err));
+      },
+      []
+  );
+
   return (
         <>
             { movie &&
                 <div className="row">
                     <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
                     <div className="column">
-                        <Link to={`/movie/${movie.id}`} state={{ movieState: movie }}>
+                        <Link to={`/movie/${movie.id}`} state={{ movie, directors, actors }}>
                             {movie.title} ({movie.release_date.split("-")[0]})
                         </Link>
                         <p>
@@ -59,7 +94,7 @@ const Movie = ({ id }) => {
                             </ul>
                         </span>
 
-                        <Credits id={id} actorsDisplayMaxThree={true} />                    
+                        <Credits id={id} directors={directors} actors={actors} actorsDisplayMaxThree={true} />                    
                     </div>
                 </div>
             }
