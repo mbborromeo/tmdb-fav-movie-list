@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 
+import { Link } from "react-router-dom";
+
 import Actor from './Actor';
 
-const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, directors, actors}) => {
+const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, displayLinks = false, directors, actors}) => {
     
     return (
         <>
@@ -12,7 +14,13 @@ const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, dire
                 {
                     directors && directors.length > 0 && directors.map( (director) => (
                         <li key={director.id}>
-                            {director.name}
+                            {
+                                displayLinks ?
+                                    <Link to={`/person/${director.id}`}>
+                                        { director.name }
+                                    </Link>
+                                    : director.name
+                            }
                         </li>
                     ))
                 }
@@ -25,8 +33,8 @@ const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, dire
                 {
                     actors && actors.length > 0 && actors.map( (actor, index) => (
                         actorsDisplayMaxThree ?
-                            index < 3 && (showActorsPic ? <Actor actor={actor} showActorsPic={true} /> : <Actor actor={actor} />)
-                            : showActorsPic ? <Actor actor={actor} showActorsPic={true} /> : <Actor actor={actor} />
+                            index < 3 && <Actor actor={actor} { ...( showActorsPic && {showActorsPic: true} ) } { ...(displayLinks && {displayLinks: true}) } />
+                        : <Actor actor={actor} { ...(showActorsPic && {showActorsPic: true}) } { ...(displayLinks && {displayLinks: true}) } />
                     ))
                 }
                 </ul>
