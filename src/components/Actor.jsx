@@ -8,8 +8,6 @@ const Actor = ({actor, showActorsPic = false, displayLinks = false}) => {
 
     const [profileImage, setProfileImage] = useState(null);
 
-    console.log('profileImage:', profileImage);
-
     const options = {
         method: 'GET',
         headers: {

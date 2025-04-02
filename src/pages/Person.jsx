@@ -9,8 +9,6 @@ const Person = () => {
     const [movies, setMovies] = useState([]);
     const [person, setPerson] = useState(null);
 
-    console.log('PERSON movies', movies);
-
     const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
     const PROFILE_SIZE = "w185"; // w138_and_h175_face
     const POSTER_SIZE = "w92";
@@ -30,7 +28,6 @@ const Person = () => {
                 .then(res => res.json())
                 .then(
                     (res) => {
-                        console.log('Person Details:', res);
                         setPerson(res);
                         return res;
                     }
@@ -41,18 +38,11 @@ const Person = () => {
                         .then(res => res.json())
                         .then(
                             (res2) => {
-                                console.log('movie_credits:', res2);
-
                                 let moviesOfInterest = [];
 
                                 if (res1.known_for_department==='Acting'){
                                     if (res2.cast && res2.cast.length > 0) {
                                         moviesOfInterest = [...res2.cast]; // shallow copy for sorting, so original immutable
-
-                                        console.log('moviesOfInterest:', moviesOfInterest);
-
-                                        // // sort by order
-                                        // moviesOfInterest.sort( (a, b) => a.order - b.order );
 
                                         // // sort by order, then by popularity
                                         // moviesOfInterest.sort( (a, b) => a.order - b.order || b.popularity - a.popularity );

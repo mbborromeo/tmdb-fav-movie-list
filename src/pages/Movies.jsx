@@ -5,8 +5,6 @@ import Movie from '../components/Movie';
 const Movies = () => {
   const [moviesSorted, setMoviesSorted] = useState([]);
 
-  console.log('moviesSorted', moviesSorted);
-
   // https://developer.themoviedb.org/reference/configuration-details
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w92";

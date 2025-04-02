@@ -14,8 +14,6 @@ const Movie = () => {
   const [directors, setDirectors] = useState(location.state ? location.state.directors : null);
   const [actors, setActors] = useState(location.state ? location.state.actors : null);
 
-  console.log('MOVIE:', movie);
-
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
 
@@ -39,10 +37,6 @@ const Movie = () => {
   const getCredits = () => {
     fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options)
         .then(res => res.json())
-        .then(res => { 
-                    console.log('credits:', res);
-                    return res;
-                })
         .then(res => {
             let directorsArray = [];
             let actorsArray = [];
