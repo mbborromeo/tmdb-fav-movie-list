@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
+import { Link } from "react-router-dom";
+
 const Person = () => {
     const { id } = useParams();
 
     const [movies, setMovies] = useState([]);
     const [person, setPerson] = useState(null);
 
+    console.log('PERSON movies', movies);
+
     const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
-    const PROFILE_SIZE = "w138_and_h175_face/";
+    const PROFILE_SIZE = "w185"; // w138_and_h175_face
+    const POSTER_SIZE = "w92";
+    const MAX_MOVIES = 8;
   
     const options = {
       method: 'GET',
@@ -67,8 +73,8 @@ const Person = () => {
                                 }
                                 
                                 // limit to 8 movies
-                                if (moviesOfInterest.length > 8) {
-                                    moviesOfInterest = moviesOfInterest.slice(0, 8);
+                                if (moviesOfInterest.length > MAX_MOVIES) {
+                                    moviesOfInterest = moviesOfInterest.slice(0, MAX_MOVIES);
                                 }
 
                                 setMovies( moviesOfInterest );
@@ -86,22 +92,27 @@ const Person = () => {
         <>
             { person && 
                 <>
-                    <p>Name: {person.name}</p>
-                    <p>Biography: {person.biography}</p>
-                    <p>Known for department: {person.known_for_department}</p>
+                    <h2>{person.name}</h2>
                     { person.profile_path &&
                         <img src={ BASE_URL_IMAGE + PROFILE_SIZE + person.profile_path } alt={`${person.name}'s profile pic`} />
                     }
+                    <p>{person.biography}</p>
+                    <p><b>Known for department:</b> {person.known_for_department}</p>
                 </>
             }
 
-            <h4>Movies:</h4>
+            <b>Movies:</b>
             <ul>
                 {
                     movies.length > 0 && movies.map( (movie) => {
                         return (
                             <li key={`${movie.id}-${movie.job}`}>
-                                { movie.title } ({ person.known_for_department==="Acting" ? movie.character : movie.job })
+                                <Link to={`/movie/${movie.id}`}>
+                                    { movie.title } ({ person.known_for_department==="Acting" ? movie.character : movie.job })
+                                    { movie.poster_path && 
+                                        <img src={ BASE_URL_IMAGE + POSTER_SIZE + movie.poster_path } alt={`${person.name}'s profile pic`} />
+                                    }
+                                </Link>
                             </li>
                         );
                     })

@@ -36,7 +36,7 @@ const Trailer = ( {id} ) => {
     return (
         <>
             {
-                trailer && <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank">Play Trailer</a>
+                trailer && <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank"><b>PLAY TRAILER</b></a>
             }
         </>
     );

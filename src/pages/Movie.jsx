@@ -14,6 +14,8 @@ const Movie = () => {
   const [directors, setDirectors] = useState(location.state ? location.state.directors : null);
   const [actors, setActors] = useState(location.state ? location.state.actors : null);
 
+  console.log('MOVIE:', movie);
+
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185";
 
@@ -82,12 +84,12 @@ const Movie = () => {
                     <h2>{movie.title} ({movie.release_date.split("-")[0]})</h2>
                     <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
                     <p>{movie.overview}</p>
-                    <p>Stars: { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
+                    <p><b>Stars:</b> { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
 
                     <span>
-                        Genre:
+                        <b>Genre:</b>
                         <ul>
-                            { movie.genres.map( (genre) => (
+                            { movie.genres && movie.genres.map( (genre) => (
                                 <li key={genre.id}>
                                     {genre.name}
                                 </li>
@@ -96,7 +98,7 @@ const Movie = () => {
                         </ul>
                     </span>
 
-                    <p>Runtime: { formatRuntimeHoursAndMinutes(movie.runtime) }</p>
+                    <p><b>Runtime:</b> { movie.runtime && formatRuntimeHoursAndMinutes(movie.runtime) }</p>
 
                     <Credits id={id} directors={directors} actors={actors} showActorsPic={true} displayLinks={true} />
                     

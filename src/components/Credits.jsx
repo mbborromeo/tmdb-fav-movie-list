@@ -9,7 +9,7 @@ const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, disp
     return (
         <>
             <div>
-                Director/s:
+                <b>Director/s:</b>
                 <ul>
                 {
                     directors && directors.length > 0 && directors.map( (director) => (
@@ -28,13 +28,13 @@ const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, disp
             </div>
 
             <div>
-                Actors:
+                <b>Actors:</b>
                 <ul>
                 {
                     actors && actors.length > 0 && actors.map( (actor, index) => (
                         actorsDisplayMaxThree ?
-                            index < 3 && <Actor actor={actor} { ...( showActorsPic && {showActorsPic: true} ) } { ...(displayLinks && {displayLinks: true}) } />
-                        : <Actor actor={actor} { ...(showActorsPic && {showActorsPic: true}) } { ...(displayLinks && {displayLinks: true}) } />
+                            index < 3 && <Actor key={actor.id} actor={actor} { ...( showActorsPic && {showActorsPic: true} ) } { ...(displayLinks && {displayLinks: true}) } />
+                        : <Actor key={actor.id} actor={actor} { ...(showActorsPic && {showActorsPic: true}) } { ...(displayLinks && {displayLinks: true}) } />
                     ))
                 }
                 </ul>

@@ -13,7 +13,7 @@ const Movie = ({ id }) => {
   console.log('movie', movie);
 
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
-  const POSTER_SIZE = "w92";
+  const POSTER_SIZE = "w185"; // w154 w92
 
   const MAX_ACTORS = 6;
 
@@ -78,12 +78,13 @@ const Movie = ({ id }) => {
                         <p>
                             {movie.overview}
                         </p>
-                        <p>Stars: { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
 
-                        <p>Runtime: { formatRuntimeHoursAndMinutes(movie.runtime) }</p>
+                        <div><b>Stars:</b> { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</div>
+
+                        <div><b>Runtime:</b> { formatRuntimeHoursAndMinutes(movie.runtime) }</div>
 
                         <span>
-                            Genre:
+                            <b>Genre:</b>
                             <ul>
                                 { movie.genres.map( (genre) => (
                                     <li key={genre.id}>
