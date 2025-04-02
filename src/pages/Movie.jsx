@@ -37,10 +37,6 @@ const Movie = () => {
   const getCredits = () => {
     fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options)
         .then(res => res.json())
-        .then(res => { 
-                    console.log('credits:', res);
-                    return res;
-                })
         .then(res => {
             let directorsArray = [];
             let actorsArray = [];
@@ -82,12 +78,12 @@ const Movie = () => {
                     <h2>{movie.title} ({movie.release_date.split("-")[0]})</h2>
                     <img src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`} alt="Poster" />
                     <p>{movie.overview}</p>
-                    <p>Stars: { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
+                    <p><b>Stars:</b> { Math.round(movie.vote_average * 2)/2 }/10 (from {movie.vote_count} votes)</p>
 
                     <span>
-                        Genre:
+                        <b>Genre:</b>
                         <ul>
-                            { movie.genres.map( (genre) => (
+                            { movie.genres && movie.genres.map( (genre) => (
                                 <li key={genre.id}>
                                     {genre.name}
                                 </li>
@@ -96,7 +92,7 @@ const Movie = () => {
                         </ul>
                     </span>
 
-                    <p>Runtime: { formatRuntimeHoursAndMinutes(movie.runtime) }</p>
+                    <p><b>Runtime:</b> { movie.runtime && formatRuntimeHoursAndMinutes(movie.runtime) }</p>
 
                     <Credits id={id} directors={directors} actors={actors} showActorsPic={true} displayLinks={true} />
                     

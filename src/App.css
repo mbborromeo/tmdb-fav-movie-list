@@ -20,11 +20,11 @@
   font-size: 13px;
 }
 
-.column a {
+a {
   text-decoration: underline;
 }
 
-.column a:hover {
+a:hover {
   text-decoration: none;
 }
 
