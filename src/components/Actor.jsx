@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 
-const Actor = ({actor, showActorsPic = false}) => {
+import { Link } from "react-router-dom";
+
+const Actor = ({actor, showActorsPic = false, displayLinks = false}) => {
     const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
     const PROFILE_SIZE = "w138_and_h175_face/";
 
@@ -30,7 +32,13 @@ const Actor = ({actor, showActorsPic = false}) => {
 
     return (
         <li key={actor.id}>
-            { actor.name }
+            { displayLinks ?
+                <Link to={`/person/${actor.id}`}>
+                    { actor.name }
+                </Link>
+                : actor.name
+            }
+
             { showActorsPic &&
                 <img src={ BASE_URL_IMAGE + PROFILE_SIZE + profileImage} alt={`${actor.name}'s profile pic`} />
             }

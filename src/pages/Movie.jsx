@@ -98,7 +98,7 @@ const Movie = () => {
 
                     <p>Runtime: { formatRuntimeHoursAndMinutes(movie.runtime) }</p>
 
-                    <Credits id={id} directors={directors} actors={actors} showActorsPic={true} />
+                    <Credits id={id} directors={directors} actors={actors} showActorsPic={true} displayLinks={true} />
                     
                     <Trailer id={id} />
                 </div>
