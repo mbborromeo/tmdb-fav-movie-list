@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Actor from './Actor';
 
 const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, displayLinks = false, directors, actors}) => {
-    
     return (
         <>
             <div>
