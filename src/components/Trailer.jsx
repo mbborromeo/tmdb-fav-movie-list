@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 const Trailer = ( {id} ) => {
     const [trailer, setTrailer] = useState(undefined);
 
-    const options = {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-        }
-    };
+    const options = useMemo(() => ({
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+            }
+        }),
+        []
+    );
     
     useEffect(
         () => {
@@ -26,7 +28,7 @@ const Trailer = ( {id} ) => {
                 )
                 .catch(err => console.error(err));
         }, 
-        []
+        [id, options]
     );
 
     return (

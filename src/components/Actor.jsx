@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import { Link } from "react-router-dom";
 
 const Actor = ({actor, showActorsPic = false, displayLinks = false}) => {

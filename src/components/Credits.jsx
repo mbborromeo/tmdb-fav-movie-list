@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
-
 import { Link } from "react-router-dom";
 
 import Actor from './Actor';
 
-const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, displayLinks = false, directors, actors}) => {
+const Credits = ({showActorsPic = false, actorsDisplayMaxThree = false, displayLinks = false, directors, actors}) => {
     const numberOfDirectors = (directors && directors.length > 0) ? directors.length : 0;
 
     return (

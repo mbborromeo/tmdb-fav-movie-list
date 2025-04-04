@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import Credits from "../components/Credits";
@@ -16,13 +16,15 @@ const Movie = ({ id }) => {
 
   const MAX_ACTORS = 6;
 
-  const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-    }
-  };
+  const options = useMemo(() => ({
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+        }
+    }),
+    []
+  );
 
   useEffect(
     () => {
@@ -42,27 +44,16 @@ const Movie = ({ id }) => {
             setMovie(data[0]);
 
             // save credits info
-            let directorsArray = [];
-            let actorsArray = [];
-        
-            data[1].crew.forEach( (person) => {
-                if (person.job === 'Director') {
-                    directorsArray.push(person);
-                }
-            });
+            const directorsArray = data[1].crew.filter( (person) => (person.job === 'Director') );
             setDirectors(directorsArray);
 
-            data[1].cast.forEach( (person) => {
-                if (person.order < MAX_ACTORS) {
-                    actorsArray.push(person);
-                }
-            });
+            const actorsArray = data[1].cast.filter( (person) => (person.order < MAX_ACTORS) );
             setActors(actorsArray);
         }).catch(
             (err) => console.error(err)
         );
     }, 
-    []
+    [id, options]
   );
 
   return (
@@ -94,7 +85,9 @@ const Movie = ({ id }) => {
                             </ul>
                         </span>
 
-                        <Credits id={id} directors={directors} actors={actors} actorsDisplayMaxThree={true} />                    
+                        { directors.length > 0 && actors.length > 0 && 
+                            <Credits directors={directors} actors={actors} actorsDisplayMaxThree={true} />
+                        }
                     </div>
                 </div>
             }

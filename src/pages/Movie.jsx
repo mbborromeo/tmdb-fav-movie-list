@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import Trailer from "../components/Trailer";
@@ -20,44 +20,52 @@ const Movie = () => {
 
   const MAX_ACTORS = 6;
 
-  const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-    }
-  };
+  const options = useMemo(() => ({
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+        }
+    }),
+    []
+  );
 
-  const getMovie = () => {
-    fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
-        .then(res => res.json())
-        .then((res) => setMovie(res))
-        .catch(err => console.error(err));
-  }
+  const getMovie = useCallback( 
+    () => {
+        fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
+            .then(res => res.json())
+            .then((res) => setMovie(res))
+            .catch(err => console.error(err));
+    },
+    [id, options]
+  );
 
-  const getCredits = () => {
-    fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options)
-        .then(res => res.json())
-        .then(res => {
-            let directorsArray = [];
-            let actorsArray = [];
-            
-            res.crew.forEach( (person) => {
-                if (person.job === 'Director') {
-                    directorsArray.push(person);
-                }
-            });
-            setDirectors(directorsArray);
+  const getCredits = useCallback(
+    () => {
+        fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options)
+            .then(res => res.json())
+            .then(res => {
+                let directorsArray = [];
+                let actorsArray = [];
+                
+                res.crew.forEach( (person) => {
+                    if (person.job === 'Director') {
+                        directorsArray.push(person);
+                    }
+                });
+                setDirectors(directorsArray);
 
-            res.cast.forEach( (person) => {
-                if (person.order < MAX_ACTORS) {
-                    actorsArray.push(person);
-                }
-            });
-            setActors(actorsArray);
-        })
-        .catch(err => console.error(err));
-  }
+                res.cast.forEach( (person) => {
+                    if (person.order < MAX_ACTORS) {
+                        actorsArray.push(person);
+                    }
+                });
+                setActors(actorsArray);
+            })
+            .catch(err => console.error(err));
+    },
+    [id, options]
+  );
 
   useEffect(
     () => {
@@ -69,7 +77,7 @@ const Movie = () => {
             getCredits();
         }
     }, 
-    []
+    [movie, directors, actors, getMovie, getCredits]
   );
 
   return (
@@ -95,7 +103,7 @@ const Movie = () => {
 
                     <p><b>Runtime:</b> { movie.runtime && formatRuntimeHoursAndMinutes(movie.runtime) }</p>
 
-                    <Credits id={id} directors={directors} actors={actors} showActorsPic={true} displayLinks={true} />
+                    <Credits directors={directors} actors={actors} showActorsPic={true} displayLinks={true} />
                     
                     <Trailer id={id} />
                 </div>

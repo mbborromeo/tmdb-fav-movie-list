@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useEffect, useState, useMemo } from "react";
+import { useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
@@ -14,13 +14,15 @@ const Person = () => {
     const POSTER_SIZE = "w92";
     const MAX_MOVIES = 8;
   
-    const options = {
-      method: 'GET',
-      headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-      }
-    };
+    const options = useMemo(() => ({
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+            }
+        }),
+        []
+    );
 
     useEffect(
         () => {
@@ -75,7 +77,7 @@ const Person = () => {
                 )
                 .catch(err => console.error(err));
         }, 
-        []
+        [id, options]
     );
 
     return (

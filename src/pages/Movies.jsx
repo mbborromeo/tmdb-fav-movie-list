@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 import Movie from '../components/Movie';
 
 const Movies = () => {
-  const [moviesSorted, setMoviesSorted] = useState([]);
+  const [movies, setMovies] = useState([]);
 
   const TMDB_ACCOUNT_ID = 21839127;
 
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-    }
-  };
+  const options = useMemo(() => ({
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+        }
+    }),
+    []
+  );
   
   useEffect( 
     () => {
@@ -21,21 +23,31 @@ const Movies = () => {
         .then(res => res.json())
         .then( 
           (res) => {
-            const sorted = [...res.results];
-            sorted.sort( (a, b) => Date.parse(a.release_date) - Date.parse(b.release_date) );
-            setMoviesSorted( sorted );
+            if (res.results) {
+              setMovies(res.results);
+            }
           }
         )
         .catch(err => console.error(err));
     }, 
-    []
+    [options]
   );  
+
+  // Memoize sorted movies to avoid unnecessary re-renders
+  const moviesSorted = useMemo(() => {
+    const sorted = [...movies];
+    if (movies.length > 0) {
+      sorted.sort( (a, b) => Date.parse(a.release_date) - Date.parse(b.release_date) );
+    }
+
+    return sorted;
+  }, [movies]);
 
   return (
     <>
       <ol>
         {
-          moviesSorted && moviesSorted.map( (movie) => (
+          movies.length > 0 && moviesSorted.length > 0 && moviesSorted.map( (movie) => (
             <li key={movie.id}>
               <Movie id={movie.id} />
             </li>
