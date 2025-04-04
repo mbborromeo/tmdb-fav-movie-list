@@ -5,13 +5,15 @@ import { Link } from "react-router-dom";
 import Actor from './Actor';
 
 const Credits = ({id, showActorsPic = false, actorsDisplayMaxThree = false, displayLinks = false, directors, actors}) => {
+    const numberOfDirectors = (directors && directors.length > 0) ? directors.length : 0;
+
     return (
         <>
             <div>
-                <b>Director/s:</b>
+                <b>{`Director${ numberOfDirectors > 1 ? 's' : '' }:`}</b>
                 <ul>
                 {
-                    directors && directors.length > 0 && directors.map( (director) => (
+                    numberOfDirectors > 0 && directors.map( (director) => (
                         <li key={director.id}>
                             {
                                 displayLinks ?
