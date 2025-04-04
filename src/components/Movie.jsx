@@ -42,21 +42,10 @@ const Movie = ({ id }) => {
             setMovie(data[0]);
 
             // save credits info
-            let directorsArray = [];
-            let actorsArray = [];
-        
-            data[1].crew.forEach( (person) => {
-                if (person.job === 'Director') {
-                    directorsArray.push(person);
-                }
-            });
+            const directorsArray = data[1].crew.filter( (person) => (person.job === 'Director') );
             setDirectors(directorsArray);
 
-            data[1].cast.forEach( (person) => {
-                if (person.order < MAX_ACTORS) {
-                    actorsArray.push(person);
-                }
-            });
+            const actorsArray = data[1].cast.filter( (person) => (person.order < MAX_ACTORS) );
             setActors(actorsArray);
         }).catch(
             (err) => console.error(err)
@@ -94,7 +83,9 @@ const Movie = ({ id }) => {
                             </ul>
                         </span>
 
-                        <Credits id={id} directors={directors} actors={actors} actorsDisplayMaxThree={true} />                    
+                        { directors.length > 0 && actors.length > 0 && 
+                            <Credits id={id} directors={directors} actors={actors} actorsDisplayMaxThree={true} />
+                        }
                     </div>
                 </div>
             }

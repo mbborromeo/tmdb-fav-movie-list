@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import Trailer from "../components/Trailer";
@@ -28,36 +28,42 @@ const Movie = () => {
     }
   };
 
-  const getMovie = () => {
-    fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
-        .then(res => res.json())
-        .then((res) => setMovie(res))
-        .catch(err => console.error(err));
-  }
+  const getMovie = useCallback( 
+    () => {
+        fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
+            .then(res => res.json())
+            .then((res) => setMovie(res))
+            .catch(err => console.error(err));
+    },
+    [id]
+  );
 
-  const getCredits = () => {
-    fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options)
-        .then(res => res.json())
-        .then(res => {
-            let directorsArray = [];
-            let actorsArray = [];
-            
-            res.crew.forEach( (person) => {
-                if (person.job === 'Director') {
-                    directorsArray.push(person);
-                }
-            });
-            setDirectors(directorsArray);
+  const getCredits = useCallback(
+    () => {
+        fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options)
+            .then(res => res.json())
+            .then(res => {
+                let directorsArray = [];
+                let actorsArray = [];
+                
+                res.crew.forEach( (person) => {
+                    if (person.job === 'Director') {
+                        directorsArray.push(person);
+                    }
+                });
+                setDirectors(directorsArray);
 
-            res.cast.forEach( (person) => {
-                if (person.order < MAX_ACTORS) {
-                    actorsArray.push(person);
-                }
-            });
-            setActors(actorsArray);
-        })
-        .catch(err => console.error(err));
-  }
+                res.cast.forEach( (person) => {
+                    if (person.order < MAX_ACTORS) {
+                        actorsArray.push(person);
+                    }
+                });
+                setActors(actorsArray);
+            })
+            .catch(err => console.error(err));
+    },
+    [id]
+  );
 
   useEffect(
     () => {
