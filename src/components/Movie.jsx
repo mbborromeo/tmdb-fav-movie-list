@@ -10,6 +10,7 @@ const Movie = ({ id }) => {
   const [directors, setDirectors] = useState([]);
   const [actors, setActors] = useState([]);
 
+  // https://developer.themoviedb.org/reference/configuration-details
   const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w185"; // w154 w92
 
@@ -19,7 +20,7 @@ const Movie = ({ id }) => {
     method: 'GET',
     headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
     }
   };
 
