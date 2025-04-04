@@ -10,6 +10,7 @@ const Movie = () => {
   const { id } = useParams();
   const location = useLocation();
 
+  // location.state will be null if Movie page is opened in a new tab
   const [movie, setMovie] = useState(location.state ? location.state.movie : null);
   const [directors, setDirectors] = useState(location.state ? location.state.directors : null);
   const [actors, setActors] = useState(location.state ? location.state.actors : null);
