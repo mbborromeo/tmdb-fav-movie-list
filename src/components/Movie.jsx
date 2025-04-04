@@ -26,39 +26,43 @@ const Movie = ({ id }) => {
 
   useEffect(
     () => {
-        fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options)
-            .then(res => res.json())
-            .then((res) => setMovie(res))
-            .catch(err => console.error(err));
+        Promise.all([
+            fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options),
+            fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
+        ]).then( (responses) => {
+            // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
+            // wrap in Promise.all(), since response.json() returns a promise as well
+            return Promise.all(
+                responses.map( (response) => ( 
+                    response.json()
+                ))
+            );
+        }).then( (data) => {
+            // save movie info
+            setMovie(data[0]);
+
+            // save credits info
+            let directorsArray = [];
+            let actorsArray = [];
+        
+            data[1].crew.forEach( (person) => {
+                if (person.job === 'Director') {
+                    directorsArray.push(person);
+                }
+            });
+            setDirectors(directorsArray);
+
+            data[1].cast.forEach( (person) => {
+                if (person.order < MAX_ACTORS) {
+                    actorsArray.push(person);
+                }
+            });
+            setActors(actorsArray);
+        }).catch(
+            (err) => console.error(err)
+        );
     }, 
     []
-  );
-
-  useEffect(
-      () => {
-          fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
-              .then(res => res.json())
-              .then(res => {
-                  let directorsArray = [];
-                  let actorsArray = [];
-                  
-                  res.crew.forEach( (person) => {
-                      if (person.job === 'Director') {
-                          directorsArray.push(person);
-                      }
-                  });
-                  setDirectors(directorsArray);
-
-                  res.cast.forEach( (person) => {
-                      if (person.order < MAX_ACTORS) {
-                          actorsArray.push(person);
-                      }
-                  });
-                  setActors(actorsArray);
-              })
-              .catch(err => console.error(err));
-      },
-      []
   );
 
   return (
