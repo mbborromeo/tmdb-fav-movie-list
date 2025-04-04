@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import Trailer from "../components/Trailer";
@@ -20,13 +20,15 @@ const Movie = () => {
 
   const MAX_ACTORS = 6;
 
-  const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-    }
-  };
+  const options = useMemo(() => ({
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+        }
+    }),
+    []
+  );
 
   const getMovie = useCallback( 
     () => {
@@ -35,7 +37,7 @@ const Movie = () => {
             .then((res) => setMovie(res))
             .catch(err => console.error(err));
     },
-    [id]
+    [id, options]
   );
 
   const getCredits = useCallback(
@@ -62,7 +64,7 @@ const Movie = () => {
             })
             .catch(err => console.error(err));
     },
-    [id]
+    [id, options]
   );
 
   useEffect(
@@ -75,7 +77,7 @@ const Movie = () => {
             getCredits();
         }
     }, 
-    []
+    [movie, directors, actors, getMovie, getCredits]
   );
 
   return (

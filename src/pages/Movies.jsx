@@ -7,13 +7,15 @@ const Movies = () => {
 
   const TMDB_ACCOUNT_ID = 21839127;
 
-  const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-      }
-  };
+  const options = useMemo(() => ({
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+        }
+    }),
+    []
+  );
   
   useEffect( 
     () => {
@@ -28,7 +30,7 @@ const Movies = () => {
         )
         .catch(err => console.error(err));
     }, 
-    []
+    [options]
   );  
 
   // Memoize sorted movies to avoid unnecessary re-renders

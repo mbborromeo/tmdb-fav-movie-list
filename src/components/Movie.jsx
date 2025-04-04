@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import Credits from "../components/Credits";
@@ -16,13 +16,15 @@ const Movie = ({ id }) => {
 
   const MAX_ACTORS = 6;
 
-  const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-    }
-  };
+  const options = useMemo(() => ({
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+        }
+    }),
+    []
+  );
 
   useEffect(
     () => {
@@ -51,7 +53,7 @@ const Movie = ({ id }) => {
             (err) => console.error(err)
         );
     }, 
-    []
+    [id, options]
   );
 
   return (
