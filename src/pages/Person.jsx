@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 const Person = () => {
     const { id } = useParams();
 
-    const [movies, setMovies] = useState([]);
     const [person, setPerson] = useState(null);
+    const [movies, setMovies] = useState([]);
 
     const BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
     const PROFILE_SIZE = "w185"; // w138_and_h175_face
