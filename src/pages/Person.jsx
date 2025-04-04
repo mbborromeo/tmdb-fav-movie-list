@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
@@ -75,7 +75,7 @@ const Person = () => {
                 )
                 .catch(err => console.error(err));
         }, 
-        []
+        [id, options]
     );
 
     return (

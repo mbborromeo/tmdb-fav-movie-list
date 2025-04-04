@@ -84,7 +84,7 @@ const Movie = ({ id }) => {
                         </span>
 
                         { directors.length > 0 && actors.length > 0 && 
-                            <Credits id={id} directors={directors} actors={actors} actorsDisplayMaxThree={true} />
+                            <Credits directors={directors} actors={actors} actorsDisplayMaxThree={true} />
                         }
                     </div>
                 </div>
