@@ -43,8 +43,7 @@ const Movies = () => {
           throw new Error(response.status);
         }
       } catch (error) {
-        // Promise rejected: Network or CORS issues
-        // OR output thrown Errors from try statement above
+        // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
         console.error('Error:', error);
       }
     }, 
