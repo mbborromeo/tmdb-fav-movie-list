@@ -31,7 +31,7 @@ const Movie = ({ id }) => {
         try {
             const responses = await Promise.all([
                 fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options),
-                fetch(`https://api.themoviedb.org/3/movi/${id}/credits?language=en-US`, options)
+                fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
             ]);
 
             // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
