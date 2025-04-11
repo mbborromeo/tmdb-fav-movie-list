@@ -1,5 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 
+import ifHttpStatusNotOK_throwErrorsAndExit from '../utils/fetch-utility';
+
 const Trailer = ( {id} ) => {
     const [trailer, setTrailer] = useState(undefined);
 
@@ -18,27 +20,16 @@ const Trailer = ( {id} ) => {
             try {
                 const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options);
 
-                if (response.ok) {
-                    const res = await response.json();
+                ifHttpStatusNotOK_throwErrorsAndExit(response);
 
-                    if (res.results.length > 0) {
-                        const trailer = res.results.find( (video) => video.type === 'Trailer' );
-                        setTrailer(trailer);
-                    } else {
-                        console.log('No trailers available');
-                    }
+                // Promise resolved and HTTP status is successful
+                const res = await response.json();
+
+                if (res.results.length > 0) {
+                    const trailer = res.results.find( (video) => video.type === 'Trailer' );
+                    setTrailer(trailer);
                 } else {
-                    console.error('Promise resolved but HTTP status failed');
-            
-                    if (response.status === 404) {
-                        throw new Error('404, Not found');
-                    }
-            
-                    if (response.status === 500) {
-                        throw new Error('500, internal server error');
-                    }
-            
-                    throw new Error(response.status);
+                    console.log('No trailers available');
                 }
             } catch (error) {
                 // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above

@@ -4,7 +4,8 @@ import { useParams, useLocation } from "react-router-dom";
 import Trailer from "../components/Trailer";
 import Credits from "../components/Credits";
 
-import { formatRuntimeHoursAndMinutes } from "../utils/utils.jsx";
+import ifHttpStatusNotOK_throwErrorsAndExit from "../utils/fetch-utility";
+import { formatRuntimeHoursAndMinutes } from "../utils/utils";
 
 const Movie = () => {
   const { id } = useParams();
@@ -35,22 +36,11 @@ const Movie = () => {
         try {
             const response = await fetch(`https://api.themoviedb.org/3/movie/${ id }?language=en-US`, options);
 
-            if (response.ok) {
-                const res = await response.json();
-                setMovie(res);
-            } else {
-                console.error('Promise resolved but HTTP status failed');
-    
-                if (response.status === 404) {
-                throw new Error('404, Not found');
-                }
-    
-                if (response.status === 500) {
-                throw new Error('500, internal server error');
-                }
-    
-                throw new Error(response.status);
-            }
+            ifHttpStatusNotOK_throwErrorsAndExit(response);
+
+            // Promise resolved and HTTP status is successful
+            const res = await response.json();
+            setMovie(res);
         } catch (error) {
           // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
           console.error('Error:', error);
@@ -64,38 +54,27 @@ const Movie = () => {
         try {
             const response = await fetch(`https://api.themoviedb.org/3/movie/${ id }/credits?language=en-US`, options);
 
-            if (response.ok) {
-                const res = await response.json();
+            ifHttpStatusNotOK_throwErrorsAndExit(response);
 
-                let directorsArray = [];
-                let actorsArray = [];
-                
-                res.crew.forEach( (person) => {
-                    if (person.job === 'Director') {
-                        directorsArray.push(person);
-                    }
-                });
-                setDirectors(directorsArray);
+            // Promise resolved and HTTP status is successful
+            const res = await response.json();
 
-                res.cast.forEach( (person) => {
-                    if (person.order < MAX_ACTORS) {
-                        actorsArray.push(person);
-                    }
-                });
-                setActors(actorsArray);
-            } else {
-                console.error('Promise resolved but HTTP status failed');
-        
-                if (response.status === 404) {
-                    throw new Error('404, Not found');
+            let directorsArray = [];
+            let actorsArray = [];
+            
+            res.crew.forEach( (person) => {
+                if (person.job === 'Director') {
+                    directorsArray.push(person);
                 }
-        
-                if (response.status === 500) {
-                    throw new Error('500, internal server error');
+            });
+            setDirectors(directorsArray);
+
+            res.cast.forEach( (person) => {
+                if (person.order < MAX_ACTORS) {
+                    actorsArray.push(person);
                 }
-        
-                throw new Error(response.status);
-            }
+            });
+            setActors(actorsArray);
         } catch (error) {
             // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
             console.error('Error:', error);
