@@ -1,5 +1,11 @@
 # React + Vite
 
+## Project Description
+
+This project fetches movie data and poster image from my favourites list on The Movie Database (TMDB) using their REST API.  It makes multiple API calls to get all the corresponding data, and includes fetch error handling.
+
+## Note:
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -21,5 +27,4 @@ If you are developing a production application, we recommend using TypeScript an
 
 ## Environment Variables
 
-Since this project makes a REST API call to [The Movie Database](https://developer.themoviedb.org/docs/getting-started),
-I've put my API Key in an Environment Variable.  Note: If you're cloning this project, you will need your own .env file in the root folder.
+If you're cloning this project and running it locally, since this project makes a REST API call to [The Movie Database](https://developer.themoviedb.org/docs/getting-started), you will need to register for an API Token which you can get from [API Settings](https://www.themoviedb.org/settings/api).  Note: You will need to create your own .env file inside the project root folder, and save your token as VITE_TMDB_TOKEN=.
