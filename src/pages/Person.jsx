@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
-import { Link } from "react-router-dom";
+import ifHttpStatusNotOK_throwErrorsAndExit from "../utils/fetch-utility";
 
 const Person = () => {
     const { id } = useParams();
@@ -30,72 +30,50 @@ const Person = () => {
                 const response = await fetch(`https://api.themoviedb.org/3/person/${ id }?language=en-US`, options);
                 let res1 = null;
 
-                if (response.ok) {
-                    res1 = await response.json();
-                    setPerson(res1);
-                } else {
-                    console.error('Promise resolved but HTTP status failed');
-          
-                    if (response.status === 404) {
-                      throw new Error('404, Not found');
-                    }
-          
-                    if (response.status === 500) {
-                      throw new Error('500, internal server error');
-                    }
-          
-                    throw new Error(response.status);
-                }
+                ifHttpStatusNotOK_throwErrorsAndExit(response);
+
+                // Promise resolved and HTTP status is successful
+                res1 = await response.json();
+                setPerson(res1);
 
                 if (res1) {
                     const response2 = await fetch(`https://api.themoviedb.org/3/person/${ id }/movie_credits?language=en-US`, options);
 
-                    if (response2.ok) {
-                        const res2 = await response2.json();
+                    ifHttpStatusNotOK_throwErrorsAndExit(response2);
 
-                        let moviesOfInterest = [];
+                    // Promise resolved and HTTP status is successful
+                    const res2 = await response2.json();
 
-                        if (res1.known_for_department==='Acting'){
-                            if (res2.cast && res2.cast.length > 0) {
-                                moviesOfInterest = [...res2.cast]; // shallow copy for sorting, so original immutable
+                    let moviesOfInterest = [];
 
-                                // // sort by order, then by popularity
-                                // moviesOfInterest.sort( (a, b) => a.order - b.order || b.popularity - a.popularity );
-                            
-                                // sort by popularity
-                                moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
-                            }
-                        } else {
-                            if (res2.crew && res2.crew.length > 0) {
-                                moviesOfInterest = [...res2.crew];
+                    if (res1.known_for_department==='Acting'){
+                        if (res2.cast && res2.cast.length > 0) {
+                            moviesOfInterest = [...res2.cast]; // shallow copy for sorting, so original immutable
 
-                                // filter out non-director jobs
-                                moviesOfInterest = moviesOfInterest.filter( (movie) => movie.job === 'Director' );
-
-                                // sort by popularity
-                                moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
-                            }
-                        }
+                            // // sort by order, then by popularity
+                            // moviesOfInterest.sort( (a, b) => a.order - b.order || b.popularity - a.popularity );
                         
-                        // limit to 8 movies
-                        if (moviesOfInterest.length > MAX_MOVIES) {
-                            moviesOfInterest = moviesOfInterest.slice(0, MAX_MOVIES);
+                            // sort by popularity
+                            moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
                         }
-
-                        setMovies( moviesOfInterest );
                     } else {
-                        console.error('Promise resolved but HTTP status failed');
-              
-                        if (response.status === 404) {
-                          throw new Error('404, Not found');
+                        if (res2.crew && res2.crew.length > 0) {
+                            moviesOfInterest = [...res2.crew];
+
+                            // filter out non-director jobs
+                            moviesOfInterest = moviesOfInterest.filter( (movie) => movie.job === 'Director' );
+
+                            // sort by popularity
+                            moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
                         }
-              
-                        if (response.status === 500) {
-                          throw new Error('500, internal server error');
-                        }
-              
-                        throw new Error(response.status);
                     }
+                    
+                    // limit to 8 movies
+                    if (moviesOfInterest.length > MAX_MOVIES) {
+                        moviesOfInterest = moviesOfInterest.slice(0, MAX_MOVIES);
+                    }
+
+                    setMovies( moviesOfInterest );
                 }
             } catch (error) {
                 // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above

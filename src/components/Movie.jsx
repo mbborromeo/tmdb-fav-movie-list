@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 import Credits from "../components/Credits";
 
-import { formatRuntimeHoursAndMinutes } from "../utils/utils.jsx";
+import ifHttpStatusNotOK_throwErrorsAndExit from '../utils/fetch-utility';
+import { formatRuntimeHoursAndMinutes } from "../utils/utils";
 
 const Movie = ({ id }) => {
   const [movie, setMovie] = useState(null);
@@ -38,22 +39,11 @@ const Movie = ({ id }) => {
             // wrap in Promise.all(), since response.json() returns a promise as well
             const data = await Promise.all(
                 responses.map( async (response) => {
-                    if (response.ok) {
-                        return await response.json();
-                    } else {
-                        // Possible improvement: if one fetch fails, the other one will still proceed and display on UI
-                        console.error('Promise resolved but HTTP status failed');
-                
-                        if (response.status === 404) {
-                            throw new Error('404, Not found');
-                        }
-                
-                        if (response.status === 500) {
-                            throw new Error('500, internal server error');
-                        }
-                
-                        throw new Error(response.status);
-                    }
+                    // Possible improvement: if one fetch fails, the other one will still proceed and display on UI
+                    ifHttpStatusNotOK_throwErrorsAndExit(response);
+
+                    // Promise resolved and HTTP status is successful
+                    return await response.json();
                 })
             );
 

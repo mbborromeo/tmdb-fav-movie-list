@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 
+import ifHttpStatusNotOK_throwErrorsAndExit from '../utils/fetch-utility';
+
 import Movie from '../components/Movie';
 
 const Movies = () => {
@@ -22,26 +24,15 @@ const Movies = () => {
       try {
         const response = await fetch(`https://api.themoviedb.org/3/account/${TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, options);
 
-        if (response.ok) {
-          console.log('Promise resolved and HTTP status is successful');
-          const res = await response.json();
+        ifHttpStatusNotOK_throwErrorsAndExit(response);
 
-          if (res.results) {
-            setMovies(res.results);
-          }
-        } else {
-          console.error('Promise resolved but HTTP status failed');
+        // Promise resolved and HTTP status is successful
+        const res = await response.json();
 
-          if (response.status === 404) {
-            throw new Error('404, Not found');
-          }
-
-          if (response.status === 500) {
-            throw new Error('500, internal server error');
-          }
-
-          throw new Error(response.status);
+        if (res.results) {
+          setMovies(res.results);
         }
+        
       } catch (error) {
         // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
         console.error('Error:', error);
