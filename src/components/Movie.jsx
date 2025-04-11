@@ -37,25 +37,27 @@ const Movie = ({ id }) => {
 
             // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
             // wrap in Promise.all(), since response.json() returns a promise as well
-            const data = await Promise.all(
-                responses.map( async (response) => {
+            await Promise.all(
+                responses.map( async (response, index) => {
                     // Possible improvement: if one fetch fails, the other one will still proceed and display on UI
                     ifHttpStatusNotOK_throwErrorsAndExit(response);
 
                     // Promise resolved and HTTP status is successful
-                    return await response.json();
+                    const res = await response.json();
+
+                    if (index === 0) {
+                        setMovie(res);                        
+                    }
+
+                    if (index === 1) {
+                        const directorsArray = res.crew.filter( (person) => (person.job === 'Director') );
+                        setDirectors(directorsArray);
+
+                        const actorsArray = res.cast.filter( (person) => (person.order < MAX_ACTORS) );
+                        setActors(actorsArray);
+                    }
                 })
             );
-
-            setMovie(data[0]);
-
-            // save credits info
-            const directorsArray = data[1].crew.filter( (person) => (person.job === 'Director') );
-            setDirectors(directorsArray);
-
-            const actorsArray = data[1].cast.filter( (person) => (person.order < MAX_ACTORS) );
-            setActors(actorsArray);
-
         } catch (error) {
             // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
             console.error('Error:', error);
