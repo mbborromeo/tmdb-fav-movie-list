@@ -22,8 +22,8 @@ Note: Since this project makes a REST API call to [The Movie Database](https://d
 ### Environment Variables
 
 Create your own .env file inside the project root folder, and define the following variables:
-- VITE_TMDB_TOKEN=, set it to your API Key
-- VITE_TMDB_ACCOUNT_ID=, set it to your own TMDB account ID to get movies from your own [Favourites List](https://developer.themoviedb.org/reference/account-get-favorites)
+- VITE_TMDB_TOKEN=, set it to your TMDB API Token
+- VITE_TMDB_ACCOUNT_ID=, set it to your own TMDB Account ID to get movies from your own [Favourites List](https://developer.themoviedb.org/reference/account-get-favorites)
 
 ## Dependencies
 
