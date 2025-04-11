@@ -7,8 +7,6 @@ import Movie from '../components/Movie';
 const Movies = () => {
     const [movies, setMovies] = useState([]);
 
-    const TMDB_ACCOUNT_ID = 21839127;
-
     const options = useMemo(
         () => ({
             method: 'GET',
@@ -23,7 +21,7 @@ const Movies = () => {
     const getMovies = useCallback(async () => {
         try {
             const response = await fetch(
-                `https://api.themoviedb.org/3/account/${TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`,
+                `https://api.themoviedb.org/3/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`,
                 options
             );
 
