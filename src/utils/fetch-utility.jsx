@@ -11,7 +11,7 @@ const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
         }
 
         throw new Error(response.status);
-    } 
-}
+    }
+};
 
 export default ifHttpStatusNotOK_throwErrorsAndExit;
