@@ -15,7 +15,7 @@ The user can:
 
 ## Running locally
 
-`npm run build` will run on [http://localhost:5173/](http://localhost:5173/)]
+`npm run build` will run on [http://localhost:5173/](http://localhost:5173/)
 
 Note: Since this project makes a REST API call to [The Movie Database](https://developer.themoviedb.org/docs/getting-started), you will need to register for an API Token which you can get from [API Settings](https://www.themoviedb.org/settings/api). Create your own .env file inside the project root folder, and save your token as VITE_TMDB_TOKEN=.
 
