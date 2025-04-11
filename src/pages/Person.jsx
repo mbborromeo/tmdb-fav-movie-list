@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
@@ -24,60 +24,92 @@ const Person = () => {
         []
     );
 
-    useEffect(
-        () => {
-            fetch(`https://api.themoviedb.org/3/person/${ id }?language=en-US`, options)
-                .then(res => res.json())
-                .then(
-                    (res) => {
-                        setPerson(res);
-                        return res;
+    const getPersonAndMovies = useCallback(
+        async () => {
+            try {
+                const response = await fetch(`https://api.themoviedb.org/3/person/${ id }?language=en-US`, options);
+                let res1 = null;
+
+                if (response.ok) {
+                    res1 = await response.json();
+                    setPerson(res1);
+                } else {
+                    console.error('Promise resolved but HTTP status failed');
+          
+                    if (response.status === 404) {
+                      throw new Error('404, Not found');
                     }
-                )
-                .then(
-                    (res1) => {
-                        fetch(`https://api.themoviedb.org/3/person/${ id }/movie_credits?language=en-US`, options)
-                        .then(res => res.json())
-                        .then(
-                            (res2) => {
-                                let moviesOfInterest = [];
+          
+                    if (response.status === 500) {
+                      throw new Error('500, internal server error');
+                    }
+          
+                    throw new Error(response.status);
+                }
 
-                                if (res1.known_for_department==='Acting'){
-                                    if (res2.cast && res2.cast.length > 0) {
-                                        moviesOfInterest = [...res2.cast]; // shallow copy for sorting, so original immutable
+                if (res1) {
+                    const response2 = await fetch(`https://api.themoviedb.org/3/person/${ id }/movie_credits?language=en-US`, options);
 
-                                        // // sort by order, then by popularity
-                                        // moviesOfInterest.sort( (a, b) => a.order - b.order || b.popularity - a.popularity );
-                                    
-                                        // sort by popularity
-                                        moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
-                                    }
-                                } else {
-                                    if (res2.crew && res2.crew.length > 0) {
-                                        moviesOfInterest = [...res2.crew];
+                    if (response2.ok) {
+                        const res2 = await response2.json();
 
-                                        // filter out non-director jobs
-                                        moviesOfInterest = moviesOfInterest.filter( (movie) => movie.job === 'Director' );
+                        let moviesOfInterest = [];
 
-                                        // sort by popularity
-                                        moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
-                                    }
-                                }
-                                
-                                // limit to 8 movies
-                                if (moviesOfInterest.length > MAX_MOVIES) {
-                                    moviesOfInterest = moviesOfInterest.slice(0, MAX_MOVIES);
-                                }
+                        if (res1.known_for_department==='Acting'){
+                            if (res2.cast && res2.cast.length > 0) {
+                                moviesOfInterest = [...res2.cast]; // shallow copy for sorting, so original immutable
 
-                                setMovies( moviesOfInterest );
+                                // // sort by order, then by popularity
+                                // moviesOfInterest.sort( (a, b) => a.order - b.order || b.popularity - a.popularity );
+                            
+                                // sort by popularity
+                                moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
                             }
-                        )
-                        .catch(err => console.error(err));
+                        } else {
+                            if (res2.crew && res2.crew.length > 0) {
+                                moviesOfInterest = [...res2.crew];
+
+                                // filter out non-director jobs
+                                moviesOfInterest = moviesOfInterest.filter( (movie) => movie.job === 'Director' );
+
+                                // sort by popularity
+                                moviesOfInterest.sort( (a, b) => b.popularity - a.popularity );
+                            }
+                        }
+                        
+                        // limit to 8 movies
+                        if (moviesOfInterest.length > MAX_MOVIES) {
+                            moviesOfInterest = moviesOfInterest.slice(0, MAX_MOVIES);
+                        }
+
+                        setMovies( moviesOfInterest );
+                    } else {
+                        console.error('Promise resolved but HTTP status failed');
+              
+                        if (response.status === 404) {
+                          throw new Error('404, Not found');
+                        }
+              
+                        if (response.status === 500) {
+                          throw new Error('500, internal server error');
+                        }
+              
+                        throw new Error(response.status);
                     }
-                )
-                .catch(err => console.error(err));
+                }
+            } catch (error) {
+                // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
+                console.error('Error:', error);
+            }
         }, 
         [id, options]
+    );
+
+    useEffect(
+        () => {
+            getPersonAndMovies();
+        }, 
+        [getPersonAndMovies]
     );
 
     return (

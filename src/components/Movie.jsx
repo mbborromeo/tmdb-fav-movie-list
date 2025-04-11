@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import Credits from "../components/Credits";
@@ -26,21 +26,37 @@ const Movie = ({ id }) => {
     []
   );
 
-  useEffect(
-    () => {
-        Promise.all([
-            fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options),
-            fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
-        ]).then( (responses) => {
+  const getMovieAndCredits = useCallback(
+    async () => {
+        try {
+            const responses = await Promise.all([
+                fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options),
+                fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
+            ]);
+
             // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
             // wrap in Promise.all(), since response.json() returns a promise as well
-            return Promise.all(
-                responses.map( (response) => ( 
-                    response.json()
-                ))
+            const data = await Promise.all(
+                responses.map( async (response) => {
+                    if (response.ok) {
+                        return await response.json();
+                    } else {
+                        // Possible improvement: if one fetch fails, the other one will still proceed and display on UI
+                        console.error('Promise resolved but HTTP status failed');
+                
+                        if (response.status === 404) {
+                            throw new Error('404, Not found');
+                        }
+                
+                        if (response.status === 500) {
+                            throw new Error('500, internal server error');
+                        }
+                
+                        throw new Error(response.status);
+                    }
+                })
             );
-        }).then( (data) => {
-            // save movie info
+
             setMovie(data[0]);
 
             // save credits info
@@ -49,11 +65,20 @@ const Movie = ({ id }) => {
 
             const actorsArray = data[1].cast.filter( (person) => (person.order < MAX_ACTORS) );
             setActors(actorsArray);
-        }).catch(
-            (err) => console.error(err)
-        );
+
+        } catch (error) {
+            // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
+            console.error('Error:', error);
+        }
     }, 
     [id, options]
+  );
+
+  useEffect(
+    () => {
+        getMovieAndCredits();
+    }, 
+    [getMovieAndCredits]
   );
 
   return (
