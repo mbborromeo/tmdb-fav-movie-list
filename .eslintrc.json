@@ -19,6 +19,7 @@
     },
     "rules": {
         "react/react-in-jsx-scope": "off",
-        "trailing-comma": "off"
+        "trailing-comma": "off",
+        "no-unused-vars": "warn"
     }
 }

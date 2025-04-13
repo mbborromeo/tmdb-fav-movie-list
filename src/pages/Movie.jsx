@@ -1,11 +1,11 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
 
-import ifHttpStatusNotOK_throwErrorsAndExit from '../utils/fetch-utility';
-import { formatRuntimeHoursAndMinutes } from '../utils/utils';
+import { getMovie, getCredits, BASE_URL_IMAGE } from '../utils/api';
+import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = () => {
     const { id } = useParams();
@@ -22,83 +22,33 @@ const Movie = () => {
         location.state ? location.state.actors : null
     );
 
-    const BASE_URL_IMAGE = 'http://image.tmdb.org/t/p/';
     const POSTER_SIZE = 'w185';
-
     const MAX_ACTORS = 6;
 
-    const options = useMemo(
-        () => ({
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-            }
-        }),
-        []
+    useEffect(
+        () => {
+            (async () => {
+                if (!movie) {
+                    const res = await getMovie(id);
+                    setMovie(res);
+                }
+
+                if (!directors || !actors) {
+                    const res = await getCredits(id);
+                    const directorsArray = res.crew.filter(
+                        (person) => person.job === 'Director'
+                    );
+                    setDirectors(directorsArray);
+        
+                    const actorsArray = res.cast.filter(
+                        (person) => person.order < MAX_ACTORS
+                    );
+                    setActors(actorsArray);
+                }
+            })(); // IIFE
+        }, 
+        [movie, directors, actors, id]
     );
-
-    const getMovie = useCallback(async () => {
-        try {
-            const response = await fetch(
-                `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
-                options
-            );
-
-            ifHttpStatusNotOK_throwErrorsAndExit(response);
-
-            // Promise resolved and HTTP status is successful
-            const res = await response.json();
-            setMovie(res);
-        } catch (error) {
-            // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
-            console.error('Error:', error);
-        }
-    }, [id, options]);
-
-    const getCredits = useCallback(async () => {
-        try {
-            const response = await fetch(
-                `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
-                options
-            );
-
-            ifHttpStatusNotOK_throwErrorsAndExit(response);
-
-            // Promise resolved and HTTP status is successful
-            const res = await response.json();
-
-            let directorsArray = [];
-            let actorsArray = [];
-
-            res.crew.forEach((person) => {
-                if (person.job === 'Director') {
-                    directorsArray.push(person);
-                }
-            });
-            setDirectors(directorsArray);
-
-            res.cast.forEach((person) => {
-                if (person.order < MAX_ACTORS) {
-                    actorsArray.push(person);
-                }
-            });
-            setActors(actorsArray);
-        } catch (error) {
-            // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
-            console.error('Error:', error);
-        }
-    }, [id, options]);
-
-    useEffect(() => {
-        if (!movie) {
-            getMovie();
-        }
-
-        if (!directors || !actors) {
-            getCredits();
-        }
-    }, [movie, directors, actors, getMovie, getCredits]);
 
     return (
         <>

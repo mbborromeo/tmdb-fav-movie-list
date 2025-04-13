@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import ifHttpStatusNotOK_throwErrorsAndExit from '../utils/fetch-utility';
+import { getMovies } from '../utils/api';
 
 import Movie from '../components/Movie';
 
@@ -9,47 +9,32 @@ const Movies = () => {
 
     useEffect(
       () => {
-          const getMovies = async () => {
-            const options = {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
+        (async () => {
+            const res = await getMovies(); // need to await here, since getMovies() is async returning a promise
+            
+            if (res.results) {
+                const movies = res.results;
+
+                // sort by release date
+                const sorted = [...movies];
+                if (movies.length > 0) {
+                    sorted.sort(
+                        (a, b) =>
+                            Date.parse(a.release_date) - Date.parse(b.release_date)
+                    );
                 }
-            };
-          
-            try {
-                const response = await fetch(
-                    `https://api.themoviedb.org/3/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`,
-                    options
-                );
 
-                ifHttpStatusNotOK_throwErrorsAndExit(response);
-
-                // Promise resolved and HTTP status is successful
-                const res = await response.json();
-
-                if (res.results) {
-                    const movies = res.results;
-
-                    // sort by release date
-                    const sorted = [...movies];
-                    if (movies.length > 0) {
-                        sorted.sort(
-                            (a, b) =>
-                                Date.parse(a.release_date) - Date.parse(b.release_date)
-                        );
-                    }
-
-                    setMoviesSorted(sorted);
-                }
-            } catch (error) {
-                // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
-                console.error('Error:', error);
+                setMoviesSorted(sorted);
             }
-          }
-
-          getMovies();
+        })(); // IIFE
+        
+        // // Alternative approach: Resolve promise returned by getMovies() using then()
+        // getMovies()
+        //   .then( (res) => {
+        //     if (res.results) {
+        //         ...
+        //     }
+        //   });
       }, 
       []
     );
@@ -65,6 +50,10 @@ const Movies = () => {
                     ))
                 }
             </ol>
+
+            <span>
+              This website uses <a href="https://www.themoviedb.org" target="_blank">TMDB</a> and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
+            </span>
         </>
     );
 };
