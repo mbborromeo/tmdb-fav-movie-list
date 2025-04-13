@@ -16,17 +16,17 @@ const Person = () => {
     useEffect(
         () => {
             (async () => {
-                const res1 = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}?language=en-US`); // if fetch error, value will stay undefined
-                setPerson(res1);
+                const dataPerson = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}?language=en-US`); // if fetch error, value will stay undefined
+                setPerson(dataPerson);
                 
-                if (res1) {
-                    const res2 = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}/movie_credits?language=en-US`);
+                if (dataPerson) {
+                    const dataCreditMovies = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}/movie_credits?language=en-US`);
 
                     let moviesOfInterest = [];
 
-                    if (res1.known_for_department === 'Acting') {
-                        if (res2.cast && res2.cast.length > 0) {
-                            moviesOfInterest = [...res2.cast]; // shallow copy for sorting, so original immutable
+                    if (dataPerson.known_for_department === 'Acting') {
+                        if (dataCreditMovies.cast && dataCreditMovies.cast.length > 0) {
+                            moviesOfInterest = [...dataCreditMovies.cast]; // shallow copy for sorting, so original immutable
 
                             // // sort by order, then by popularity
                             // moviesOfInterest.sort( (a, b) => a.order - b.order || b.popularity - a.popularity );
@@ -37,8 +37,8 @@ const Person = () => {
                             );
                         }
                     } else {
-                        if (res2.crew && res2.crew.length > 0) {
-                            moviesOfInterest = [...res2.crew];
+                        if (dataCreditMovies.crew && dataCreditMovies.crew.length > 0) {
+                            moviesOfInterest = [...dataCreditMovies.crew];
 
                             // filter out non-director jobs
                             moviesOfInterest = moviesOfInterest.filter(

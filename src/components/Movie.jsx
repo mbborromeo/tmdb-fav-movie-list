@@ -17,25 +17,20 @@ const Movie = ({ id }) => {
 
     useEffect(() => {
         (async () => {
-            try {
-                const movieRes = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
-                setMovie(movieRes);
-    
-                const creditsRes = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
-    
-                const directorsArray = creditsRes.crew.filter(
-                    (person) => person.job === 'Director'
-                );
-                setDirectors(directorsArray);
-    
-                const actorsArray = creditsRes.cast.filter(
-                    (person) => person.order < MAX_ACTORS
-                );
-                setActors(actorsArray);
-            } catch (error) {
-                // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
-                console.error('Error:', error);
-            }
+            const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
+            setMovie(dataMovie);
+
+            const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
+
+            const arrayDirectors = dataCredits.crew.filter(
+                (person) => person.job === 'Director'
+            );
+            setDirectors(arrayDirectors);
+
+            const arrayActors = dataCredits.cast.filter(
+                (person) => person.order < MAX_ACTORS
+            );
+            setActors(arrayActors);
         })(); // IIFE
     }, [id]);
 
@@ -57,22 +52,22 @@ const Movie = ({ id }) => {
 
     //         const movieResponse = moviePromise.value;
     //         ifHttpStatusNotOK_throwErrorsAndExit(movieResponse);
-    //         const movieRes = await movieResponse.json();
-    //         setMovie(movieRes);
+    //         const dataMovie = await movieResponse.json();
+    //         setMovie(dataMovie);
 
     //         const creditsResponse = creditsPromise.value;
     //         ifHttpStatusNotOK_throwErrorsAndExit(creditsResponse);
-    //         const creditsRes = await creditsResponse.json();
+    //         const dataCredits = await creditsResponse.json();
 
-    //         const directorsArray = creditsRes.crew.filter(
+    //         const arrayDirectors = dataCredits.crew.filter(
     //             (person) => person.job === 'Director'
     //         );
-    //         setDirectors(directorsArray);
+    //         setDirectors(arrayDirectors);
 
-    //         const actorsArray = creditsRes.cast.filter(
+    //         const arrayActors = dataCredits.cast.filter(
     //             (person) => person.order < MAX_ACTORS
     //         );
-    //         setActors(actorsArray);
+    //         setActors(arrayActors);
     //     } catch (error) {
     //         // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
     //         console.error('Error:', error);

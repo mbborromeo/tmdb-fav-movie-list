@@ -11,10 +11,10 @@ const Movies = () => {
       () => {
         (async () => {
             // need to await here, since getMovies() is async returning a promise
-            const res = await fetchApiCallOrThrowError(`${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`); 
-            
-            if (res.results) {
-                const movies = res.results;
+            const data = await fetchApiCallOrThrowError(`${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`); 
+
+            if (data.results) {
+                const movies = data.results;
 
                 // sort by release date
                 const sorted = [...movies];
@@ -31,8 +31,8 @@ const Movies = () => {
         
         // // Alternative approach: Resolve promise returned by getMovies() using then()
         // getMovies()
-        //   .then( (res) => {
-        //     if (res.results) {
+        //   .then( (data) => {
+        //     if (data.results) {
         //         ...
         //     }
         //   });

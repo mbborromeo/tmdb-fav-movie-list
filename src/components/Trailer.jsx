@@ -8,10 +8,10 @@ const Trailer = ({ id }) => {
     useEffect(
         () => {
             (async () => {
-                const res = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/videos?language=en-US`);
+                const data = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/videos?language=en-US`);
 
-                if (res.results.length > 0) {
-                    const trailer = res.results.find(
+                if (data.results.length > 0) {
+                    const trailer = data.results.find(
                         (video) => video.type === 'Trailer'
                     );
                     setTrailer(trailer);

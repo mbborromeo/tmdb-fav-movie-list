@@ -29,21 +29,21 @@ const Movie = () => {
         () => {
             (async () => {
                 if (!movie) {
-                    const res = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
-                    setMovie(res);
+                    const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
+                    setMovie(dataMovie);
                 }
 
                 if (!directors || !actors) {
-                    const res = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
-                    const directorsArray = res.crew.filter(
+                    const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
+                    const arrayDirectors = dataCredits.crew.filter(
                         (person) => person.job === 'Director'
                     );
-                    setDirectors(directorsArray);
+                    setDirectors(arrayDirectors);
         
-                    const actorsArray = res.cast.filter(
+                    const arrayActors = dataCredits.cast.filter(
                         (person) => person.order < MAX_ACTORS
                     );
-                    setActors(actorsArray);
+                    setActors(arrayActors);
                 }
             })(); // IIFE
         }, 
