@@ -4,7 +4,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
 
-import { fetchApiCall, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
+import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = () => {
@@ -29,12 +29,12 @@ const Movie = () => {
         () => {
             (async () => {
                 if (!movie) {
-                    const res = await fetchApiCall(`${BASE_URL}/movie/${id}?language=en-US`);
+                    const res = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
                     setMovie(res);
                 }
 
                 if (!directors || !actors) {
-                    const res = await fetchApiCall(`${BASE_URL}/movie/${id}/credits?language=en-US`);
+                    const res = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
                     const directorsArray = res.crew.filter(
                         (person) => person.job === 'Director'
                     );

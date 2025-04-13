@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Credits from '../components/Credits';
 
-import { fetchApiCall, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
+import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = ({ id }) => {
@@ -18,10 +18,10 @@ const Movie = ({ id }) => {
     useEffect(() => {
         (async () => {
             try {
-                const movieRes = await fetchApiCall(`${BASE_URL}/movie/${id}?language=en-US`);
+                const movieRes = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
                 setMovie(movieRes);
     
-                const creditsRes = await fetchApiCall(`${BASE_URL}/movie/${id}/credits?language=en-US`);
+                const creditsRes = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
     
                 const directorsArray = creditsRes.crew.filter(
                     (person) => person.job === 'Director'

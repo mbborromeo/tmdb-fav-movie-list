@@ -25,7 +25,7 @@ export const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
     }
 };
 
-export const fetchApiCall = async (url) => {
+export const fetchApiCallOrThrowError = async (url) => {
     try {
         const response = await fetch(url, OPTIONS);
         ifHttpStatusNotOK_throwErrorsAndExit(response);

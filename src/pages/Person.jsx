@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-import { fetchApiCall, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
+import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 
 const Person = () => {
     const { id } = useParams();
@@ -16,12 +16,11 @@ const Person = () => {
     useEffect(
         () => {
             (async () => {
-                let res1 = null; // initially
-                res1 = await fetchApiCall(`${BASE_URL}/person/${id}?language=en-US`);
+                const res1 = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}?language=en-US`); // if fetch error, value will stay undefined
                 setPerson(res1);
                 
-                if (res1) {                
-                    const res2 = await fetchApiCall(`${BASE_URL}/person/${id}/movie_credits?language=en-US`);
+                if (res1) {
+                    const res2 = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}/movie_credits?language=en-US`);
 
                     let moviesOfInterest = [];
 
