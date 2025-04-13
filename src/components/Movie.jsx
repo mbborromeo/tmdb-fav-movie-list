@@ -1,10 +1,10 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Credits from '../components/Credits';
 
-import ifHttpStatusNotOK_throwErrorsAndExit from '../utils/fetch-utility';
-import { formatRuntimeHoursAndMinutes } from '../utils/utils';
+import { getMovie, getCredits, BASE_URL_IMAGE } from '../utils/api';
+import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = ({ id }) => {
     const [movie, setMovie] = useState(null);
@@ -12,80 +12,86 @@ const Movie = ({ id }) => {
     const [actors, setActors] = useState([]);
 
     // https://developer.themoviedb.org/reference/configuration-details
-    const BASE_URL_IMAGE = 'http://image.tmdb.org/t/p/';
     const POSTER_SIZE = 'w185'; // w154 w92
-
     const MAX_ACTORS = 6;
 
-    const options = useMemo(
-        () => ({
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-            }
-        }),
-        []
-    );
-
-    const getMovieAndCredits = useCallback(async () => {
-        try {
-            const responses = await Promise.all([
-                fetch(
-                    `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
-                    options
-                ),
-                fetch(
-                    `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
-                    options
-                )
-            ]);
-
-            // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
-            // wrap in Promise.all(), since response.json() returns a promise as well
-            await Promise.all(
-                responses.map(async (response, index) => {
-                    // Possible improvement: if one fetch fails, the other one will still proceed and display on UI
-                    ifHttpStatusNotOK_throwErrorsAndExit(response);
-
-                    // Promise resolved and HTTP status is successful
-                    const res = await response.json();
-
-                    if (index === 0) {
-                        setMovie(res);
-                    }
-
-                    if (index === 1) {
-                        const directorsArray = res.crew.filter(
-                            (person) => person.job === 'Director'
-                        );
-                        setDirectors(directorsArray);
-
-                        const actorsArray = res.cast.filter(
-                            (person) => person.order < MAX_ACTORS
-                        );
-                        setActors(actorsArray);
-                    }
-                })
-            );
-        } catch (error) {
-            // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
-            console.error('Error:', error);
-        }
-    }, [id, options]);
-
     useEffect(() => {
-        getMovieAndCredits();
-    }, [getMovieAndCredits]);
+        (async () => {
+            try {
+                const movieRes = await getMovie(id);
+                setMovie(movieRes);
+    
+                const creditsRes = await getCredits(id);
+    
+                const directorsArray = creditsRes.crew.filter(
+                    (person) => person.job === 'Director'
+                );
+                setDirectors(directorsArray);
+    
+                const actorsArray = creditsRes.cast.filter(
+                    (person) => person.order < MAX_ACTORS
+                );
+                setActors(actorsArray);
+            } catch (error) {
+                // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
+                console.error('Error:', error);
+            }
+        })(); // IIFE
+    }, [id]);
+
+    // const getMovieAndCredits = useCallback(async () => {
+    //     try {
+    //         const [moviePromise, creditsPromise] = await Promise.allSettled([
+    //             fetch(
+    //                 `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+    //                 OPTIONS
+    //             ),
+    //             fetch(
+    //                 `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+    //                 OPTIONS
+    //             )
+    //         ]);
+
+    //         // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
+    //         // wrap in Promise.all(), since response.json() returns a promise as well?
+
+    //         const movieResponse = moviePromise.value;
+    //         ifHttpStatusNotOK_throwErrorsAndExit(movieResponse);
+    //         const movieRes = await movieResponse.json();
+    //         setMovie(movieRes);
+
+    //         const creditsResponse = creditsPromise.value;
+    //         ifHttpStatusNotOK_throwErrorsAndExit(creditsResponse);
+    //         const creditsRes = await creditsResponse.json();
+
+    //         const directorsArray = creditsRes.crew.filter(
+    //             (person) => person.job === 'Director'
+    //         );
+    //         setDirectors(directorsArray);
+
+    //         const actorsArray = creditsRes.cast.filter(
+    //             (person) => person.order < MAX_ACTORS
+    //         );
+    //         setActors(actorsArray);
+    //     } catch (error) {
+    //         // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
+    //         console.error('Error:', error);
+    //     }
+    // }, [id]);
+
+    // useEffect(() => {
+    //     getMovieAndCredits();
+    // }, [getMovieAndCredits]);
 
     return (
         <>
-            {movie && (
+            { movie && (
                 <div className="row">
                     <img
                         src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                         alt="Poster"
                     />
+                    
                     <div className="column">
                         <Link
                             to={`/movie/${movie.id}`}
@@ -114,7 +120,7 @@ const Movie = ({ id }) => {
                                 ))}
                             </ul>
                         </span>
-
+                            
                         {directors.length > 0 && actors.length > 0 && (
                             <Credits
                                 directors={directors}

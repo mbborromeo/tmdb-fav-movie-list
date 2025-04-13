@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 
+import { BASE_URL_IMAGE } from '../utils/api';
+
 const Actor = ({ actor, showActorsPic = false, displayLinks = false }) => {
-    const BASE_URL_IMAGE = 'http://image.tmdb.org/t/p/';
     const PROFILE_SIZE = 'w92'; // w138_and_h175_face
 
     return (
