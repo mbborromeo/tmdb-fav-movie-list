@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-import { getPerson, getCreditMovies, BASE_URL_IMAGE } from '../utils/api';
+import { fetchApiCall, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 
 const Person = () => {
     const { id } = useParams();
@@ -17,11 +17,11 @@ const Person = () => {
         () => {
             (async () => {
                 let res1 = null; // initially
-                res1 = await getPerson(id);
+                res1 = await fetchApiCall(`${BASE_URL}/person/${id}?language=en-US`);
                 setPerson(res1);
                 
                 if (res1) {                
-                    const res2 = await getCreditMovies(id);
+                    const res2 = await fetchApiCall(`${BASE_URL}/person/${id}/movie_credits?language=en-US`);
 
                     let moviesOfInterest = [];
 

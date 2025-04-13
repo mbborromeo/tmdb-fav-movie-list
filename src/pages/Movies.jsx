@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { getMovies } from '../utils/api';
+import { fetchApiCall, BASE_URL } from '../utils/api';
 
 import Movie from '../components/Movie';
 
@@ -10,7 +10,8 @@ const Movies = () => {
     useEffect(
       () => {
         (async () => {
-            const res = await getMovies(); // need to await here, since getMovies() is async returning a promise
+            // need to await here, since getMovies() is async returning a promise
+            const res = await fetchApiCall(`${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`); 
             
             if (res.results) {
                 const movies = res.results;

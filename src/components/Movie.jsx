@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Credits from '../components/Credits';
 
-import { getMovie, getCredits, BASE_URL_IMAGE } from '../utils/api';
+import { fetchApiCall, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = ({ id }) => {
@@ -18,10 +18,10 @@ const Movie = ({ id }) => {
     useEffect(() => {
         (async () => {
             try {
-                const movieRes = await getMovie(id);
+                const movieRes = await fetchApiCall(`${BASE_URL}/movie/${id}?language=en-US`);
                 setMovie(movieRes);
     
-                const creditsRes = await getCredits(id);
+                const creditsRes = await fetchApiCall(`${BASE_URL}/movie/${id}/credits?language=en-US`);
     
                 const directorsArray = creditsRes.crew.filter(
                     (person) => person.job === 'Director'
@@ -43,11 +43,11 @@ const Movie = ({ id }) => {
     //     try {
     //         const [moviePromise, creditsPromise] = await Promise.allSettled([
     //             fetch(
-    //                 `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+    //                 `${BASE_URL}/movie/${id}?language=en-US`,
     //                 OPTIONS
     //             ),
     //             fetch(
-    //                 `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+    //                 `${BASE_URL}/movie/${id}/credits?language=en-US`,
     //                 OPTIONS
     //             )
     //         ]);

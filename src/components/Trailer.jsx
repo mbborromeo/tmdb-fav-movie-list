@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getTrailer } from '../utils/api';
+import { fetchApiCall, BASE_URL } from '../utils/api';
 
 const Trailer = ({ id }) => {
     const [trailer, setTrailer] = useState(undefined);
@@ -8,7 +8,7 @@ const Trailer = ({ id }) => {
     useEffect(
         () => {
             (async () => {
-                const res = await getTrailer(id);
+                const res = await fetchApiCall(`${BASE_URL}/movie/${id}/videos?language=en-US`);
 
                 if (res.results.length > 0) {
                     const trailer = res.results.find(
