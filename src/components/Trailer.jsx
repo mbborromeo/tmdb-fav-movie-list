@@ -4,20 +4,29 @@ import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 
 const Trailer = ({ id }) => {
     const [trailer, setTrailer] = useState(undefined);
+    const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(
         () => {
             (async () => {
-                const res = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/videos?language=en-US`);
+                try {
+                    const data = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/videos?language=en-US`);
 
-                if (res.results.length > 0) {
-                    const trailer = res.results.find(
-                        (video) => video.type === 'Trailer'
-                    );
-                    setTrailer(trailer);
-                } else {
-                    console.log('No trailers available');
+                    if (data.results.length > 0) {
+                        const trailer = data.results.find(
+                            (video) => video.type === 'Trailer'
+                        );
+                        setTrailer(trailer);
+                    } else {
+                        console.log('No trailers available');
+                    }
+                } catch (error) {
+                    // receive any error from fetchApiCallOrThrowError()
+                    setErrorMessage(error.message);
                 }
+    
+                setLoading(false);
             })(); // IIFE
         }, 
         [id]
@@ -25,7 +34,15 @@ const Trailer = ({ id }) => {
 
     return (
         <>
-            {trailer && (
+            { loading && 
+                <b>Loading...</b> 
+            }
+
+            { errorMessage && (
+                <b>Error occured: { errorMessage }</b>
+            )}
+
+            { !loading && !errorMessage && trailer && (
                 <a
                     href={`https://www.youtube.com/watch?v=${trailer.key}`}
                     target="_blank"
