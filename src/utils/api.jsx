@@ -28,7 +28,6 @@ export const OPTIONS = {
 export const fetchApiCallOrThrowError = async (url) => {
     try {
         const response = await fetch(url, OPTIONS);
-        // console.log('response', response);
         
         if (!response.ok) {
             console.error('Promise resolved but HTTP status failed');
@@ -48,7 +47,8 @@ export const fetchApiCallOrThrowError = async (url) => {
         const object = await response.json();
         return object;
     } catch (error) {
-        // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
-        console.error('Error:', error);
+        console.error('fetchApiCallOrThrowError Error:', error);
+        // pass error to caller
+        throw error;
     }
 };
