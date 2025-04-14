@@ -11,6 +11,9 @@ const Movie = () => {
     const { id } = useParams();
     const location = useLocation();
 
+    const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
+
     // location.state will be null if Movie page is opened in a new tab
     const [movie, setMovie] = useState(
         location.state ? location.state.movie : null
@@ -28,23 +31,30 @@ const Movie = () => {
     useEffect(
         () => {
             (async () => {
-                if (!movie) {
-                    const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
-                    setMovie(dataMovie);
-                }
+                try {
+                    if (!movie) {
+                        const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
+                        setMovie(dataMovie);
+                    }
 
-                if (!directors || !actors) {
-                    const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
-                    const arrayDirectors = dataCredits.crew.filter(
-                        (person) => person.job === 'Director'
-                    );
-                    setDirectors(arrayDirectors);
-        
-                    const arrayActors = dataCredits.cast.filter(
-                        (person) => person.order < MAX_ACTORS
-                    );
-                    setActors(arrayActors);
+                    if (!directors || !actors) {
+                        const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
+                        const arrayDirectors = dataCredits.crew.filter(
+                            (person) => person.job === 'Director'
+                        );
+                        setDirectors(arrayDirectors);
+            
+                        const arrayActors = dataCredits.cast.filter(
+                            (person) => person.order < MAX_ACTORS
+                        );
+                        setActors(arrayActors);
+                    }
+                } catch (error) {
+                    // receive any error from fetchApiCallOrThrowError()
+                    setErrorMessage(error.message);
                 }
+    
+                setLoading(false);
             })(); // IIFE
         }, 
         [movie, directors, actors, id]
@@ -52,7 +62,15 @@ const Movie = () => {
 
     return (
         <>
-            {movie && (
+            { loading && 
+                <b>Loading...</b> 
+            }
+
+            { errorMessage && (
+                <b>Error occured: { errorMessage }</b>
+            )}
+
+            { !loading && !errorMessage && movie && (
                 <div>
                     <h2>
                         {movie.title} ({movie.release_date.split('-')[0]})
