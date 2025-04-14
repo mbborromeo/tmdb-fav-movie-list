@@ -14,7 +14,7 @@ const Movies = () => {
         (async () => {
             try {
                 // need to await here, since getMovies() is async returning a promise
-                const data = await fetchApiCallOrThrowError(`${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/ovies?language=en-US&page=1&sort_by=created_at.asc`); 
+                const data = await fetchApiCallOrThrowError(`${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`); 
 
                 if (data && data.results) { // data undefined if nothing returned from fetch
                     const movies = data.results;
