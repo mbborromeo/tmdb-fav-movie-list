@@ -43,9 +43,9 @@ const Movies = () => {
 
     return (
         <>
-            { loading && 
-                <b>Loading...</b> 
-            }
+            { loading && (
+                <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="128" />
+            )}
 
             { errorMessage && (
                 <b>Error occured: { errorMessage }</b>
