@@ -10,6 +10,8 @@ const Movie = ({ id }) => {
     const [movie, setMovie] = useState(null);
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
 
     // https://developer.themoviedb.org/reference/configuration-details
     const POSTER_SIZE = 'w185'; // w154 w92
@@ -17,20 +19,27 @@ const Movie = ({ id }) => {
 
     useEffect(() => {
         (async () => {
-            const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
-            setMovie(dataMovie);
+            try {
+                const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
+                setMovie(dataMovie);
 
-            const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
+                const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
 
-            const arrayDirectors = dataCredits.crew.filter(
-                (person) => person.job === 'Director'
-            );
-            setDirectors(arrayDirectors);
+                const arrayDirectors = dataCredits.crew.filter(
+                    (person) => person.job === 'Director'
+                );
+                setDirectors(arrayDirectors);
 
-            const arrayActors = dataCredits.cast.filter(
-                (person) => person.order < MAX_ACTORS
-            );
-            setActors(arrayActors);
+                const arrayActors = dataCredits.cast.filter(
+                    (person) => person.order < MAX_ACTORS
+                );
+                setActors(arrayActors);
+            } catch (error) {
+                // receive any error from fetchApiCallOrThrowError()
+                setErrorMessage(error.message);
+            }
+
+            setLoading(false);
         })(); // IIFE
     }, [id]);
 
@@ -80,7 +89,15 @@ const Movie = ({ id }) => {
 
     return (
         <>
-            { movie && (
+            { loading && 
+                <b>Loading...</b> 
+            }
+
+            { errorMessage && (
+                <b>Error occured: { errorMessage }</b>
+            )}
+
+            { !loading && !errorMessage && movie && (
                 <div className="row">
                     <img
                         src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
