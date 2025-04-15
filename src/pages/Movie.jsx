@@ -3,6 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
+import ErrorFeedback from '../components/ErrorFeedback';
 
 import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
@@ -10,7 +11,6 @@ import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 const Movie = () => {
     const { id } = useParams();
     const location = useLocation();
-
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -67,7 +67,7 @@ const Movie = () => {
             )}
 
             { errorMessage && (
-                <b>{ errorMessage }</b>
+                <ErrorFeedback message={errorMessage} />
             )}
 
             { !loading && !errorMessage && movie && (

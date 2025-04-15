@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 
 import Movie from '../components/Movie';
+import ErrorFeedback from '../components/ErrorFeedback';
 
 const Movies = () => {
     const [moviesSorted, setMoviesSorted] = useState([]);
@@ -49,7 +50,7 @@ const Movies = () => {
             )}
 
             { errorMessage && (
-                <b>{ errorMessage }</b>
+                <ErrorFeedback message={errorMessage} />
             )}
 
             { !loading && !errorMessage && (

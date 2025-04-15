@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import Credits from '../components/Credits';
+import Credits from './Credits';
+import ErrorFeedback from './ErrorFeedback';
 
 import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
@@ -42,6 +43,65 @@ const Movie = ({ id }) => {
             setLoading(false);
         })(); // IIFE
     }, [id]);
+
+    return (
+        <>
+            { loading && (
+                <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="32" />
+            )}
+
+            { errorMessage && (
+                <ErrorFeedback message={errorMessage} />
+            )}
+
+            { !loading && !errorMessage && movie && (
+                <div className="row">
+                    <img
+                        src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                        alt="Poster"
+                    />
+                    
+                    <div className="column">
+                        <Link
+                            to={`/movie/${movie.id}`}
+                            state={{ movie, directors, actors }}
+                        >
+                            {movie.title} ({movie.release_date.split('-')[0]})
+                        </Link>
+                        <p>{movie.overview}</p>
+
+                        <div>
+                            <b>Stars:</b>{' '}
+                            {Math.round(movie.vote_average * 2) / 2}/10 (from{' '}
+                            {movie.vote_count} votes)
+                        </div>
+
+                        <div>
+                            <b>Runtime:</b>{' '}
+                            {formatRuntimeHoursAndMinutes(movie.runtime)}
+                        </div>
+
+                        <span>
+                            <b>Genre:</b>
+                            <ul>
+                                {movie.genres.map((genre) => (
+                                    <li key={genre.id}>{genre.name}</li>
+                                ))}
+                            </ul>
+                        </span>
+                            
+                        {directors.length > 0 && actors.length > 0 && (
+                            <Credits
+                                directors={directors}
+                                actors={actors}
+                                actorsDisplayMaxThree={true}
+                            />
+                        )}
+                    </div>
+                </div>
+            )}
+        </>
+    );
 
     // const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
     //     if (!response.ok) {
@@ -102,65 +162,6 @@ const Movie = ({ id }) => {
     // useEffect(() => {
     //     getMovieAndCredits();
     // }, [getMovieAndCredits]);
-
-    return (
-        <>
-            { loading && (
-                <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="32" />
-            )}
-
-            { errorMessage && (
-                <b>{ errorMessage }</b>
-            )}
-
-            { !loading && !errorMessage && movie && (
-                <div className="row">
-                    <img
-                        src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                        alt="Poster"
-                    />
-                    
-                    <div className="column">
-                        <Link
-                            to={`/movie/${movie.id}`}
-                            state={{ movie, directors, actors }}
-                        >
-                            {movie.title} ({movie.release_date.split('-')[0]})
-                        </Link>
-                        <p>{movie.overview}</p>
-
-                        <div>
-                            <b>Stars:</b>{' '}
-                            {Math.round(movie.vote_average * 2) / 2}/10 (from{' '}
-                            {movie.vote_count} votes)
-                        </div>
-
-                        <div>
-                            <b>Runtime:</b>{' '}
-                            {formatRuntimeHoursAndMinutes(movie.runtime)}
-                        </div>
-
-                        <span>
-                            <b>Genre:</b>
-                            <ul>
-                                {movie.genres.map((genre) => (
-                                    <li key={genre.id}>{genre.name}</li>
-                                ))}
-                            </ul>
-                        </span>
-                            
-                        {directors.length > 0 && actors.length > 0 && (
-                            <Credits
-                                directors={directors}
-                                actors={actors}
-                                actorsDisplayMaxThree={true}
-                            />
-                        )}
-                    </div>
-                </div>
-            )}
-        </>
-    );
 };
 
 export default Movie;
