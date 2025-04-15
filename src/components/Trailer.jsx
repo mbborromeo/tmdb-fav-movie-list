@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import ErrorFeedback from './ErrorFeedback';
+
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 
 const Trailer = ({ id }) => {
@@ -39,7 +41,7 @@ const Trailer = ({ id }) => {
             )}
 
             { errorMessage && (
-                <b>{ errorMessage }</b>
+                <ErrorFeedback message={errorMessage} />
             )}
 
             { !loading && !errorMessage && trailer && (

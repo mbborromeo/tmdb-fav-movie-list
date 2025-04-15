@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
+import ErrorFeedback from '../components/ErrorFeedback';
+
 import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
 
 const Person = () => {
@@ -8,7 +10,6 @@ const Person = () => {
 
     const [person, setPerson] = useState(null);
     const [movies, setMovies] = useState([]);
-
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -81,7 +82,7 @@ const Person = () => {
             )}
 
             { errorMessage && (
-                <b>{ errorMessage }</b>
+                <ErrorFeedback message={errorMessage} />
             )}
 
             { !loading && !errorMessage && person && (
