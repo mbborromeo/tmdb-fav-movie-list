@@ -65,7 +65,7 @@ const Person = () => {
                     }
                 } catch (error) {
                     // receive any error from fetchApiCallOrThrowError()
-                    setErrorMessage(error.message);
+                    setErrorMessage("Failed to load Person. Error: " + error.message);
                 }
     
                 setLoading(false);
@@ -81,7 +81,7 @@ const Person = () => {
             )}
 
             { errorMessage && (
-                <b>Error occured: { errorMessage }</b>
+                <b>{ errorMessage }</b>
             )}
 
             { !loading && !errorMessage && person && (

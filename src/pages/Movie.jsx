@@ -51,7 +51,7 @@ const Movie = () => {
                     }
                 } catch (error) {
                     // receive any error from fetchApiCallOrThrowError()
-                    setErrorMessage(error.message);
+                    setErrorMessage("Failed to load Movie. Error: " + error.message);
                 }
     
                 setLoading(false);
@@ -67,7 +67,7 @@ const Movie = () => {
             )}
 
             { errorMessage && (
-                <b>Error occured: { errorMessage }</b>
+                <b>{ errorMessage }</b>
             )}
 
             { !loading && !errorMessage && movie && (

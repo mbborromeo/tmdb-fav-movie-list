@@ -23,7 +23,7 @@ const Trailer = ({ id }) => {
                     }
                 } catch (error) {
                     // receive any error from fetchApiCallOrThrowError()
-                    setErrorMessage(error.message);
+                    setErrorMessage("Failed to load Trailer. Error: " + error.message);
                 }
     
                 setLoading(false);
@@ -39,7 +39,7 @@ const Trailer = ({ id }) => {
             )}
 
             { errorMessage && (
-                <b>Error occured: { errorMessage }</b>
+                <b>{ errorMessage }</b>
             )}
 
             { !loading && !errorMessage && trailer && (
