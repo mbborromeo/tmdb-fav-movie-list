@@ -9,22 +9,6 @@ export const OPTIONS = {
     }
 };
 
-// export const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
-//     if (!response.ok) {
-//         console.error('Promise resolved but HTTP status failed');
-
-//         if (response.status === 404) {
-//             throw new Error('404, Not found');
-//         }
-
-//         if (response.status === 500) {
-//             throw new Error('500, internal server error');
-//         }
-
-//         throw new Error(response.status);
-//     }
-// };
-
 export const fetchApiCallOrThrowError = async (url) => {
     try {
         const response = await fetch(url, OPTIONS);
@@ -47,8 +31,13 @@ export const fetchApiCallOrThrowError = async (url) => {
         const object = await response.json();
         return object;
     } catch (error) {
-        console.error('fetchApiCallOrThrowError Error:', error);
-        // pass error to caller
+        // Network failure (DNS error, no internet connection, server unreachable)
+        // CORS issues
+        // Browser blocks the request for security reasons
+        // JSON parsing error
+        console.error('fetch call Error:', error);
+        
+        // pass on error to calling function
         throw error;
     }
 };

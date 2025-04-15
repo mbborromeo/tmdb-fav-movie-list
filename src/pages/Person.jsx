@@ -65,7 +65,7 @@ const Person = () => {
                     }
                 } catch (error) {
                     // receive any error from fetchApiCallOrThrowError()
-                    setErrorMessage(error.message);
+                    setErrorMessage("Failed to load Person. Error: " + error.message);
                 }
     
                 setLoading(false);
@@ -76,12 +76,12 @@ const Person = () => {
 
     return (
         <>
-            { loading && 
-                <b>Loading...</b> 
-            }
+            { loading && (
+                <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="128" />
+            )}
 
             { errorMessage && (
-                <b>Error occured: { errorMessage }</b>
+                <b>{ errorMessage }</b>
             )}
 
             { !loading && !errorMessage && person && (

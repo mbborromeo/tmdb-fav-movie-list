@@ -36,12 +36,28 @@ const Movie = ({ id }) => {
                 setActors(arrayActors);
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage(error.message);
+                setErrorMessage("Failed to load Movie. Error: " + error.message);
             }
 
             setLoading(false);
         })(); // IIFE
     }, [id]);
+
+    // const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
+    //     if (!response.ok) {
+    //         console.error('Promise resolved but HTTP status failed');
+    
+    //         if (response.status === 404) {
+    //             throw new Error('404, Not found');
+    //         }
+    
+    //         if (response.status === 500) {
+    //             throw new Error('500, internal server error');
+    //         }
+    
+    //         throw new Error(response.status);
+    //     }
+    // };
 
     // const getMovieAndCredits = useCallback(async () => {
     //     try {
@@ -89,12 +105,12 @@ const Movie = ({ id }) => {
 
     return (
         <>
-            { loading && 
-                <b>Loading...</b> 
-            }
+            { loading && (
+                <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="32" />
+            )}
 
             { errorMessage && (
-                <b>Error occured: { errorMessage }</b>
+                <b>{ errorMessage }</b>
             )}
 
             { !loading && !errorMessage && movie && (

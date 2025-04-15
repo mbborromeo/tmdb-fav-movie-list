@@ -23,7 +23,7 @@ const Trailer = ({ id }) => {
                     }
                 } catch (error) {
                     // receive any error from fetchApiCallOrThrowError()
-                    setErrorMessage(error.message);
+                    setErrorMessage("Failed to load Trailer. Error: " + error.message);
                 }
     
                 setLoading(false);
@@ -34,12 +34,12 @@ const Trailer = ({ id }) => {
 
     return (
         <>
-            { loading && 
-                <b>Loading...</b> 
-            }
+            { loading && (
+                <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="32" />
+            )}
 
             { errorMessage && (
-                <b>Error occured: { errorMessage }</b>
+                <b>{ errorMessage }</b>
             )}
 
             { !loading && !errorMessage && trailer && (
