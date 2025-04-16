@@ -7,10 +7,10 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "lint": "eslint --fix .",
-        "lint:check": "eslint .",
-        "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "lint": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx ./src",
+        "lint:check": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx ./src",
+        "format": "prettier -w \"src/**/*.(js|jsx)\"",
+        "format:check": "prettier -c \"src/**/*.(js|jsx)\""
     },
     "dependencies": {
         "react": "^19.0.0",
