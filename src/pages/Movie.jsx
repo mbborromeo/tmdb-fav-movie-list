@@ -107,6 +107,10 @@ const Movie = () => {
 
                             <Trailer id={id} />
 
+                            {movie.tagline && (
+                                <p><em>{movie.tagline}</em></p>
+                            )}
+
                             <p>{movie.overview}</p>
                             <p>
                                 <b>Stars:</b>{' '}
