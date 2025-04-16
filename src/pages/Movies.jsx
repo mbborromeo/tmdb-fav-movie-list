@@ -4,6 +4,7 @@ import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 
 import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
+import Footer from '../components/Footer';
 
 const Movies = () => {
     const [moviesSorted, setMoviesSorted] = useState([]);
@@ -48,6 +49,8 @@ const Movies = () => {
 
     return (
         <>
+            <h2>20 Great Movies from '79-'99</h2>
+
             {loading && (
                 <img
                     src="/images/gifer_loading_VAyR.gif"
@@ -74,16 +77,7 @@ const Movies = () => {
                 </>
             )}
 
-            <div>
-                <br />
-                <br />
-                This website uses{' '}
-                <a href="https://www.themoviedb.org" target="_blank">
-                    TMDB
-                </a>{' '}
-                and the TMDB APIs but is not endorsed, certified, or otherwise
-                approved by TMDB.
-            </div>
+            <Footer />
         </>
     );
 };

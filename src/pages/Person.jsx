@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
+import Footer from '../components/Footer';
 
 import {
     fetchApiCallOrThrowError,
@@ -114,6 +115,18 @@ const Person = () => {
 
             {!loading && (
                 <>
+                    <div>
+                        {movieId ? (
+                            <Link to={`/movie/${movieId}`}>
+                                <b>&laquo;Back to Movie</b>
+                            </Link>
+                        ) : (
+                            <Link to="/">
+                                <b>&laquo;Back to Movies</b>
+                            </Link>
+                        )}
+                    </div>
+
                     {person && (
                         <>
                             <h2>{person.name}</h2>
@@ -172,20 +185,10 @@ const Person = () => {
                     )}
 
                     {errorMessage && <ErrorFeedback message={errorMessage} />}
-
-                    <div>
-                        {movieId ? (
-                            <Link to={`/movie/${movieId}`}>
-                                <b>&laquo;Back to Movie</b>
-                            </Link>
-                        ) : (
-                            <Link to="/">
-                                <b>&laquo;Back to Movies</b>
-                            </Link>
-                        )}
-                    </div>
                 </>
             )}
+
+            <Footer />
         </>
     );
 };
