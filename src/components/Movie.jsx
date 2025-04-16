@@ -37,7 +37,6 @@ const Movie = ({ id }) => {
                 );
 
                 // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
-                // wrap in Promise.all(), since response.json() returns a promise as well?
 
                 if (moviePromise.status === 'rejected') {
                     console.error('Error:', moviePromise.reason);
@@ -48,8 +47,6 @@ const Movie = ({ id }) => {
 
                 if (moviePromise.status === 'fulfilled') {
                     const movieResponse = moviePromise.value;
-                    // const dataMovie = await movieResponse.json();
-                    // setMovie(dataMovie);
                     setMovie(movieResponse);
                 }
 
