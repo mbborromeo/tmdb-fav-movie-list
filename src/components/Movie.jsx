@@ -23,7 +23,12 @@ const Movie = ({ id }) => {
             try {
                 const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
                 setMovie(dataMovie);
+            } catch (error) {
+                // receive any error from fetchApiCallOrThrowError()
+                setErrorMessage("Failed to load Movie. Error: " + error.message);
+            }
 
+            try {
                 const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
 
                 const arrayDirectors = dataCredits.crew.filter(
@@ -37,7 +42,7 @@ const Movie = ({ id }) => {
                 setActors(arrayActors);
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage("Failed to load Movie. Error: " + error.message);
+                setErrorMessage("Failed to load Credits. Error: " + error.message);
             }
 
             setLoading(false);
@@ -45,62 +50,68 @@ const Movie = ({ id }) => {
     }, [id]);
 
     return (
-        <>
+        <div className="row">
             { loading && (
                 <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="32" />
             )}
 
-            { errorMessage && (
-                <ErrorFeedback message={errorMessage} />
-            )}
-
-            { !loading && !errorMessage && movie && (
-                <div className="row">
-                    <img
-                        src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                        alt="Poster"
-                    />
+            { !loading && (
+                <>
+                    { movie && (
+                        <img
+                            src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                            alt="Poster"
+                        />
+                    )}
                     
                     <div className="column">
-                        <Link
-                            to={`/movie/${movie.id}`}
-                            state={{ movie, directors, actors }}
-                        >
-                            {movie.title} ({movie.release_date.split('-')[0]})
-                        </Link>
-                        <p>{movie.overview}</p>
+                        { movie && (
+                            <>
+                                <Link
+                                    to={`/movie/${movie.id}`}
+                                    state={{ movie, directors, actors }}
+                                >
+                                    {movie.title} ({movie.release_date.split('-')[0]})
+                                </Link>
+                                <p>{movie.overview}</p>
 
-                        <div>
-                            <b>Stars:</b>{' '}
-                            {Math.round(movie.vote_average * 2) / 2}/10 (from{' '}
-                            {movie.vote_count} votes)
-                        </div>
+                                <div>
+                                    <b>Stars:</b>{' '}
+                                    {Math.round(movie.vote_average * 2) / 2}/10 (from{' '}
+                                    {movie.vote_count} votes)
+                                </div>
 
-                        <div>
-                            <b>Runtime:</b>{' '}
-                            {formatRuntimeHoursAndMinutes(movie.runtime)}
-                        </div>
+                                <div>
+                                    <b>Runtime:</b>{' '}
+                                    {formatRuntimeHoursAndMinutes(movie.runtime)}
+                                </div>
 
-                        <span>
-                            <b>Genre:</b>
-                            <ul>
-                                {movie.genres.map((genre) => (
-                                    <li key={genre.id}>{genre.name}</li>
-                                ))}
-                            </ul>
-                        </span>
-                            
-                        {directors.length > 0 && actors.length > 0 && (
-                            <Credits
-                                directors={directors}
-                                actors={actors}
-                                actorsDisplayMaxThree={true}
-                            />
+                                <span>
+                                    <b>Genre:</b>
+                                    <ul>
+                                        {movie.genres.map((genre) => (
+                                            <li key={genre.id}>{genre.name}</li>
+                                        ))}
+                                    </ul>
+                                </span>
+                                    
+                                {directors.length > 0 && actors.length > 0 && (
+                                    <Credits
+                                        directors={directors}
+                                        actors={actors}
+                                        actorsDisplayMaxThree={true}
+                                    />
+                                )}
+                            </>
+                        )}
+
+                        { errorMessage && (
+                            <ErrorFeedback message={errorMessage} />
                         )}
                     </div>
-                </div>
+                </>
             )}
-        </>
+        </div>
     );
 
     // const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
