@@ -20,11 +20,18 @@ const Person = () => {
     useEffect(
         () => {
             (async () => {
+                let dataPerson = null;
+
                 try {
-                    const dataPerson = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}?language=en-US`); // if fetch error, value will stay undefined
+                    dataPerson = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}?language=en-US`); // if fetch error, value will stay undefined
                     setPerson(dataPerson);
-                    
-                    if (dataPerson) {
+                } catch (error) {
+                    // receive any error from fetchApiCallOrThrowError()
+                    setErrorMessage("Failed to load Person. Error: " + error.message);
+                }
+                
+                if (dataPerson) {
+                    try {    
                         const dataCreditMovies = await fetchApiCallOrThrowError(`${BASE_URL}/person/${id}/movie_credits?language=en-US`);
 
                         let moviesOfInterest = [];
@@ -63,10 +70,10 @@ const Person = () => {
                         }
 
                         setMovies(moviesOfInterest);
+                    } catch (error) {
+                        // receive any error from fetchApiCallOrThrowError()
+                        setErrorMessage("Failed to load Credits. Error: " + error.message);
                     }
-                } catch (error) {
-                    // receive any error from fetchApiCallOrThrowError()
-                    setErrorMessage("Failed to load Person. Error: " + error.message);
                 }
     
                 setLoading(false);
@@ -81,60 +88,64 @@ const Person = () => {
                 <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="128" />
             )}
 
-            { errorMessage && (
-                <ErrorFeedback message={errorMessage} />
-            )}
-
-            { !loading && !errorMessage && person && (
+            { !loading && (
                 <>
-                    <h2>{person.name}</h2>
-                    {person.profile_path && (
-                        <img
-                            src={
-                                BASE_URL_IMAGE +
-                                PROFILE_SIZE +
-                                person.profile_path
-                            }
-                            alt={`${person.name}'s profile pic`}
-                        />
+                    { person && (
+                        <>
+                            <h2>{person.name}</h2>
+                            {person.profile_path && (
+                                <img
+                                    src={
+                                        BASE_URL_IMAGE +
+                                        PROFILE_SIZE +
+                                        person.profile_path
+                                    }
+                                    alt={`${person.name}'s profile pic`}
+                                />
+                            )}
+                            <p>{person.biography}</p>
+                            <p>
+                                <b>Known for department:</b>{' '}
+                                {person.known_for_department}
+                            </p>
+                        
+                            { movies.length > 0 && (
+                                <>
+                                    <b>Movies:</b>
+                                    <ul>
+                                        { movies.map((movie) => {
+                                                return (
+                                                    <li key={`${movie.id}-${movie.job}`}>
+                                                        <Link to={`/movie/${movie.id}`}>
+                                                            {movie.title} (
+                                                            {person.known_for_department === 'Acting'
+                                                                ? movie.character
+                                                                : movie.job}
+                                                            )
+                                                            {movie.poster_path && (
+                                                                <img
+                                                                    src={
+                                                                        BASE_URL_IMAGE +
+                                                                        POSTER_SIZE +
+                                                                        movie.poster_path
+                                                                    }
+                                                                    alt={`${person.name}'s profile pic`}
+                                                                />
+                                                            )}
+                                                        </Link>
+                                                    </li>
+                                                );
+                                            })
+                                        }
+                                    </ul>
+                                </>
+                            )}
+                        </>
                     )}
-                    <p>{person.biography}</p>
-                    <p>
-                        <b>Known for department:</b>{' '}
-                        {person.known_for_department}
-                    </p>
-                </>
-            )}
 
-            { !loading && !errorMessage && movies.length > 0 && (
-                <>
-                    <b>Movies:</b>
-                    <ul>
-                        { movies.map((movie) => {
-                                return (
-                                    <li key={`${movie.id}-${movie.job}`}>
-                                        <Link to={`/movie/${movie.id}`}>
-                                            {movie.title} (
-                                            {person.known_for_department === 'Acting'
-                                                ? movie.character
-                                                : movie.job}
-                                            )
-                                            {movie.poster_path && (
-                                                <img
-                                                    src={
-                                                        BASE_URL_IMAGE +
-                                                        POSTER_SIZE +
-                                                        movie.poster_path
-                                                    }
-                                                    alt={`${person.name}'s profile pic`}
-                                                />
-                                            )}
-                                        </Link>
-                                    </li>
-                                );
-                            })
-                        }
-                    </ul>
+                    { errorMessage && (
+                        <ErrorFeedback message={errorMessage} />
+                    )}
                 </>
             )}
         </>
