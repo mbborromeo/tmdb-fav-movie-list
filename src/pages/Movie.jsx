@@ -25,9 +25,6 @@ const Movie = () => {
         location.state ? location.state.actors : null
     );
 
-    console.log('directors', directors);
-    console.log('actors', actors);
-
     const POSTER_SIZE = 'w185';
     const MAX_ACTORS = 6;
 

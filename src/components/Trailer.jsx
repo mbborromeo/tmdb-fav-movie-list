@@ -20,9 +20,7 @@ const Trailer = ({ id }) => {
                             (video) => video.type === 'Trailer'
                         );
                         setTrailer(trailer);
-                    } else {
-                        console.log('No trailers available');
-                    }
+                    } 
                 } catch (error) {
                     // receive any error from fetchApiCallOrThrowError()
                     setErrorMessage("Failed to load Trailer. Error: " + error.message);
