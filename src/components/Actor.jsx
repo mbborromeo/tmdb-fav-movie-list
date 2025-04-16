@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 
 import { BASE_URL_IMAGE } from '../utils/api';
 
-const Actor = ({ actor, showActorsPic = false, displayLinks = false }) => {
+const Actor = ({ actor, movieId, showActorsPic = false, displayLinks = false }) => {
     const PROFILE_SIZE = 'w92'; // w138_and_h175_face
 
     return (
         <li>
             {displayLinks ? (
-                <Link to={`/person/${actor.id}`}>{actor.name}</Link>
+                <Link to={`/person/${actor.id}`} state={{ movieId }}>{actor.name}</Link>
             ) : (
                 actor.name
             )}

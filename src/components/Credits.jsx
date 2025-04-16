@@ -7,7 +7,8 @@ const Credits = ({
     actorsDisplayMaxThree = false,
     displayLinks = false,
     directors,
-    actors
+    actors, 
+    movieId
 }) => {
     const numberOfDirectors =
         directors && directors.length > 0 ? directors.length : 0;
@@ -21,7 +22,7 @@ const Credits = ({
                         directors.map((director) => (
                             <li key={director.id}>
                                 {displayLinks ? (
-                                    <Link to={`/person/${director.id}`}>
+                                    <Link to={`/person/${director.id}`} state={{ movieId }}>
                                         {director.name}
                                     </Link>
                                 ) : (
@@ -49,6 +50,7 @@ const Credits = ({
                                         {...(displayLinks && {
                                             displayLinks: true
                                         })}
+                                        movieId={movieId}
                                     />
                                 )
                             ) : (
@@ -61,6 +63,7 @@ const Credits = ({
                                     {...(displayLinks && {
                                         displayLinks: true
                                     })}
+                                    movieId={movieId}
                                 />
                             )
                         )}
