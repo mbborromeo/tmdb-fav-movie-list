@@ -92,10 +92,14 @@ const Movie = () => {
                                 {movie.title} (
                                 {movie.release_date.split('-')[0]})
                             </h2>
+
                             <img
                                 src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                                 alt="Poster"
                             />
+
+                            <Trailer id={id} />
+
                             <p>{movie.overview}</p>
                             <p>
                                 <b>Stars:</b>{' '}
@@ -132,8 +136,6 @@ const Movie = () => {
                     )}
 
                     {errorMessage && <ErrorFeedback message={errorMessage} />}
-
-                    {movie && <Trailer id={id} />}
 
                     <div>
                         <Link to="/">
