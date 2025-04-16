@@ -4,6 +4,7 @@ import { useParams, useLocation, Link } from 'react-router-dom';
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
 import ErrorFeedback from '../components/ErrorFeedback';
+import Footer from '../components/Footer';
 
 import {
     fetchApiCallOrThrowError,
@@ -86,6 +87,12 @@ const Movie = () => {
 
             {!loading && (
                 <div>
+                    <div>
+                        <Link to="/">
+                            <b>&laquo;Back to Movies</b>
+                        </Link>
+                    </div>
+
                     {movie && (
                         <>
                             <h2>
@@ -136,14 +143,10 @@ const Movie = () => {
                     )}
 
                     {errorMessage && <ErrorFeedback message={errorMessage} />}
-
-                    <div>
-                        <Link to="/">
-                            <b>&laquo;Back to Movies</b>
-                        </Link>
-                    </div>
                 </div>
             )}
+
+            <Footer />
         </>
     );
 };
