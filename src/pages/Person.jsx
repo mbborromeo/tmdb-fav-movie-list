@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
 
@@ -7,6 +7,8 @@ import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api
 
 const Person = () => {
     const { id } = useParams();
+    const location = useLocation();
+    const movieId = location.state ? location.state.movieId : null;
 
     const [person, setPerson] = useState(null);
     const [movies, setMovies] = useState([]);
@@ -146,6 +148,15 @@ const Person = () => {
                     { errorMessage && (
                         <ErrorFeedback message={errorMessage} />
                     )}
+
+                    { movieId ? 
+                        (
+                            <Link to={`/movie/${movieId}`}><b>&laquo;Back to Movie</b></Link>
+                        ) 
+                        : (
+                            <Link to='/'><b>&laquo;Back to Movies</b></Link>
+                        )
+                    }
                 </>
             )}
         </>

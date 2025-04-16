@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
@@ -115,6 +115,7 @@ const Movie = () => {
                                     actors={actors}
                                     showActorsPic={true}
                                     displayLinks={true}
+                                    movieId={id}
                                 />
                             )}
                         </>
@@ -129,6 +130,8 @@ const Movie = () => {
                             <Trailer id={id} />
                         </div>
                     )}
+
+                    <Link to="/"><b>&laquo;Back to Movies</b></Link>
                 </div>
             )}
         </>
