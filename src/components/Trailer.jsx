@@ -9,6 +9,8 @@ const Trailer = ({ id }) => {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
 
+    console.log('trailer', trailer);
+
     useEffect(() => {
         (async () => {
             try {
@@ -46,12 +48,14 @@ const Trailer = ({ id }) => {
             {errorMessage && <ErrorFeedback message={errorMessage} />}
 
             {!loading && !errorMessage && trailer && (
-                <a
-                    href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                    target="_blank"
-                >
-                    <b>PLAY TRAILER</b>
-                </a>
+                <iframe 
+                    id="ytplayer" 
+                    type="text/html" 
+                    width="640" 
+                    height="360"
+                    src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`} // &origin=http://example.com
+                    frameborder="0"
+                ></iframe> 
             )}
         </>
     );
