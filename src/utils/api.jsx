@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.themoviedb.org/3";
+export const BASE_URL = 'https://api.themoviedb.org/3';
 export const BASE_URL_IMAGE = 'https://image.tmdb.org/t/p/';
 
 export const OPTIONS = {
@@ -12,18 +12,18 @@ export const OPTIONS = {
 export const fetchApiCallOrThrowError = async (url) => {
     try {
         const response = await fetch(url, OPTIONS);
-        
+
         if (!response.ok) {
             console.error('Promise resolved but HTTP status failed');
-    
+
             if (response.status === 404) {
                 throw new Error('404, Not found');
             }
-    
+
             if (response.status === 500) {
                 throw new Error('500, internal server error');
             }
-    
+
             throw new Error(response.status);
         }
 
@@ -36,7 +36,7 @@ export const fetchApiCallOrThrowError = async (url) => {
         // Browser blocks the request for security reasons
         // JSON parsing error
         console.error('fetch call Error:', error);
-        
+
         // pass on error to calling function
         throw error;
     }
