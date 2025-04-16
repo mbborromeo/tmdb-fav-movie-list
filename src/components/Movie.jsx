@@ -25,36 +25,57 @@ const Movie = ({ id }) => {
     useEffect(() => {
         (async () => {
             try {
-                const dataMovie = await fetchApiCallOrThrowError(
-                    `${BASE_URL}/movie/${id}?language=en-US`
+                const [moviePromise, creditsPromise] = await Promise.allSettled(
+                    [
+                        fetchApiCallOrThrowError(
+                            `${BASE_URL}/movie/${id}?language=en-US`
+                        ),
+                        fetchApiCallOrThrowError(
+                            `${BASE_URL}/movie/${id}/credits?language=en-US`
+                        )
+                    ]
                 );
-                setMovie(dataMovie);
+
+                // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
+                // wrap in Promise.all(), since response.json() returns a promise as well?
+
+                if (moviePromise.status === 'rejected') {
+                    console.error('Error:', moviePromise.reason);
+                    setErrorMessage(
+                        'Failed to load Movie. ' + moviePromise.reason
+                    );
+                }
+
+                if (moviePromise.status === 'fulfilled') {
+                    const movieResponse = moviePromise.value;
+                    // const dataMovie = await movieResponse.json();
+                    // setMovie(dataMovie);
+                    setMovie(movieResponse);
+                }
+
+                if (creditsPromise.status === 'rejected') {
+                    console.error('Error:', creditsPromise.reason);
+                    setErrorMessage(
+                        'Failed to load Credits. ' + creditsPromise.reason
+                    );
+                }
+
+                if (creditsPromise.status === 'fulfilled') {
+                    const creditsResponse = creditsPromise.value;
+
+                    const arrayDirectors = creditsResponse.crew.filter(
+                        (person) => person.job === 'Director'
+                    );
+                    setDirectors(arrayDirectors);
+
+                    const arrayActors = creditsResponse.cast.filter(
+                        (person) => person.order < MAX_ACTORS
+                    );
+                    setActors(arrayActors);
+                }
             } catch (error) {
-                // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage(
-                    'Failed to load Movie. Error: ' + error.message
-                );
-            }
-
-            try {
-                const dataCredits = await fetchApiCallOrThrowError(
-                    `${BASE_URL}/movie/${id}/credits?language=en-US`
-                );
-
-                const arrayDirectors = dataCredits.crew.filter(
-                    (person) => person.job === 'Director'
-                );
-                setDirectors(arrayDirectors);
-
-                const arrayActors = dataCredits.cast.filter(
-                    (person) => person.order < MAX_ACTORS
-                );
-                setActors(arrayActors);
-            } catch (error) {
-                // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage(
-                    'Failed to load Credits. Error: ' + error.message
-                );
+                // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
+                console.error('Error:', error);
             }
 
             setLoading(false);
@@ -132,66 +153,6 @@ const Movie = ({ id }) => {
             )}
         </div>
     );
-
-    // const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
-    //     if (!response.ok) {
-    //         console.error('Promise resolved but HTTP status failed');
-
-    //         if (response.status === 404) {
-    //             throw new Error('404, Not found');
-    //         }
-
-    //         if (response.status === 500) {
-    //             throw new Error('500, internal server error');
-    //         }
-
-    //         throw new Error(response.status);
-    //     }
-    // };
-
-    // const getMovieAndCredits = useCallback(async () => {
-    //     try {
-    //         const [moviePromise, creditsPromise] = await Promise.allSettled([
-    //             fetch(
-    //                 `${BASE_URL}/movie/${id}?language=en-US`,
-    //                 OPTIONS
-    //             ),
-    //             fetch(
-    //                 `${BASE_URL}/movie/${id}/credits?language=en-US`,
-    //                 OPTIONS
-    //             )
-    //         ]);
-
-    //         // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
-    //         // wrap in Promise.all(), since response.json() returns a promise as well?
-
-    //         const movieResponse = moviePromise.value;
-    //         ifHttpStatusNotOK_throwErrorsAndExit(movieResponse);
-    //         const dataMovie = await movieResponse.json();
-    //         setMovie(dataMovie);
-
-    //         const creditsResponse = creditsPromise.value;
-    //         ifHttpStatusNotOK_throwErrorsAndExit(creditsResponse);
-    //         const dataCredits = await creditsResponse.json();
-
-    //         const arrayDirectors = dataCredits.crew.filter(
-    //             (person) => person.job === 'Director'
-    //         );
-    //         setDirectors(arrayDirectors);
-
-    //         const arrayActors = dataCredits.cast.filter(
-    //             (person) => person.order < MAX_ACTORS
-    //         );
-    //         setActors(arrayActors);
-    //     } catch (error) {
-    //         // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
-    //         console.error('Error:', error);
-    //     }
-    // }, [id]);
-
-    // useEffect(() => {
-    //     getMovieAndCredits();
-    // }, [getMovieAndCredits]);
 };
 
 export default Movie;

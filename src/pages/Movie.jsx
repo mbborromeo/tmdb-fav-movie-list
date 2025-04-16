@@ -133,15 +133,13 @@ const Movie = () => {
 
                     {errorMessage && <ErrorFeedback message={errorMessage} />}
 
-                    {movie && (
-                        <div>
-                            <Trailer id={id} />
-                        </div>
-                    )}
+                    {movie && <Trailer id={id} />}
 
-                    <Link to="/">
-                        <b>&laquo;Back to Movies</b>
-                    </Link>
+                    <div>
+                        <Link to="/">
+                            <b>&laquo;Back to Movies</b>
+                        </Link>
+                    </div>
                 </div>
             )}
         </>

@@ -173,15 +173,17 @@ const Person = () => {
 
                     {errorMessage && <ErrorFeedback message={errorMessage} />}
 
-                    {movieId ? (
-                        <Link to={`/movie/${movieId}`}>
-                            <b>&laquo;Back to Movie</b>
-                        </Link>
-                    ) : (
-                        <Link to="/">
-                            <b>&laquo;Back to Movies</b>
-                        </Link>
-                    )}
+                    <div>
+                        {movieId ? (
+                            <Link to={`/movie/${movieId}`}>
+                                <b>&laquo;Back to Movie</b>
+                            </Link>
+                        ) : (
+                            <Link to="/">
+                                <b>&laquo;Back to Movies</b>
+                            </Link>
+                        )}
+                    </div>
                 </>
             )}
         </>
