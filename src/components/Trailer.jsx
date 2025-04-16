@@ -9,8 +9,6 @@ const Trailer = ({ id }) => {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
 
-    console.log('trailer', trailer);
-
     useEffect(() => {
         (async () => {
             try {
