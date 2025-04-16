@@ -11,6 +11,6 @@ const Footer = () => {
             approved by TMDB.
         </div>
     );
-}
+};
 
 export default Footer;
