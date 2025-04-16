@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import Credits from './Credits';
 import ErrorFeedback from './ErrorFeedback';
 
-import { fetchApiCallOrThrowError, BASE_URL, BASE_URL_IMAGE } from '../utils/api';
+import {
+    fetchApiCallOrThrowError,
+    BASE_URL,
+    BASE_URL_IMAGE
+} from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = ({ id }) => {
@@ -12,7 +16,7 @@ const Movie = ({ id }) => {
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
 
     // https://developer.themoviedb.org/reference/configuration-details
     const POSTER_SIZE = 'w185'; // w154 w92
@@ -21,15 +25,21 @@ const Movie = ({ id }) => {
     useEffect(() => {
         (async () => {
             try {
-                const dataMovie = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}?language=en-US`);
+                const dataMovie = await fetchApiCallOrThrowError(
+                    `${BASE_URL}/movie/${id}?language=en-US`
+                );
                 setMovie(dataMovie);
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage("Failed to load Movie. Error: " + error.message);
+                setErrorMessage(
+                    'Failed to load Movie. Error: ' + error.message
+                );
             }
 
             try {
-                const dataCredits = await fetchApiCallOrThrowError(`${BASE_URL}/movie/${id}/credits?language=en-US`);
+                const dataCredits = await fetchApiCallOrThrowError(
+                    `${BASE_URL}/movie/${id}/credits?language=en-US`
+                );
 
                 const arrayDirectors = dataCredits.crew.filter(
                     (person) => person.job === 'Director'
@@ -42,7 +52,9 @@ const Movie = ({ id }) => {
                 setActors(arrayActors);
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage("Failed to load Credits. Error: " + error.message);
+                setErrorMessage(
+                    'Failed to load Credits. Error: ' + error.message
+                );
             }
 
             setLoading(false);
@@ -51,39 +63,46 @@ const Movie = ({ id }) => {
 
     return (
         <div className="row">
-            { loading && (
-                <img src="/images/gifer_loading_VAyR.gif" alt="loading" width="32" />
+            {loading && (
+                <img
+                    src="/images/gifer_loading_VAyR.gif"
+                    alt="loading"
+                    width="32"
+                />
             )}
 
-            { !loading && (
+            {!loading && (
                 <>
-                    { movie && (
+                    {movie && (
                         <img
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"
                         />
                     )}
-                    
+
                     <div className="column">
-                        { movie && (
+                        {movie && (
                             <>
                                 <Link
                                     to={`/movie/${movie.id}`}
                                     state={{ movie, directors, actors }}
                                 >
-                                    {movie.title} ({movie.release_date.split('-')[0]})
+                                    {movie.title} (
+                                    {movie.release_date.split('-')[0]})
                                 </Link>
                                 <p>{movie.overview}</p>
 
                                 <div>
                                     <b>Stars:</b>{' '}
-                                    {Math.round(movie.vote_average * 2) / 2}/10 (from{' '}
-                                    {movie.vote_count} votes)
+                                    {Math.round(movie.vote_average * 2) / 2}/10
+                                    (from {movie.vote_count} votes)
                                 </div>
 
                                 <div>
                                     <b>Runtime:</b>{' '}
-                                    {formatRuntimeHoursAndMinutes(movie.runtime)}
+                                    {formatRuntimeHoursAndMinutes(
+                                        movie.runtime
+                                    )}
                                 </div>
 
                                 <span>
@@ -94,7 +113,7 @@ const Movie = ({ id }) => {
                                         ))}
                                     </ul>
                                 </span>
-                                    
+
                                 {directors.length > 0 && actors.length > 0 && (
                                     <Credits
                                         directors={directors}
@@ -105,7 +124,7 @@ const Movie = ({ id }) => {
                             </>
                         )}
 
-                        { errorMessage && (
+                        {errorMessage && (
                             <ErrorFeedback message={errorMessage} />
                         )}
                     </div>
@@ -117,15 +136,15 @@ const Movie = ({ id }) => {
     // const ifHttpStatusNotOK_throwErrorsAndExit = (response) => {
     //     if (!response.ok) {
     //         console.error('Promise resolved but HTTP status failed');
-    
+
     //         if (response.status === 404) {
     //             throw new Error('404, Not found');
     //         }
-    
+
     //         if (response.status === 500) {
     //             throw new Error('500, internal server error');
     //         }
-    
+
     //         throw new Error(response.status);
     //     }
     // };

@@ -7,7 +7,7 @@ const Credits = ({
     actorsDisplayMaxThree = false,
     displayLinks = false,
     directors,
-    actors, 
+    actors,
     movieId
 }) => {
     const numberOfDirectors =
@@ -22,7 +22,10 @@ const Credits = ({
                         directors.map((director) => (
                             <li key={director.id}>
                                 {displayLinks ? (
-                                    <Link to={`/person/${director.id}`} state={{ movieId }}>
+                                    <Link
+                                        to={`/person/${director.id}`}
+                                        state={{ movieId }}
+                                    >
                                         {director.name}
                                     </Link>
                                 ) : (
