@@ -25,7 +25,9 @@ jobs:
                   npm run format:check
 
             - name: Build
-              run: npm run build
+              run: |
+                  npm run build
 
             - name: Deploy to GitHub Pages
-              run: npm run deploy
+              run: |
+                  npm run deploy
