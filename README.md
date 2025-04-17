@@ -27,6 +27,26 @@ Create your own .env file inside the project root folder, and define the followi
 - VITE_TMDB_TOKEN=, set it to your TMDB API Token
 - VITE_TMDB_ACCOUNT_ID=, set it to your own TMDB Account ID to get movies from your own [Favourites List](https://developer.themoviedb.org/reference/account-get-favorites)
 
+## Running Linters
+
+Check ES syntax
+
+Report and auto-fix issues:
+`npm run lint`
+
+Will report issues without auto-fixing:
+`npm run lint:check`
+
+Prettier Format Checker
+
+Check code format such as single-quotes, comma-dangle, indentation, etc.
+
+Check format without auto-fixing:
+`npm run format:check`
+
+Check format and auto-fix issues:
+`npm run format`
+
 ## Dependencies
 
 - react v^19.0.0
