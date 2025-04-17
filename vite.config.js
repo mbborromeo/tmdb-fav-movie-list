@@ -4,6 +4,7 @@ import eslintPlugin from 'vite-plugin-eslint';
 
 // https://vite.dev/config/
 export default defineConfig({
+    base: "/tmdb-fav-movie-list",
     plugins: [
         react(),
         eslintPlugin({
