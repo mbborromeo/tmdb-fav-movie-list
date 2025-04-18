@@ -79,7 +79,7 @@ const Movie = () => {
         <>
             {loading && (
                 <img
-                    src="/images/gifer_loading_VAyR.gif"
+                    src="./images/gifer_loading_VAyR.gif"
                     alt="loading"
                     width="128"
                 />

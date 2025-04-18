@@ -83,7 +83,7 @@ const Movie = ({ id }) => {
         <div className="row">
             {loading && (
                 <img
-                    src="/images/gifer_loading_VAyR.gif"
+                    src="./images/gifer_loading_VAyR.gif"
                     alt="loading"
                     width="32"
                 />
