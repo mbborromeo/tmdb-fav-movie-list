@@ -54,7 +54,7 @@ Generate the published files to 'dist' folder by running command:
 
 Move the 'dist' folder to 'docs'.
 
-Inside the 'docs' folder, copy & paste the index.html file and rename it to 404.html.  This is a bit of a hack to make the single-page app routing work on GitHub Pages server, for when links are opened in a new tab.
+Inside the 'docs' folder, copy & paste the index.html file and rename it to 404.html.  This workaround makes the single-page app routing work on GitHub Pages server for 'deep links', ie. when links are opened in a new tab or a page is refreshed.
 
 ## Dependencies
 
