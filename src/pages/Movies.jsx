@@ -9,33 +9,44 @@ import Footer from '../components/Footer';
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
 const Movies = () => {
-    const [moviesSorted, setMoviesSorted] = useState([]);
+    const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [dateOrder, setDateOrder] = useState('ascending');
+
+    const sortMovies = (moviesArray) => {
+        // sort by release date
+        const sorted = [...moviesArray];
+        if (moviesArray.length > 1) {
+            sorted.sort((a, b) =>
+                dateOrder === 'ascending'
+                    ? Date.parse(a.release_date) - Date.parse(b.release_date)
+                    : Date.parse(b.release_date) - Date.parse(a.release_date)
+            );
+        }
+
+        return sorted;
+    };
+
+    const toggleDateOrder = () => {
+        if (dateOrder === 'ascending') {
+            setDateOrder('descending');
+        } else {
+            setDateOrder('ascending');
+        }
+    };
 
     useEffect(() => {
         (async () => {
             try {
-                // need to await here, since getMovies() is async returning a promise
+                // need to await here, since fetchApiCallOrThrowError() is async returning a promise
                 const data = await fetchApiCallOrThrowError(
                     `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
                 );
 
-                if (data && data.results) {
+                if (data && data.results && data.results.length > 0) {
                     // data undefined if nothing returned from fetch
-                    const movies = data.results;
-
-                    // sort by release date
-                    const sorted = [...movies];
-                    if (movies.length > 0) {
-                        sorted.sort(
-                            (a, b) =>
-                                Date.parse(a.release_date) -
-                                Date.parse(b.release_date)
-                        );
-                    }
-
-                    setMoviesSorted(sorted);
+                    setMovies(data.results);
                 }
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
@@ -48,6 +59,8 @@ const Movies = () => {
             setLoading(false);
         })(); // IIFE
     }, []);
+
+    const moviesSorted = sortMovies(movies);
 
     return (
         <>
@@ -62,13 +75,22 @@ const Movies = () => {
                     {moviesSorted.length === 0 && <b>No movies found!</b>}
 
                     {moviesSorted.length > 0 && (
-                        <ol>
-                            {moviesSorted.map((movie) => (
-                                <li key={movie.id}>
-                                    <Movie id={movie.id} />
-                                </li>
-                            ))}
-                        </ol>
+                        <>
+                            <button
+                                onClick={() => toggleDateOrder()}
+                                className="btn-order"
+                            >
+                                Release Date: {dateOrder}
+                            </button>
+
+                            <ol>
+                                {moviesSorted.map((movie) => (
+                                    <li key={movie.id}>
+                                        <Movie id={movie.id} />
+                                    </li>
+                                ))}
+                            </ol>
+                        </>
                     )}
                 </>
             )}
