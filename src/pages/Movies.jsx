@@ -77,7 +77,7 @@ const Movies = () => {
                     {moviesSorted.length > 0 && (
                         <>
                             <button
-                                onClick={() => toggleDateOrder()}
+                                onClick={toggleDateOrder}
                                 className="btn-order"
                             >
                                 Release Date: {dateOrder}
