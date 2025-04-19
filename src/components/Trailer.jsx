@@ -37,13 +37,7 @@ const Trailer = ({ id }) => {
 
     return (
         <>
-            {loading && (
-                <img
-                    src={loadingGif}
-                    alt="loading"
-                    width="32"
-                />
-            )}
+            {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {errorMessage && <ErrorFeedback message={errorMessage} />}
 

@@ -107,13 +107,7 @@ const Person = () => {
 
     return (
         <>
-            {loading && (
-                <img
-                    src={loadingGif}
-                    alt="loading"
-                    width="128"
-                />
-            )}
+            {loading && <img src={loadingGif} alt="loading" width="128" />}
 
             {!loading && (
                 <>
