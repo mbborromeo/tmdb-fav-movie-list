@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "deploy": "gh-pages -d dist",
+        "deploy": "gh-pages -d docs",
         "preview": "vite preview",
         "lint": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx ./src",
         "lint:check": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx ./src",
