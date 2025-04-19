@@ -47,8 +47,8 @@ const Trailer = ({ id }) => {
                     type="text/html"
                     width="640"
                     height="360"
-                    src={`https://www.youtube.com/embed/${trailer.key}?autoplay=0`} // &origin=http://example.com
                     frameborder="0"
+                    src={`https://www.youtube.com/embed/${trailer.key}?autoplay=0`} // &origin=http://example.com
                 ></iframe>
             )}
         </>
