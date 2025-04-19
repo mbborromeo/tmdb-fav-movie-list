@@ -50,12 +50,6 @@ const Trailer = ({ id }) => {
                     src={`https://www.youtube.com/embed/${trailer.key}?autoplay=0`} // &origin=http://example.com
                     frameborder="0"
                 ></iframe>
-                // <a
-                //     href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                //     target="_blank"
-                // >
-                //     <b>PLAY TRAILER</b>
-                // </a>
             )}
         </>
     );
