@@ -16,9 +16,6 @@ const Movies = () => {
     const [moviesCategorized, setMoviesCategorized] = useState({});
     const [genreOfInterest, setGenreOfInterest] = useState('all');
 
-    console.log('movies', movies);
-    console.log('moviesCategorized', moviesCategorized);
-
     const sortMovies = (moviesArray) => {
         // sort by release date
         const sorted = [...moviesArray];
@@ -41,53 +38,78 @@ const Movies = () => {
         }
     };
 
-    const getMoviesCategorized = (moviesArray) => {
-        const moviesByGenre = {};
-    
-        // organize movies by genre
-        moviesArray.forEach((movie) =>
-          movie["genre_ids"].forEach((genre) => {
-            // if that genre does not exist yet
-            if (moviesByGenre[genre] == null) {
-              // then create an array for that genre
-              moviesByGenre[genre] = [];
-            }
-    
-            // add JSON object to corresponding genre array
-            moviesByGenre[genre].push(movie);
-          })
-        );
-    
-        return moviesByGenre;
-    };
-
     useEffect(() => {
         (async () => {
+            let genres = [];
+
             try {
-                // need to await here, since fetchApiCallOrThrowError() is async returning a promise
                 const data = await fetchApiCallOrThrowError(
-                    `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
+                    'https://api.themoviedb.org/3/genre/movie/list?language=en'
                 );
 
-                if (data && data.results && data.results.length > 0) {
-                    const movies = data.results;
+                if (data && data.genres && data.genres.length > 0) {
                     // data undefined if nothing returned from fetch
-                    setMovies(movies);
-                    setMoviesCategorized(getMoviesCategorized(movies));
+                    genres = data.genres;
                 }
             } catch (error) {
-                // receive any error from fetchApiCallOrThrowError()
-                // console.log("fileName", error.fileName); // only works in Firefox
                 setErrorMessage(
-                    'Failed to load Movies. Error: ' + error.message
+                    'Failed to load Genres. Error: ' + error.message
                 );
+            }
+
+            if (genres.length > 0) {
+                try {
+                    // need to await here, since fetchApiCallOrThrowError() is async returning a promise
+                    const data = await fetchApiCallOrThrowError(
+                        `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
+                    );
+
+                    const getMoviesCategorized = (moviesArray) => {
+                        const moviesByGenre = {};
+
+                        // organize movies by genre
+                        moviesArray.forEach((movie) =>
+                            movie['genre_ids'].forEach((gid) => {
+                                const genre = genres.find(
+                                    (obj) => obj.id === gid
+                                )['name'];
+
+                                // if that genre does not exist yet
+                                if (moviesByGenre[genre] == null) {
+                                    // then create an array for that genre
+                                    moviesByGenre[genre] = [];
+                                }
+
+                                // add JSON object to corresponding genre array
+                                moviesByGenre[genre].push(movie);
+                            })
+                        );
+
+                        return moviesByGenre;
+                    };
+
+                    if (data && data.results && data.results.length > 0) {
+                        const movies = data.results;
+                        // data undefined if nothing returned from fetch
+                        setMovies(movies);
+                        setMoviesCategorized(getMoviesCategorized(movies));
+                    }
+                } catch (error) {
+                    // receive any error from fetchApiCallOrThrowError()
+                    // console.log("fileName", error.fileName); // only works in Firefox
+                    setErrorMessage(
+                        'Failed to load Movies. Error: ' + error.message
+                    );
+                }
             }
 
             setLoading(false);
         })(); // IIFE
     }, []);
 
-    const moviesSorted = sortMovies( genreOfInterest !== 'all' ? moviesCategorized[genreOfInterest] : movies );
+    const moviesSorted = sortMovies(
+        genreOfInterest !== 'all' ? moviesCategorized[genreOfInterest] : movies
+    );
 
     return (
         <>
@@ -106,20 +128,24 @@ const Movies = () => {
                             <button
                                 onClick={toggleDateOrder}
                                 className="btn-order"
+                                name="date-order"
                             >
                                 Release Date: {dateOrder}
                             </button>
 
                             <button
                                 value="all"
-                                onClick={ () => { 
+                                onClick={() => {
                                     console.log('clicked all');
 
                                     if (genreOfInterest !== 'all') {
                                         setGenreOfInterest('all');
                                     }
                                 }}
-                                className={genreOfInterest === 'all' ? 'on' : ''}
+                                className={
+                                    genreOfInterest === 'all' ? 'on' : ''
+                                }
+                                name="genre"
                             >
                                 ALL Genres
                             </button>
@@ -130,20 +156,25 @@ const Movies = () => {
                                 Object.keys(moviesCategorized).map((genre) => (
                                     <button
                                         value={genre}
-                                        onClick={ () => { 
+                                        onClick={() => {
                                             console.log('clicked ', genre);
 
                                             if (genreOfInterest !== genre) {
                                                 setGenreOfInterest(genre);
                                             }
                                         }}
-                                        className={genreOfInterest === genre ? 'on' : ''}
+                                        className={
+                                            genreOfInterest === genre
+                                                ? 'on'
+                                                : ''
+                                        }
+                                        name="genre"
                                         key={`btn-${genre}`}
                                     >
-                                        {genre}
-                                        ({moviesCategorized[genre].length})
+                                        {genre}(
+                                        {moviesCategorized[genre].length})
                                     </button>
-                            ))}
+                                ))}
 
                             <ol>
                                 {moviesSorted.map((movie) => (
