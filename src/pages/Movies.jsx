@@ -13,6 +13,11 @@ const Movies = () => {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [dateOrder, setDateOrder] = useState('ascending');
+    const [moviesCategorized, setMoviesCategorized] = useState({});
+    const [genreOfInterest, setGenreOfInterest] = useState('all');
+
+    console.log('movies', movies);
+    console.log('moviesCategorized', moviesCategorized);
 
     const sortMovies = (moviesArray) => {
         // sort by release date
@@ -36,6 +41,26 @@ const Movies = () => {
         }
     };
 
+    const getMoviesCategorized = (moviesArray) => {
+        const moviesByGenre = {};
+    
+        // organize movies by genre
+        moviesArray.forEach((movie) =>
+          movie["genre_ids"].forEach((genre) => {
+            // if that genre does not exist yet
+            if (moviesByGenre[genre] == null) {
+              // then create an array for that genre
+              moviesByGenre[genre] = [];
+            }
+    
+            // add JSON object to corresponding genre array
+            moviesByGenre[genre].push(movie);
+          })
+        );
+    
+        return moviesByGenre;
+    };
+
     useEffect(() => {
         (async () => {
             try {
@@ -45,8 +70,10 @@ const Movies = () => {
                 );
 
                 if (data && data.results && data.results.length > 0) {
+                    const movies = data.results;
                     // data undefined if nothing returned from fetch
-                    setMovies(data.results);
+                    setMovies(movies);
+                    setMoviesCategorized(getMoviesCategorized(movies));
                 }
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
@@ -60,7 +87,7 @@ const Movies = () => {
         })(); // IIFE
     }, []);
 
-    const moviesSorted = sortMovies(movies);
+    const moviesSorted = sortMovies( genreOfInterest !== 'all' ? moviesCategorized[genreOfInterest] : movies );
 
     return (
         <>
@@ -82,6 +109,41 @@ const Movies = () => {
                             >
                                 Release Date: {dateOrder}
                             </button>
+
+                            <button
+                                value="all"
+                                onClick={ () => { 
+                                    console.log('clicked all');
+
+                                    if (genreOfInterest !== 'all') {
+                                        setGenreOfInterest('all');
+                                    }
+                                }}
+                                className={genreOfInterest === 'all' ? 'on' : ''}
+                            >
+                                ALL Genres
+                            </button>
+
+                            {moviesCategorized &&
+                                Object.keys(moviesCategorized) &&
+                                Object.keys(moviesCategorized).length > 0 &&
+                                Object.keys(moviesCategorized).map((genre) => (
+                                    <button
+                                        value={genre}
+                                        onClick={ () => { 
+                                            console.log('clicked ', genre);
+
+                                            if (genreOfInterest !== genre) {
+                                                setGenreOfInterest(genre);
+                                            }
+                                        }}
+                                        className={genreOfInterest === genre ? 'on' : ''}
+                                        key={`btn-${genre}`}
+                                    >
+                                        {genre}
+                                        ({moviesCategorized[genre].length})
+                                    </button>
+                            ))}
 
                             <ol>
                                 {moviesSorted.map((movie) => (
