@@ -6,6 +6,8 @@ import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
 
+import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
+
 const Movies = () => {
     const [moviesSorted, setMoviesSorted] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -53,7 +55,7 @@ const Movies = () => {
 
             {loading && (
                 <img
-                    src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
+                    src={loadingGif}
                     alt="loading"
                     width="128"
                 />

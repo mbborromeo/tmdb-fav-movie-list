@@ -4,6 +4,8 @@ import ErrorFeedback from './ErrorFeedback';
 
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 
+import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
+
 const Trailer = ({ id }) => {
     const [trailer, setTrailer] = useState(undefined);
     const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ const Trailer = ({ id }) => {
         <>
             {loading && (
                 <img
-                    src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
+                    src={loadingGif}
                     alt="loading"
                     width="32"
                 />
@@ -46,20 +48,20 @@ const Trailer = ({ id }) => {
             {errorMessage && <ErrorFeedback message={errorMessage} />}
 
             {!loading && !errorMessage && trailer && (
-                <a
-                    href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                    target="_blank"
-                >
-                    <b>PLAY TRAILER</b>
-                </a>
-                // <iframe
-                //     id="ytplayer"
-                //     type="text/html"
-                //     width="640"
-                //     height="360"
-                //     src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`} // &origin=http://example.com
-                //     frameborder="0"
-                // ></iframe>
+                <iframe
+                    id="ytplayer"
+                    type="text/html"
+                    width="640"
+                    height="360"
+                    src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`} // &origin=http://example.com
+                    frameborder="0"
+                ></iframe>
+                // <a
+                //     href={`https://www.youtube.com/watch?v=${trailer.key}`}
+                //     target="_blank"
+                // >
+                //     <b>PLAY TRAILER</b>
+                // </a>
             )}
         </>
     );

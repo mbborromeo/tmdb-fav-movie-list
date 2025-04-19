@@ -4,6 +4,8 @@ import { useParams, useLocation, Link } from 'react-router-dom';
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
 
+import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
+
 import {
     fetchApiCallOrThrowError,
     BASE_URL,
@@ -107,7 +109,7 @@ const Person = () => {
         <>
             {loading && (
                 <img
-                    src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
+                    src={loadingGif}
                     alt="loading"
                     width="128"
                 />

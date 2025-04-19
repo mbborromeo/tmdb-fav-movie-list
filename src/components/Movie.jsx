@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Credits from './Credits';
 import ErrorFeedback from './ErrorFeedback';
 
+import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
+
 import {
     fetchApiCallOrThrowError,
     BASE_URL,
@@ -83,7 +85,8 @@ const Movie = ({ id }) => {
         <div className="row">
             {loading && (
                 <img
-                    src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
+                    // src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
+                    src={loadingGif}
                     alt="loading"
                     width="32"
                 />
