@@ -136,8 +136,6 @@ const Movies = () => {
                             <button
                                 value="all"
                                 onClick={() => {
-                                    console.log('clicked all');
-
                                     if (genreOfInterest !== 'all') {
                                         setGenreOfInterest('all');
                                     }
@@ -157,8 +155,6 @@ const Movies = () => {
                                     <button
                                         value={genre}
                                         onClick={() => {
-                                            console.log('clicked ', genre);
-
                                             if (genreOfInterest !== genre) {
                                                 setGenreOfInterest(genre);
                                             }
