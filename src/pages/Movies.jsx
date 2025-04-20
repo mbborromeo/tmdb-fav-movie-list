@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 
@@ -16,27 +16,32 @@ const Movies = () => {
     const [moviesCategorized, setMoviesCategorized] = useState({});
     const [genreOfInterest, setGenreOfInterest] = useState('all');
 
-    const sortMovies = (moviesArray) => {
-        // sort by release date
-        const sorted = [...moviesArray];
-        if (moviesArray.length > 1) {
-            sorted.sort((a, b) =>
-                dateOrder === 'ascending'
-                    ? Date.parse(a.release_date) - Date.parse(b.release_date)
-                    : Date.parse(b.release_date) - Date.parse(a.release_date)
-            );
-        }
+    const sortMovies = useCallback(
+        (moviesArray) => {
+            // sort by release date
+            const sorted = [...moviesArray];
+            if (moviesArray.length > 1) {
+                sorted.sort((a, b) =>
+                    dateOrder === 'ascending'
+                        ? Date.parse(a.release_date) -
+                          Date.parse(b.release_date)
+                        : Date.parse(b.release_date) -
+                          Date.parse(a.release_date)
+                );
+            }
 
-        return sorted;
-    };
+            return sorted;
+        },
+        [dateOrder]
+    );
 
-    const toggleDateOrder = () => {
+    const toggleDateOrder = useCallback(() => {
         if (dateOrder === 'ascending') {
             setDateOrder('descending');
         } else {
             setDateOrder('ascending');
         }
-    };
+    }, [dateOrder]);
 
     useEffect(() => {
         (async () => {
@@ -107,9 +112,13 @@ const Movies = () => {
         })(); // IIFE
     }, []);
 
-    const moviesSorted = sortMovies(
-        genreOfInterest !== 'all' ? moviesCategorized[genreOfInterest] : movies
-    );
+    const moviesSorted = useMemo(() => {
+        return sortMovies(
+            genreOfInterest !== 'all'
+                ? moviesCategorized[genreOfInterest]
+                : movies
+        );
+    }, [genreOfInterest, moviesCategorized, movies, sortMovies]);
 
     return (
         <>
