@@ -167,8 +167,7 @@ const Movies = () => {
                                         name="genre"
                                         key={`btn-${genre}`}
                                     >
-                                        {genre}(
-                                        {moviesCategorized[genre].length})
+                                        {genre}
                                     </button>
                                 ))}
 
