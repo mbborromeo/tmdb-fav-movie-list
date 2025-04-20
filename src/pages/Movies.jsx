@@ -85,7 +85,7 @@ const Movies = () => {
                                     moviesByGenre[genre] = [];
                                 }
 
-                                // add JSON object to corresponding genre array
+                                // add movie JSON object to corresponding genre array
                                 moviesByGenre[genre].push(movie);
                             })
                         );
