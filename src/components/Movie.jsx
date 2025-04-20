@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import Credits from './Credits';
@@ -13,7 +13,7 @@ import {
 } from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
-const Movie = ({ id }) => {
+const Movie = memo(({ id }) => {
     const [movie, setMovie] = useState(null);
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
@@ -153,6 +153,6 @@ const Movie = ({ id }) => {
             )}
         </div>
     );
-};
+});
 
 export default Movie;

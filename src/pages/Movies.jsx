@@ -20,15 +20,11 @@ const Movies = () => {
         (moviesArray) => {
             // sort by release date
             const sorted = [...moviesArray];
-            if (moviesArray.length > 1) {
-                sorted.sort((a, b) =>
-                    dateOrder === 'ascending'
-                        ? Date.parse(a.release_date) -
-                          Date.parse(b.release_date)
-                        : Date.parse(b.release_date) -
-                          Date.parse(a.release_date)
-                );
-            }
+            sorted.sort((a, b) =>
+                dateOrder === 'ascending'
+                    ? Date.parse(a.release_date) - Date.parse(b.release_date)
+                    : Date.parse(b.release_date) - Date.parse(a.release_date)
+            );
 
             return sorted;
         },
@@ -79,9 +75,9 @@ const Movies = () => {
                                     (obj) => obj.id === gid
                                 )['name'];
 
-                                // if that genre does not exist yet
-                                if (moviesByGenre[genre] == null) {
-                                    // then create an array for that genre
+                                // if that genre does not exist yet, create an array for that genre
+                                // if (moviesByGenre[genre] === undefined) {
+                                if (!Object.hasOwn(moviesByGenre, genre)) {
                                     moviesByGenre[genre] = [];
                                 }
 
@@ -133,7 +129,7 @@ const Movies = () => {
                     {moviesSorted.length === 0 && <b>No movies found!</b>}
 
                     {moviesSorted.length > 0 && (
-                        <>
+                        <div className="buttons-order-filter">
                             <button
                                 onClick={toggleDateOrder}
                                 className="btn-order"
@@ -157,9 +153,7 @@ const Movies = () => {
                                 ALL Genres
                             </button>
 
-                            {moviesCategorized &&
-                                Object.keys(moviesCategorized) &&
-                                Object.keys(moviesCategorized).length > 0 &&
+                            {Object.keys(moviesCategorized).length > 0 &&
                                 Object.keys(moviesCategorized).map((genre) => (
                                     <button
                                         value={genre}
@@ -187,7 +181,7 @@ const Movies = () => {
                                     </li>
                                 ))}
                             </ol>
-                        </>
+                        </div>
                     )}
                 </>
             )}
