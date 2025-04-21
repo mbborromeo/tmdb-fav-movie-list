@@ -110,14 +110,9 @@ const Movie = () => {
                             )}
 
                             <p>{movie.overview}</p>
-                            <p>
-                                <b>Stars:</b>{' '}
-                                {Math.round(movie.vote_average * 2) / 2}
-                                /10 (from {movie.vote_count} votes)
-                            </p>
 
                             <span>
-                                <b>Genre:</b>
+                                <b>Genre:</b>{' '}
                                 <ul>
                                     {movie.genres &&
                                         movie.genres.map((genre) => (
@@ -125,12 +120,6 @@ const Movie = () => {
                                         ))}
                                 </ul>
                             </span>
-
-                            <p>
-                                <b>Runtime:</b>{' '}
-                                {movie.runtime &&
-                                    formatRuntimeHoursAndMinutes(movie.runtime)}
-                            </p>
 
                             {directors && actors && (
                                 <Credits
@@ -141,6 +130,18 @@ const Movie = () => {
                                     movieId={id}
                                 />
                             )}
+
+                            <p>
+                                <b>Runtime:</b>{' '}
+                                {movie.runtime &&
+                                    formatRuntimeHoursAndMinutes(movie.runtime)}
+                            </p>
+
+                            <p>
+                                <b>Stars:</b>{' '}
+                                {Math.round(movie.vote_average * 2) / 2}
+                                /10 ({movie.vote_count} votes)
+                            </p>
                         </>
                     )}
 

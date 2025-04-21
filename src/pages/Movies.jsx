@@ -129,50 +129,59 @@ const Movies = () => {
                     {moviesSorted.length === 0 && <b>No movies found!</b>}
 
                     {moviesSorted.length > 0 && (
-                        <div className="buttons-order-filter">
-                            <button
-                                onClick={toggleDateOrder}
-                                className="btn-order"
-                                name="date-order"
-                            >
-                                Release Date: {dateOrder}
-                            </button>
+                        <>
+                            <div className="buttons-order-filter">
+                                <button
+                                    onClick={toggleDateOrder}
+                                    className="btn-order"
+                                    name="date-order"
+                                >
+                                    Release Date: {dateOrder}
+                                </button>
 
-                            <button
-                                value="all"
-                                onClick={() => {
-                                    if (genreOfInterest !== 'all') {
-                                        setGenreOfInterest('all');
-                                    }
-                                }}
-                                className={
-                                    genreOfInterest === 'all' ? 'on' : ''
-                                }
-                                name="genre"
-                            >
-                                ALL Genres
-                            </button>
-
-                            {Object.keys(moviesCategorized).length > 0 &&
-                                Object.keys(moviesCategorized).map((genre) => (
-                                    <button
-                                        value={genre}
-                                        onClick={() => {
-                                            if (genreOfInterest !== genre) {
-                                                setGenreOfInterest(genre);
-                                            }
-                                        }}
-                                        className={
-                                            genreOfInterest === genre
-                                                ? 'on'
-                                                : ''
+                                <button
+                                    value="all"
+                                    onClick={() => {
+                                        if (genreOfInterest !== 'all') {
+                                            setGenreOfInterest('all');
                                         }
-                                        name="genre"
-                                        key={`btn-${genre}`}
-                                    >
-                                        {genre}
-                                    </button>
-                                ))}
+                                    }}
+                                    className={
+                                        genreOfInterest === 'all' ? 'on' : ''
+                                    }
+                                    name="genre"
+                                >
+                                    ALL Genres
+                                </button>
+
+                                {Object.keys(moviesCategorized).length > 0 &&
+                                    Object.keys(moviesCategorized).map(
+                                        (genre) => (
+                                            <button
+                                                value={genre}
+                                                onClick={() => {
+                                                    if (
+                                                        genreOfInterest !==
+                                                        genre
+                                                    ) {
+                                                        setGenreOfInterest(
+                                                            genre
+                                                        );
+                                                    }
+                                                }}
+                                                className={
+                                                    genreOfInterest === genre
+                                                        ? 'on'
+                                                        : ''
+                                                }
+                                                name="genre"
+                                                key={`btn-${genre}`}
+                                            >
+                                                {genre}
+                                            </button>
+                                        )
+                                    )}
+                            </div>
 
                             <ol>
                                 {moviesSorted.map((movie) => (
@@ -181,7 +190,7 @@ const Movies = () => {
                                     </li>
                                 ))}
                             </ol>
-                        </div>
+                        </>
                     )}
                 </>
             )}

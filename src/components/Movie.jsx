@@ -82,7 +82,7 @@ const Movie = memo(({ id }) => {
     }, [id]);
 
     return (
-        <div className="row">
+        <div className="column">
             {loading && (
                 <img
                     // src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
@@ -92,62 +92,63 @@ const Movie = memo(({ id }) => {
                 />
             )}
 
-            {!loading && (
+            {errorMessage && <ErrorFeedback message={errorMessage} />}
+
+            {!loading && movie && (
                 <>
-                    {movie && (
+                    <div>
+                        <Link
+                            to={`/movie/${movie.id}`}
+                            state={{ movie, directors, actors }}
+                        >
+                            {movie.title}
+                        </Link>{' '}
+                        ({movie.release_date.split('-')[0]})
+                    </div>
+
+                    <div className="row">
                         <img
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"
                         />
-                    )}
 
-                    <div className="column">
-                        {movie && (
-                            <>
-                                <Link
-                                    to={`/movie/${movie.id}`}
-                                    state={{ movie, directors, actors }}
-                                >
-                                    {movie.title} (
-                                    {movie.release_date.split('-')[0]})
-                                </Link>
-                                <p>{movie.overview}</p>
-
-                                <div>
-                                    <b>Stars:</b>{' '}
-                                    {Math.round(movie.vote_average * 2) / 2}/10
-                                    (from {movie.vote_count} votes)
-                                </div>
-
-                                <div>
-                                    <b>Runtime:</b>{' '}
-                                    {formatRuntimeHoursAndMinutes(
-                                        movie.runtime
-                                    )}
-                                </div>
-
-                                <span>
-                                    <b>Genre:</b>
-                                    <ul>
-                                        {movie.genres.map((genre) => (
-                                            <li key={genre.id}>{genre.name}</li>
-                                        ))}
-                                    </ul>
-                                </span>
-
-                                {directors.length > 0 && actors.length > 0 && (
-                                    <Credits
-                                        directors={directors}
-                                        actors={actors}
-                                        actorsDisplayMaxThree={true}
-                                    />
+                        <div className="data-column">
+                            <div>
+                                <b>Genre: </b>{' '}
+                                {movie.genres.map((genre, i) =>
+                                    i < movie.genres.length - 1 ? (
+                                        <span key={genre.id}>
+                                            {genre.name},{' '}
+                                        </span>
+                                    ) : (
+                                        <span key={genre.id}>{genre.name}</span>
+                                    )
                                 )}
-                            </>
-                        )}
+                            </div>
 
-                        {errorMessage && (
-                            <ErrorFeedback message={errorMessage} />
-                        )}
+                            {directors.length > 0 && actors.length > 0 && (
+                                <Credits
+                                    directors={directors}
+                                    actors={actors}
+                                    actorsDisplayMaxThree={true}
+                                />
+                            )}
+
+                            <div>
+                                <b>Runtime:</b>{' '}
+                                {formatRuntimeHoursAndMinutes(movie.runtime)}
+                            </div>
+
+                            <div>
+                                <b>Stars:</b>{' '}
+                                {Math.round(movie.vote_average * 2) / 2}/10 (
+                                {movie.vote_count} votes)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>{movie.overview}</p>
                     </div>
                 </>
             )}

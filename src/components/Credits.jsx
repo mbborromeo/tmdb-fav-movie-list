@@ -14,49 +14,36 @@ const Credits = ({
         directors && directors.length > 0 ? directors.length : 0;
 
     return (
-        <>
+        <div className="credits">
             <div>
-                <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`}</b>
-                <ul>
-                    {numberOfDirectors > 0 &&
-                        directors.map((director) => (
-                            <li key={director.id}>
-                                {displayLinks ? (
-                                    <Link
-                                        to={`/person/${director.id}`}
-                                        state={{ movieId }}
-                                    >
-                                        {director.name}
-                                    </Link>
-                                ) : (
-                                    director.name
-                                )}
-                            </li>
-                        ))}
-                </ul>
+                <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`} </b>
+                {/* <ul> */}
+                {numberOfDirectors > 0 &&
+                    directors.map((director) => (
+                        <span key={director.id}>
+                            {displayLinks ? (
+                                <Link
+                                    to={`/person/${director.id}`}
+                                    state={{ movieId }}
+                                >
+                                    {director.name}
+                                </Link>
+                            ) : (
+                                director.name
+                            )}
+                        </span>
+                    ))}
+                {/* </ul> */}
             </div>
 
             <div>
-                <b>Actors:</b>
-                <ul>
-                    {actors &&
-                        actors.length > 0 &&
-                        actors.map((actor, index) =>
-                            actorsDisplayMaxThree ? (
-                                index < 3 && (
-                                    <Actor
-                                        key={actor.id}
-                                        actor={actor}
-                                        {...(showActorsPic && {
-                                            showActorsPic: true
-                                        })}
-                                        {...(displayLinks && {
-                                            displayLinks: true
-                                        })}
-                                        movieId={movieId}
-                                    />
-                                )
-                            ) : (
+                <b>Actors: </b>
+                {/* <ul> */}
+                {actors &&
+                    actors.length > 0 &&
+                    actors.map((actor, index) =>
+                        actorsDisplayMaxThree ? (
+                            index < 3 && (
                                 <Actor
                                     key={actor.id}
                                     actor={actor}
@@ -69,10 +56,23 @@ const Credits = ({
                                     movieId={movieId}
                                 />
                             )
-                        )}
-                </ul>
+                        ) : (
+                            <Actor
+                                key={actor.id}
+                                actor={actor}
+                                {...(showActorsPic && {
+                                    showActorsPic: true
+                                })}
+                                {...(displayLinks && {
+                                    displayLinks: true
+                                })}
+                                movieId={movieId}
+                            />
+                        )
+                    )}
+                {/* </ul> */}
             </div>
-        </>
+        </div>
     );
 };
 

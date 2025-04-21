@@ -11,7 +11,7 @@ const Actor = ({
     const PROFILE_SIZE = 'w92'; // w138_and_h175_face
 
     return (
-        <li>
+        <span>
             {displayLinks ? (
                 <Link to={`/person/${actor.id}`} state={{ movieId }}>
                     {actor.name}
@@ -26,7 +26,7 @@ const Actor = ({
                     alt="Photo"
                 />
             )}
-        </li>
+        </span>
     );
 };
 
