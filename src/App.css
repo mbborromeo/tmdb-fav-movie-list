@@ -86,6 +86,7 @@ button.on {
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .row img {
@@ -98,11 +99,12 @@ button.on {
     font-size: 13px;
 }
 
-.row.row-movie {
-    flex-wrap: wrap;
-}
+/* .row.row-movie {
+} */
 
-.row.row-movie img {
+.row.row-movie img,
+.row.row-person img
+{
     width: 100%;
 }
 
@@ -111,7 +113,9 @@ button.on {
     aspect-ratio: 1.75;
 }
 
-.row.row-movie .description {
+.row.row-movie .description, 
+.row.row-person .description
+{
     width: 100%;
 }
 
@@ -124,11 +128,19 @@ button.on {
         width: 75%;
     }
 
-    .row.row-movie img {
+    .row.row-movie img,
+    .row.row-person img
+    {
         width: 25%;
     }
 
-    .row.row-movie iframe {
+    .row.row-person img {
+        height: fit-content;
+    }
+
+    .row.row-movie iframe,
+    .row.row-person .description
+    {
         width: 75%;
     }
 

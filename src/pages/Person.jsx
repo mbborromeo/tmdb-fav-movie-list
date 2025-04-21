@@ -126,17 +126,23 @@ const Person = () => {
                     {person && (
                         <>
                             <h2>{person.name}</h2>
-                            {person.profile_path && (
-                                <img
-                                    src={
-                                        BASE_URL_IMAGE +
-                                        PROFILE_SIZE +
-                                        person.profile_path
-                                    }
-                                    alt={`${person.name}'s profile pic`}
-                                />
-                            )}
-                            <p>{person.biography}</p>
+
+                            <div className="row row-person">
+                                {person.profile_path && (
+                                    <img
+                                        src={
+                                            BASE_URL_IMAGE +
+                                            PROFILE_SIZE +
+                                            person.profile_path
+                                        }
+                                        alt={`${person.name}'s profile pic`}
+                                    />
+                                )}
+                                <p className="description">
+                                    {person.biography}
+                                </p>
+                            </div>
+
                             <p>
                                 <b>Known for department:</b>{' '}
                                 {person.known_for_department}
