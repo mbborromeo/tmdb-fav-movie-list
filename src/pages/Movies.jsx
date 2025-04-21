@@ -76,8 +76,8 @@ const Movies = () => {
                                 )['name'];
 
                                 // Abbreviate "Science Fiction" genre for button
-                                if (genre === "Science Fiction" ) {
-                                    genre = "Sci-Fi";
+                                if (genre === 'Science Fiction') {
+                                    genre = 'Sci-Fi';
                                 }
 
                                 // if that genre does not exist yet, create an array for that genre
