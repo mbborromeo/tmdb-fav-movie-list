@@ -106,7 +106,7 @@ const Movie = memo(({ id }) => {
                         ({movie.release_date.split('-')[0]})
                     </div>
 
-                    <div className="row">
+                    <div className="row row-movie-component">
                         <img
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"
@@ -144,10 +144,14 @@ const Movie = memo(({ id }) => {
                                 {Math.round(movie.vote_average * 2) / 2}/10 (
                                 {movie.vote_count} votes)
                             </div>
+
+                            <div className="show-on-desktop">
+                                <p>{movie.overview}</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div>
+                    <div className="show-on-mobile">
                         <p>{movie.overview}</p>
                     </div>
                 </>

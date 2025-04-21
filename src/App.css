@@ -93,7 +93,7 @@ button.on {
     width: 45%;
 }
 
-.row .data-column {
+.row.row-movie-component .data-column {
     width: 50%;
     padding-left: 10px;
     font-size: 13px;
@@ -119,12 +119,28 @@ button.on {
     width: 100%;
 }
 
+.show-on-mobile {
+    display: block;
+}
+
+.show-on-desktop {
+    display: none;
+}
+
 @media only screen and (min-width: 768px) {
+    .show-on-mobile {
+        display: none;
+    }
+    
+    .show-on-desktop {
+        display: block;
+    }
+    
     .row img {
         width: 140px; /* 25% */
     }
 
-    .row .data-column {
+    .row.row-movie-component .data-column {
         width: 75%;
     }
 
@@ -184,6 +200,10 @@ ol {
     padding-right: 20px;
     min-height: 70%;
     height: auto;
+}
+
+ol li {
+    padding-bottom: 15px;
 }
 
 .info-bar div {
