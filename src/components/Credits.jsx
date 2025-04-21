@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Actor from './Actor';
+import Person from './Person';
 
 const Credits = ({
     showActorsPic = false,
@@ -13,64 +13,46 @@ const Credits = ({
     const numberOfDirectors =
         directors && directors.length > 0 ? directors.length : 0;
 
+    const maximumActors = actors.length > 3 && actorsDisplayMaxThree ? 3 : actors.length;
+
     return (
         <div className="credits">
             <div>
                 <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`} </b>
-                {/* <ul> */}
-                {numberOfDirectors > 0 &&
-                    directors.map((director) => (
-                        <span key={director.id}>
-                            {displayLinks ? (
-                                <Link
-                                    to={`/person/${director.id}`}
-                                    state={{ movieId }}
-                                >
-                                    {director.name}
-                                </Link>
-                            ) : (
-                                director.name
-                            )}
-                        </span>
-                    ))}
-                {/* </ul> */}
+                <div className="photos-wrapper">
+                    {numberOfDirectors > 0 &&
+                        directors.map((director) => (
+                            <Person
+                                key={director.id}
+                                person={director}
+                                movieId={movieId}
+                                {...(displayLinks && {
+                                    displayLinks: true
+                                })}
+                            />
+                        ))}
+                </div>
             </div>
 
             <div>
                 <b>Actors: </b>
-                {/* <ul> */}
-                {actors &&
-                    actors.length > 0 &&
-                    actors.map((actor, index) =>
-                        actorsDisplayMaxThree ? (
-                            index < 3 && (
-                                <Actor
+                    {actors && (
+                        <div className="photos-wrapper">
+                            {actors.slice(0, maximumActors).map((actor) => (
+                                <Person
                                     key={actor.id}
-                                    actor={actor}
+                                    person={actor}
+                                    movieId={movieId}
                                     {...(showActorsPic && {
-                                        showActorsPic: true
+                                        showPic: true,
                                     })}
                                     {...(displayLinks && {
-                                        displayLinks: true
+                                        displayLinks: true,
                                     })}
-                                    movieId={movieId}
                                 />
-                            )
-                        ) : (
-                            <Actor
-                                key={actor.id}
-                                actor={actor}
-                                {...(showActorsPic && {
-                                    showActorsPic: true
-                                })}
-                                {...(displayLinks && {
-                                    displayLinks: true
-                                })}
-                                movieId={movieId}
-                            />
-                        )
+                            ))}
+                        </div>
                     )}
-                {/* </ul> */}
             </div>
         </div>
     );
