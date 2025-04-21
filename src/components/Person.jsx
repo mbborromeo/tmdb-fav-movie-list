@@ -12,7 +12,14 @@ const Person = ({
     const PROFILE_SIZE = 'w92'; // w138_and_h175_face
 
     return (
-        <span key={key}>
+        <div key={key}>
+            {showPic && person.profile_path && (
+                <img
+                    src={BASE_URL_IMAGE + PROFILE_SIZE + person.profile_path}
+                    alt="Photo"
+                />
+            )}
+
             {displayLinks ? (
                 <Link to={`/person/${person.id}`} state={{ movieId }}>
                     {person.name}
@@ -20,14 +27,7 @@ const Person = ({
             ) : (
                 person.name
             )}
-
-            {showPic && person.profile_path && (
-                <img
-                    src={BASE_URL_IMAGE + PROFILE_SIZE + person.profile_path}
-                    alt="Photo"
-                />
-            )}
-        </span>
+        </div>
     );
 };
 

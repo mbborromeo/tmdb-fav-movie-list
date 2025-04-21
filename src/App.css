@@ -130,44 +130,6 @@ button.on {
     display: none;
 }
 
-@media only screen and (min-width: 768px) {
-    .show-on-mobile {
-        display: none;
-    }
-    
-    .show-on-desktop {
-        display: block;
-    }
-    
-    .row img {
-        width: 140px; /* 25% */
-    }
-
-    .row.row-movie-component .data-column {
-        width: 75%;
-    }
-
-    .row.row-movie img,
-    .row.row-person img
-    {
-        width: 25%;
-    }
-
-    .row.row-person img {
-        height: fit-content;
-    }
-
-    .row.row-movie iframe,
-    .row.row-person .description
-    {
-        width: 75%;
-    }
-
-    .row.row-movie .description {
-        width: 100%;
-    }
-}
-
 .column {
     display: flex;
     flex-direction: column;
@@ -217,4 +179,77 @@ ol li {
 .credits div span {
     display: inline-block;
     padding-right: 10px;
+}
+
+.credits-wrapper {
+    padding-bottom: 20px;
+}
+
+.persons-wrapper {
+    justify-content: space-between;
+}
+
+.persons-wrapper.no-photo {
+    display: inline-block;
+}
+
+.persons-wrapper.no-photo div {
+    width: unset;
+    padding-right: 10px;
+}
+
+.persons-wrapper div {
+    display: flex;
+    flex-direction: column;
+    width: 32%;
+}
+
+.persons-wrapper div img {
+    width: unset;
+}
+
+@media only screen and (min-width: 768px) {
+    .show-on-mobile {
+        display: none;
+    }
+    
+    .show-on-desktop {
+        display: block;
+    }
+    
+    .row img {
+        width: 140px; /* 25% */
+    }
+
+    .row.row-movie-component .data-column {
+        width: 75%;
+    }
+
+    .row.row-movie img,
+    .row.row-person img
+    {
+        width: 25%;
+    }
+
+    .row.row-person img {
+        height: fit-content;
+    }
+
+    .row.row-movie iframe,
+    .row.row-person .description
+    {
+        width: 75%;
+    }
+
+    .row.row-movie .description {
+        width: 100%;
+    }
+
+    .persons-wrapper div {
+        width: 16%;
+    }
+
+    .persons-wrapper.no-photo div {
+        display: inline-block;
+    }
 }

@@ -19,9 +19,9 @@ const Credits = ({
 
     return (
         <div className="credits">
-            <div>
+            <div className="credits-wrapper">
                 <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`} </b>
-                <div className="photos-wrapper">
+                <div className={`row persons-wrapper${ !showActorsPic ? ' no-photo' : '' }`}>
                     {directors && numberOfDirectors > 0 &&
                         directors.map((director) => (
                             <Person
@@ -36,9 +36,9 @@ const Credits = ({
                 </div>
             </div>
 
-            <div>
+            <div className="credits-wrapper">
                 <b>Actors: </b>
-                <div className="photos-wrapper">
+                <div className={`row persons-wrapper${ !showActorsPic ? ' no-photo' : '' }`}>
                     {actors && numberOfActors > 0 && 
                         actors.slice(0, maximumActors).map((actor) => (
                             <Person
