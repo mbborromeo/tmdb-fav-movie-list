@@ -71,9 +71,14 @@ const Movies = () => {
                         // organize movies by genre
                         moviesArray.forEach((movie) =>
                             movie['genre_ids'].forEach((gid) => {
-                                const genre = genres.find(
+                                let genre = genres.find(
                                     (obj) => obj.id === gid
                                 )['name'];
+
+                                // Abbreviate "Science Fiction" genre for button
+                                if (genre === "Science Fiction" ) {
+                                    genre = "Sci-Fi";
+                                }
 
                                 // if that genre does not exist yet, create an array for that genre
                                 // if (moviesByGenre[genre] === undefined) {
