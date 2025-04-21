@@ -96,7 +96,7 @@ const Movie = memo(({ id }) => {
 
             {!loading && movie && (
                 <>
-                    <div>
+                    <div className="title">
                         <Link
                             to={`/movie/${movie.id}`}
                             state={{ movie, directors, actors }}
@@ -113,6 +113,10 @@ const Movie = memo(({ id }) => {
                         />
 
                         <div className="data-column">
+                            <div className="show-on-desktop">
+                                <p>{movie.overview}</p>
+                            </div>
+
                             <div>
                                 <b>Genre: </b>{' '}
                                 {movie.genres.map((genre, i) =>
@@ -143,10 +147,6 @@ const Movie = memo(({ id }) => {
                                 <b>Stars:</b>{' '}
                                 {Math.round(movie.vote_average * 2) / 2}/10 (
                                 {movie.vote_count} votes)
-                            </div>
-
-                            <div className="show-on-desktop">
-                                <p>{movie.overview}</p>
                             </div>
                         </div>
                     </div>

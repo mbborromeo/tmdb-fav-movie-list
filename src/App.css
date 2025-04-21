@@ -59,6 +59,10 @@ button.on {
     background-color: lightgray;
 }
 
+p {
+    margin-top: 3px;
+}
+
 /* button.btn-order {
     
 } */
@@ -126,6 +130,10 @@ button.on {
 
 .show-on-desktop {
     display: none;
+}
+
+.title {
+    padding-bottom: 4px;
 }
 
 @media only screen and (min-width: 768px) {
