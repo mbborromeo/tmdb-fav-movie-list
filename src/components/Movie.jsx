@@ -126,6 +126,11 @@ const Movie = memo(({ id }) => {
                                 )}
                             </div>
 
+                            <div>
+                                <b>Runtime:</b>{' '}
+                                {formatRuntimeHoursAndMinutes(movie.runtime)}
+                            </div>
+
                             {directors.length > 0 && actors.length > 0 && (
                                 <Credits
                                     directors={directors}
@@ -133,11 +138,6 @@ const Movie = memo(({ id }) => {
                                     actorsDisplayMaxThree={true}
                                 />
                             )}
-
-                            <div>
-                                <b>Runtime:</b>{' '}
-                                {formatRuntimeHoursAndMinutes(movie.runtime)}
-                            </div>
 
                             <div>
                                 <b>Stars:</b>{' '}

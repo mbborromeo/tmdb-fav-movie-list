@@ -96,30 +96,42 @@ const Movie = () => {
                                 {movie.release_date.split('-')[0]})
                             </h2>
 
-                            <img
-                                src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                                alt="Poster"
-                            />
+                            <div className="row row-movie">
+                                <img
+                                    src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                                    alt="Poster"
+                                />
 
-                            <Trailer id={id} />
+                                <Trailer id={id} />
 
-                            {movie.tagline && (
-                                <p>
-                                    <em>{movie.tagline}</em>
-                                </p>
-                            )}
+                                <div className="description">
+                                    <p>
+                                        <em>{movie.tagline}</em>
+                                    </p>
 
-                            <p>{movie.overview}</p>
+                                    <p>{movie.overview}</p>
+                                </div>
+                            </div>
 
-                            <span>
-                                <b>Genre:</b>{' '}
-                                <ul>
-                                    {movie.genres &&
-                                        movie.genres.map((genre) => (
-                                            <li key={genre.id}>{genre.name}</li>
-                                        ))}
-                                </ul>
-                            </span>
+                            <div>
+                                <b>Genre: </b>{' '}
+                                {movie.genres.map((genre, i) =>
+                                    i < movie.genres.length - 1 ? (
+                                        <span key={genre.id}>
+                                            {genre.name},{' '}
+                                        </span>
+                                    ) : (
+                                        <span key={genre.id}>{genre.name}</span>
+                                    )
+                                )}
+                            </div>
+
+                            <div>
+                                <b>Runtime:</b>{' '}
+                                {movie.runtime &&
+                                    formatRuntimeHoursAndMinutes(movie.runtime)}
+                            </div>
+                            <br />
 
                             {directors && actors && (
                                 <Credits
@@ -130,12 +142,6 @@ const Movie = () => {
                                     movieId={id}
                                 />
                             )}
-
-                            <p>
-                                <b>Runtime:</b>{' '}
-                                {movie.runtime &&
-                                    formatRuntimeHoursAndMinutes(movie.runtime)}
-                            </p>
 
                             <p>
                                 <b>Stars:</b>{' '}

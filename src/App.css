@@ -98,6 +98,23 @@ button.on {
     font-size: 13px;
 }
 
+.row.row-movie {
+    flex-wrap: wrap;
+}
+
+.row.row-movie img {
+    width: 100%;
+}
+
+.row.row-movie iframe {
+    width: 100%;
+    aspect-ratio: 1.75;
+}
+
+.row.row-movie .description {
+    width: 100%;
+}
+
 @media only screen and (min-width: 768px) {
     .row img {
         width: 140px; /* 25% */
@@ -105,6 +122,18 @@ button.on {
 
     .row .data-column {
         width: 75%;
+    }
+
+    .row.row-movie img {
+        width: 25%;
+    }
+
+    .row.row-movie iframe {
+        width: 75%;
+    }
+
+    .row.row-movie .description {
+        width: 100%;
     }
 }
 

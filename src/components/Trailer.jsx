@@ -45,8 +45,8 @@ const Trailer = ({ id }) => {
                 <iframe
                     id="ytplayer"
                     type="text/html"
-                    width="640"
-                    height="360"
+                    // width="640"
+                    // height="360"
                     frameborder="0"
                     src={`https://www.youtube.com/embed/${trailer.key}?autoplay=0`} // &origin=http://example.com
                 ></iframe>
