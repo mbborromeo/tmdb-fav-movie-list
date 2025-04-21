@@ -131,13 +131,11 @@ const Movie = memo(({ id }) => {
                                 {formatRuntimeHoursAndMinutes(movie.runtime)}
                             </div>
 
-                            {directors.length > 0 && actors.length > 0 && (
-                                <Credits
-                                    directors={directors}
-                                    actors={actors}
-                                    actorsDisplayMaxThree={true}
-                                />
-                            )}
+                            <Credits
+                                directors={directors}
+                                actors={actors}
+                                actorsDisplayMaxThree={true}
+                            />
 
                             <div>
                                 <b>Stars:</b>{' '}

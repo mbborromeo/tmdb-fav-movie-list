@@ -13,14 +13,16 @@ const Credits = ({
     const numberOfDirectors =
         directors && directors.length > 0 ? directors.length : 0;
 
-    const maximumActors = actors.length > 3 && actorsDisplayMaxThree ? 3 : actors.length;
+    const numberOfActors = actors && actors.length > 0 ? actors.length : 0;
+
+    const maximumActors = numberOfActors > 3 && actorsDisplayMaxThree ? 3 : numberOfActors;
 
     return (
         <div className="credits">
             <div>
                 <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`} </b>
                 <div className="photos-wrapper">
-                    {numberOfDirectors > 0 &&
+                    {directors && numberOfDirectors > 0 &&
                         directors.map((director) => (
                             <Person
                                 key={director.id}
@@ -36,23 +38,23 @@ const Credits = ({
 
             <div>
                 <b>Actors: </b>
-                    {actors && (
-                        <div className="photos-wrapper">
-                            {actors.slice(0, maximumActors).map((actor) => (
-                                <Person
-                                    key={actor.id}
-                                    person={actor}
-                                    movieId={movieId}
-                                    {...(showActorsPic && {
-                                        showPic: true,
-                                    })}
-                                    {...(displayLinks && {
-                                        displayLinks: true,
-                                    })}
-                                />
-                            ))}
-                        </div>
-                    )}
+                <div className="photos-wrapper">
+                    {actors && numberOfActors > 0 && 
+                        actors.slice(0, maximumActors).map((actor) => (
+                            <Person
+                                key={actor.id}
+                                person={actor}
+                                movieId={movieId}
+                                {...(showActorsPic && {
+                                    showPic: true,
+                                })}
+                                {...(displayLinks && {
+                                    displayLinks: true,
+                                })}
+                            />
+                        ))
+                    }
+                </div>
             </div>
         </div>
     );

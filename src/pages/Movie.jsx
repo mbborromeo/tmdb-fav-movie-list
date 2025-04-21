@@ -133,15 +133,13 @@ const Movie = () => {
                             </div>
                             <br />
 
-                            {directors && actors && (
-                                <Credits
-                                    directors={directors}
-                                    actors={actors}
-                                    showActorsPic={true}
-                                    displayLinks={true}
-                                    movieId={id}
-                                />
-                            )}
+                            <Credits
+                                directors={directors}
+                                actors={actors}
+                                showActorsPic={true}
+                                displayLinks={true}
+                                movieId={id}
+                            />
 
                             <p>
                                 <b>Stars:</b>{' '}
