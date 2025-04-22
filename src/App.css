@@ -133,7 +133,7 @@ footer {
     display: none;
 }
 
-p {
+p, div {
     text-align: left;
     font-size: 13px;
 }
