@@ -85,6 +85,10 @@ button.on {
     border: 1px dashed grey;
 }
 
+footer {
+    padding-top: 30px;
+}
+
 .row {
     width: 100%;
     display: flex;
@@ -190,7 +194,8 @@ ol li {
     padding-bottom: 0;
 }
 
-.persons-wrapper {
+.persons-wrapper,
+.movies-wrapper {
     justify-content: space-between;
 }
 
@@ -204,13 +209,22 @@ ol li {
     padding-right: 10px;
 }
 
-.persons-wrapper div {
+.persons-wrapper div,
+.movies-wrapper div {
     display: flex;
     flex-direction: column;
+}
+
+.persons-wrapper div {
     width: 32%;
 }
 
-.persons-wrapper div img {
+.movies-wrapper div {
+    width: 49%;
+}
+
+.persons-wrapper div img,
+.movies-wrapper div img {
     width: unset;
 }
 
@@ -236,7 +250,7 @@ ol li {
     }
 
     .row.row-person img {
-        width: 25%;
+        width: 24%;
     }
 
     .row.row-person img {
@@ -248,7 +262,9 @@ ol li {
     }
 
     .row.row-person .description {
-        width: 75%;
+        width: 73%;
+        padding-left: 2%;
+        margin-top: 0;
     }
 
     .row.row-movie .description {
@@ -257,5 +273,9 @@ ol li {
 
     .persons-wrapper div {
         width: 16%;
+    }
+
+    .movies-wrapper div {
+        width: 12%;
     }
 }

@@ -151,12 +151,23 @@ const Person = () => {
                             {movies.length > 0 && (
                                 <>
                                     <b>Movies:</b>
-                                    <ul>
+                                    <div className="row movies-wrapper">
                                         {movies.map((movie) => {
                                             return (
-                                                <li
+                                                <div
                                                     key={`${movie.id}-${movie.job}`}
                                                 >
+                                                    {movie.poster_path && (
+                                                        <img
+                                                            src={
+                                                                BASE_URL_IMAGE +
+                                                                POSTER_SIZE +
+                                                                movie.poster_path
+                                                            }
+                                                            alt={`${person.name}'s profile pic`}
+                                                        />
+                                                    )}
+
                                                     <Link
                                                         to={`/movie/${movie.id}`}
                                                     >
@@ -166,21 +177,11 @@ const Person = () => {
                                                             ? movie.character
                                                             : movie.job}
                                                         )
-                                                        {movie.poster_path && (
-                                                            <img
-                                                                src={
-                                                                    BASE_URL_IMAGE +
-                                                                    POSTER_SIZE +
-                                                                    movie.poster_path
-                                                                }
-                                                                alt={`${person.name}'s profile pic`}
-                                                            />
-                                                        )}
                                                     </Link>
-                                                </li>
+                                                </div>
                                             );
                                         })}
-                                    </ul>
+                                    </div>
                                 </>
                             )}
                         </>
