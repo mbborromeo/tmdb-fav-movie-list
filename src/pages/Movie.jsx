@@ -125,6 +125,7 @@ const Movie = () => {
                                     )
                                 )}
                             </div>
+                            <br />
 
                             <div>
                                 <b>Runtime:</b>{' '}

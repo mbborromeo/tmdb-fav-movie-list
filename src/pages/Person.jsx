@@ -142,14 +142,16 @@ const Person = () => {
                                     {person.biography}
                                 </p>
                             </div>
+                            <br />
 
-                            <p>
+                            <div>
                                 <b>Known for department:</b>{' '}
                                 {person.known_for_department}
-                            </p>
+                            </div>
+                            <br />
 
                             {movies.length > 0 && (
-                                <>
+                                <div>
                                     <b>Movies:</b>
                                     <div className="row movies-wrapper">
                                         {movies.map((movie) => {
@@ -182,7 +184,7 @@ const Person = () => {
                                             );
                                         })}
                                     </div>
-                                </>
+                                </div>
                             )}
                         </>
                     )}
