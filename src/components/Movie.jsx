@@ -82,7 +82,7 @@ const Movie = memo(({ id }) => {
     }, [id]);
 
     return (
-        <div className="column">
+        <>
             {loading && (
                 <img
                     // src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
@@ -154,7 +154,7 @@ const Movie = memo(({ id }) => {
                     </div>
                 </>
             )}
-        </div>
+        </>
     );
 });
 

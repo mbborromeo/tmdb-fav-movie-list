@@ -133,14 +133,7 @@ footer {
     display: none;
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding-bottom: 10px;
-}
-
-.column p {
+p {
     text-align: left;
     font-size: 13px;
 }
@@ -168,6 +161,11 @@ ol {
     padding: 0 20px;
     min-height: 70%;
     height: auto;
+}
+
+ol li {
+    margin: 0;
+    padding: 0 0 10px 0;
 }
 
 .info-bar div {
