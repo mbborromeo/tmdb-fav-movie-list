@@ -61,10 +61,6 @@ button.on {
     background-color: lightgray;
 }
 
-/* button.btn-order {
-    
-} */
-
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
@@ -98,7 +94,7 @@ footer {
 
 .row img {
     width: 45%;
-    height: fit-content;
+    height: auto;
 }
 
 .row.row-movie-component .data-column {
@@ -139,6 +135,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: start;
+    padding-bottom: 10px;
 }
 
 .column p {
@@ -170,10 +167,6 @@ ol {
     padding-right: 20px;
     min-height: 70%;
     height: auto;
-}
-
-ol li {
-    padding-bottom: 15px;
 }
 
 .info-bar div {
@@ -239,6 +232,7 @@ ol li {
     
     .row img {
         width: 16%; /* 140px */
+        /* height: fit-content; */
     }
 
     .row.row-movie-component .data-column {
