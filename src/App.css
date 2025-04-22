@@ -114,7 +114,7 @@ button.on {
 
 .row.row-movie iframe {
     width: 100%;
-    aspect-ratio: 1.75;
+    aspect-ratio: 1.77; /* 640/360 */
 }
 
 .row.row-movie .description, 
@@ -231,9 +231,11 @@ ol li {
         width: 80%;
     }
 
-    .row.row-movie img,
-    .row.row-person img
-    {
+    .row.row-movie img {
+        width: 33%;
+    }
+
+    .row.row-person img {
         width: 25%;
     }
 
@@ -241,9 +243,11 @@ ol li {
         height: fit-content;
     }
 
-    .row.row-movie iframe,
-    .row.row-person .description
-    {
+    .row.row-movie iframe {
+        width: 66%;
+    }
+
+    .row.row-person .description {
         width: 75%;
     }
 
