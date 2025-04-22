@@ -12,7 +12,7 @@ const Movies = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
-    const [dateOrder, setDateOrder] = useState('ascending');
+    const [dateOrder, setDateOrder] = useState('Ascending');
     const [moviesCategorized, setMoviesCategorized] = useState({});
     const [genreOfInterest, setGenreOfInterest] = useState('all');
 
@@ -21,7 +21,7 @@ const Movies = () => {
             // sort by release date
             const sorted = [...moviesArray];
             sorted.sort((a, b) =>
-                dateOrder === 'ascending'
+                dateOrder === 'Ascending'
                     ? Date.parse(a.release_date) - Date.parse(b.release_date)
                     : Date.parse(b.release_date) - Date.parse(a.release_date)
             );
@@ -32,10 +32,10 @@ const Movies = () => {
     );
 
     const toggleDateOrder = useCallback(() => {
-        if (dateOrder === 'ascending') {
-            setDateOrder('descending');
+        if (dateOrder === 'Ascending') {
+            setDateOrder('Descending');
         } else {
-            setDateOrder('ascending');
+            setDateOrder('Ascending');
         }
     }, [dateOrder]);
 
@@ -141,7 +141,8 @@ const Movies = () => {
                                     className="btn-order"
                                     name="date-order"
                                 >
-                                    Release Date: {dateOrder}
+                                    Release Date:
+                                    <span> {dateOrder}</span>
                                 </button>
 
                                 <button
@@ -156,7 +157,7 @@ const Movies = () => {
                                     }
                                     name="genre"
                                 >
-                                    ALL Genres
+                                    All Genres
                                 </button>
 
                                 {Object.keys(moviesCategorized).length > 0 &&
@@ -183,6 +184,7 @@ const Movies = () => {
                                                 key={`btn-${genre}`}
                                             >
                                                 {genre}
+                                                <span> ({moviesCategorized[genre].length})</span>
                                             </button>
                                         )
                                     )}
