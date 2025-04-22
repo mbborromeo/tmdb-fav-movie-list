@@ -2,12 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { BASE_URL_IMAGE } from '../utils/api';
 
-const Person = ({
-    person,
-    movieId,
-    showPic = false,
-    displayLinks = false
-}) => {
+const Person = ({ person, movieId, showPic = false, displayLinks = false }) => {
     const PROFILE_SIZE = 'w92'; // w138_and_h175_face
 
     return (
