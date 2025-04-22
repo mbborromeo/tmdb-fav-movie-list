@@ -247,10 +247,6 @@ ol {
         width: 24%;
     }
 
-    .row.row-person img {
-        height: fit-content;
-    }
-
     .row.row-movie iframe {
         width: 66%;
     }
