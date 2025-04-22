@@ -184,7 +184,15 @@ const Movies = () => {
                                                 key={`btn-${genre}`}
                                             >
                                                 {genre}
-                                                <span> ({moviesCategorized[genre].length})</span>
+                                                <span>
+                                                    {' '}
+                                                    (
+                                                    {
+                                                        moviesCategorized[genre]
+                                                            .length
+                                                    }
+                                                    )
+                                                </span>
                                             </button>
                                         )
                                     )}
