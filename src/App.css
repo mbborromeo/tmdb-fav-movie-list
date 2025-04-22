@@ -185,15 +185,20 @@ ol li {
     padding-bottom: 20px;
 }
 
+.credits.no-photo .credits-wrapper {
+    padding-bottom: 0;
+}
+
 .persons-wrapper {
     justify-content: space-between;
 }
 
-.persons-wrapper.no-photo {
-    display: inline-block;
+.credits.no-photo .persons-wrapper {
+    display: inline;
 }
 
-.persons-wrapper.no-photo div {
+.credits.no-photo .persons-wrapper div {
+    display: inline-block;
     width: unset;
     padding-right: 10px;
 }
@@ -247,9 +252,5 @@ ol li {
 
     .persons-wrapper div {
         width: 16%;
-    }
-
-    .persons-wrapper.no-photo div {
-        display: inline-block;
     }
 }

@@ -19,12 +19,10 @@ const Credits = ({
         numberOfActors > 3 && actorsDisplayMaxThree ? 3 : numberOfActors;
 
     return (
-        <div className="credits">
+        <div className={`credits${!showActorsPic ? ' no-photo' : ''}`}>
             <div className="credits-wrapper">
                 <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`} </b>
-                <div
-                    className={`row persons-wrapper${!showActorsPic ? ' no-photo' : ''}`}
-                >
+                <div className="row persons-wrapper">
                     {directors &&
                         numberOfDirectors > 0 &&
                         directors.map((director) => (
@@ -42,9 +40,7 @@ const Credits = ({
 
             <div className="credits-wrapper">
                 <b>Actors: </b>
-                <div
-                    className={`row persons-wrapper${!showActorsPic ? ' no-photo' : ''}`}
-                >
+                <div className="row persons-wrapper">
                     {actors &&
                         numberOfActors > 0 &&
                         actors.slice(0, maximumActors).map((actor) => (
