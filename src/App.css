@@ -94,6 +94,7 @@ button.on {
 
 .row img {
     width: 45%;
+    height: fit-content;
 }
 
 .row.row-movie-component .data-column {
@@ -185,7 +186,7 @@ ol li {
     padding-bottom: 20px;
 }
 
-.credits.no-photo .credits-wrapper {
+.credits.no-photos .credits-wrapper {
     padding-bottom: 0;
 }
 
@@ -193,11 +194,11 @@ ol li {
     justify-content: space-between;
 }
 
-.credits.no-photo .persons-wrapper {
+.credits.no-photos .persons-wrapper {
     display: inline;
 }
 
-.credits.no-photo .persons-wrapper div {
+.credits.no-photos .persons-wrapper div {
     display: inline-block;
     width: unset;
     padding-right: 10px;
@@ -223,11 +224,11 @@ ol li {
     }
     
     .row img {
-        width: 140px; /* 25% */
+        width: 16%; /* 140px */
     }
 
     .row.row-movie-component .data-column {
-        width: 75%;
+        width: 80%;
     }
 
     .row.row-movie img,

@@ -19,7 +19,7 @@ const Credits = ({
         numberOfActors > 3 && actorsDisplayMaxThree ? 3 : numberOfActors;
 
     return (
-        <div className={`credits${!showActorsPic ? ' no-photo' : ''}`}>
+        <div className={`credits${!showActorsPic ? ' no-photos' : ''}`}>
             <div className="credits-wrapper">
                 <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`} </b>
                 <div className="row persons-wrapper">
