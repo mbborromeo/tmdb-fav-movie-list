@@ -95,13 +95,13 @@ footer {
 }
 
 .row img {
-    width: 45%;
+    width: 50%;
     height: auto;
 }
 
 .row.row-movie-component .data-column {
-    width: 50%;
-    padding-left: 10px;
+    width: 46%;
+    padding-left: 4%;
     font-size: 13px;
 }
 
@@ -165,8 +165,7 @@ ul li {
 }
 
 ol {
-    padding-left: 25px;
-    padding-right: 20px;
+    padding: 0 20px;
     min-height: 70%;
     height: auto;
 }
@@ -210,12 +209,13 @@ ol {
     flex-direction: column;
 }
 
-.persons-wrapper div {
+/* .persons-wrapper div {
     width: 32%;
-}
+} */
 
+.persons-wrapper div,
 .movies-wrapper div {
-    width: 49%;
+    width: 48%;
 }
 
 .persons-wrapper div img,
@@ -238,7 +238,8 @@ ol {
     }
 
     .row.row-movie-component .data-column {
-        width: 80%;
+        width: 82%;
+        padding-left: 2%;
     }
 
     .row.row-movie img {
