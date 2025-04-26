@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, useLocation, useSearchParams, Link } from 'react-router-dom';
 
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
@@ -20,6 +20,9 @@ const Movie = () => {
     const location = useLocation();
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+
+    let [searchParams] = useSearchParams();
+    const filter = searchParams.get("filter");
 
     // location.state will be null if Movie page is opened in a new tab
     const [movie, setMovie] = useState(
@@ -84,7 +87,7 @@ const Movie = () => {
             {!loading && (
                 <div>
                     <div>
-                        <Link to="/">
+                        <Link to={ filter ? `/?filter=${filter}` : '/' }>
                             <b>&laquo;Back to Movies</b>
                         </Link>
                     </div>

@@ -13,7 +13,7 @@ import {
 } from '../utils/api';
 import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
-const Movie = memo(({ id }) => {
+const Movie = memo(({ id, genreFilter }) => {
     const [movie, setMovie] = useState(null);
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
@@ -98,7 +98,7 @@ const Movie = memo(({ id }) => {
                 <>
                     <div>
                         <Link
-                            to={`/movie/${movie.id}`}
+                            to={ genreFilter ? `/movie/${movie.id}?filter=${genreFilter}` : `/movie/${movie.id}` }
                             state={{ movie, directors, actors }}
                         >
                             {movie.title}

@@ -63,6 +63,11 @@ button.on {
     background-color: lightgray;
 }
 
+a.on {
+    font-weight: bold;
+    color: orange;
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
