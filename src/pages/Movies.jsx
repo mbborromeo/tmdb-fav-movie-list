@@ -13,19 +13,20 @@ const Movies = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
-    const [dateOrder, setDateOrder] = useState('Ascending');
     const [moviesCategorized, setMoviesCategorized] = useState({});
 
     const [searchParams] = useSearchParams();
     const filter = searchParams.get("filter");
     const genreFilter = filter ? filter : null;
+    const order = searchParams.get("order");
+    const dateOrder = order ? order : null;
 
     const sortMovies = useCallback(
         (moviesArray) => {
             // sort by release date
             const sorted = [...moviesArray];
             sorted.sort((a, b) =>
-                dateOrder === 'Ascending'
+                dateOrder === 'Ascending' || dateOrder === null
                     ? Date.parse(a.release_date) - Date.parse(b.release_date)
                     : Date.parse(b.release_date) - Date.parse(a.release_date)
             );
@@ -34,14 +35,6 @@ const Movies = () => {
         },
         [dateOrder]
     );
-
-    const toggleDateOrder = useCallback(() => {
-        if (dateOrder === 'Ascending') {
-            setDateOrder('Descending');
-        } else {
-            setDateOrder('Ascending');
-        }
-    }, [dateOrder]);
 
     useEffect(() => {
         (async () => {
@@ -144,23 +137,19 @@ const Movies = () => {
                     {moviesSorted.length > 0 && (
                         <>
                             <div className="buttons-order-filter">
-                                <button
-                                    onClick={toggleDateOrder}
+                                <NavLink
+                                    to={ 
+                                        genreFilter ? `/?filter=${genreFilter}&order=${ dateOrder === 'Ascending' || dateOrder == null ? 'Descending' : 'Ascending' }`
+                                            : `/?order=${ dateOrder === 'Ascending' || dateOrder == null ? 'Descending' : 'Ascending' }` 
+                                    }
                                     className="btn"
-                                    name="date-order"
                                 >
                                     Release Date:
-                                    <span> {dateOrder}</span>
-                                </button>
+                                    <span> { dateOrder === 'Ascending' || dateOrder == null ? 'Ascending' : 'Descending' }</span>
+                                </NavLink>
 
                                 <NavLink
-                                    to="/"
-                                    // value='all'
-                                    // onClick={() => {
-                                    //     if (genreFilter !== 'all') {
-                                    //         setGenreFilter('all');
-                                    //     }
-                                    // }}
+                                    to={ dateOrder ? `/?order=${dateOrder}` : "/" }
                                     className={
                                         genreFilter === null ? 'btn on' : 'btn'
                                     }
@@ -172,18 +161,7 @@ const Movies = () => {
                                     Object.keys(moviesCategorized).map(
                                         (genre) => (
                                             <NavLink
-                                                to={`/?filter=${genre}`}
-                                                // value={genre}
-                                                // onClick={() => {
-                                                //     if (
-                                                //         genreFilter !==
-                                                //         genre
-                                                //     ) {
-                                                //         setGenreFilter(
-                                                //             genre
-                                                //         );
-                                                //     }
-                                                // }}
+                                                to={ dateOrder ? `/?filter=${genre}&order=${dateOrder}` : `/?filter=${genre}` }
                                                 className={
                                                     genreFilter === genre
                                                         ? 'btn on'
@@ -209,7 +187,7 @@ const Movies = () => {
                             <ol>
                                 {moviesSorted.map((movie) => (
                                     <li key={movie.id}>
-                                        <Movie id={movie.id} genreFilter={genreFilter} />
+                                        <Movie id={movie.id} genreFilter={genreFilter} dateOrder={dateOrder} />
                                     </li>
                                 ))}
                             </ol>

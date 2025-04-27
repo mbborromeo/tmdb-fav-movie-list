@@ -23,6 +23,9 @@ const Movie = () => {
 
     let [searchParams] = useSearchParams();
     const filter = searchParams.get("filter");
+    const genreFilter = filter ? filter : null;
+    const order = searchParams.get("order");
+    const dateOrder = order ? order : null;
 
     // location.state will be null if Movie page is opened in a new tab
     const [movie, setMovie] = useState(
@@ -87,7 +90,13 @@ const Movie = () => {
             {!loading && (
                 <div>
                     <div>
-                        <Link to={ filter ? `/?filter=${filter}` : '/' }>
+                        <Link to={ 
+                            genreFilter && dateOrder ? `/?filter=${genreFilter}&order=${dateOrder}`
+                                : genreFilter && !dateOrder ? `/?filter=${genreFilter}` 
+                                    : !genreFilter && dateOrder ? `/?order=${dateOrder}`
+                                        : '/' 
+                            }
+                        >
                             <b>&laquo;Back to Movies</b>
                         </Link>
                     </div>
