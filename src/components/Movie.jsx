@@ -98,11 +98,14 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                 <>
                     <div>
                         <Link
-                            to={ 
-                                genreFilter && dateOrder ? `/movie/${movie.id}/?filter=${genreFilter}&order=${dateOrder}` 
-                                    : genreFilter && !dateOrder ? `/movie/${movie.id}?filter=${genreFilter}` 
-                                        : !genreFilter && dateOrder ? `/movie/${movie.id}?order=${dateOrder}` 
-                                            : `/movie/${movie.id}` 
+                            to={
+                                genreFilter && dateOrder
+                                    ? `/movie/${movie.id}/?filter=${genreFilter}&order=${dateOrder}`
+                                    : genreFilter && !dateOrder
+                                      ? `/movie/${movie.id}?filter=${genreFilter}`
+                                      : !genreFilter && dateOrder
+                                        ? `/movie/${movie.id}?order=${dateOrder}`
+                                        : `/movie/${movie.id}`
                             }
                             state={{ movie, directors, actors }}
                         >

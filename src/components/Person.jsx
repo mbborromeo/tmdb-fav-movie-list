@@ -2,7 +2,14 @@ import { Link } from 'react-router-dom';
 
 import { BASE_URL_IMAGE } from '../utils/api';
 
-const Person = ({ person, movieId, showPic = false, displayLinks = false }) => {
+const Person = ({
+    person,
+    movieId,
+    genreFilter,
+    dateOrder,
+    showPic = false,
+    displayLinks = false
+}) => {
     const PROFILE_SIZE = 'w92'; // w138_and_h175_face
 
     return (
@@ -15,7 +22,18 @@ const Person = ({ person, movieId, showPic = false, displayLinks = false }) => {
             )}
 
             {displayLinks ? (
-                <Link to={`/person/${person.id}`} state={{ movieId }}>
+                <Link
+                    to={
+                        genreFilter && dateOrder
+                            ? `/person/${person.id}/?filter=${genreFilter}&order=${dateOrder}`
+                            : genreFilter && !dateOrder
+                              ? `/person/${person.id}?filter=${genreFilter}`
+                              : !genreFilter && dateOrder
+                                ? `/person/${person.id}?order=${dateOrder}`
+                                : `/person/${person.id}`
+                    }
+                    state={{ movieId }}
+                >
                     {person.name}
                 </Link>
             ) : (

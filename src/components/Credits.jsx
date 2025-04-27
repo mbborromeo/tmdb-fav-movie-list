@@ -8,7 +8,9 @@ const Credits = ({
     displayLinks = false,
     directors,
     actors,
-    movieId
+    movieId,
+    genreFilter,
+    dateOrder
 }) => {
     const numberOfDirectors =
         directors && directors.length > 0 ? directors.length : 0;
@@ -30,6 +32,8 @@ const Credits = ({
                                 key={director.id}
                                 person={director}
                                 movieId={movieId}
+                                genreFilter={genreFilter}
+                                dateOrder={dateOrder}
                                 {...(displayLinks && {
                                     displayLinks: true
                                 })}
@@ -48,6 +52,8 @@ const Credits = ({
                                 key={actor.id}
                                 person={actor}
                                 movieId={movieId}
+                                genreFilter={genreFilter}
+                                dateOrder={dateOrder}
                                 {...(showActorsPic && {
                                     showPic: true
                                 })}

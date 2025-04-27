@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation, useSearchParams, Link } from 'react-router-dom';
+import {
+    useParams,
+    useLocation,
+    useSearchParams,
+    Link
+} from 'react-router-dom';
 
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
@@ -22,9 +27,9 @@ const Movie = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     let [searchParams] = useSearchParams();
-    const filter = searchParams.get("filter");
+    const filter = searchParams.get('filter');
     const genreFilter = filter ? filter : null;
-    const order = searchParams.get("order");
+    const order = searchParams.get('order');
     const dateOrder = order ? order : null;
 
     // location.state will be null if Movie page is opened in a new tab
@@ -90,11 +95,15 @@ const Movie = () => {
             {!loading && (
                 <div>
                     <div>
-                        <Link to={ 
-                            genreFilter && dateOrder ? `/?filter=${genreFilter}&order=${dateOrder}`
-                                : genreFilter && !dateOrder ? `/?filter=${genreFilter}` 
-                                    : !genreFilter && dateOrder ? `/?order=${dateOrder}`
-                                        : '/' 
+                        <Link
+                            to={
+                                genreFilter && dateOrder
+                                    ? `/?filter=${genreFilter}&order=${dateOrder}`
+                                    : genreFilter && !dateOrder
+                                      ? `/?filter=${genreFilter}`
+                                      : !genreFilter && dateOrder
+                                        ? `/?order=${dateOrder}`
+                                        : '/'
                             }
                         >
                             <b>&laquo;Back to Movies</b>
@@ -152,6 +161,8 @@ const Movie = () => {
                                 showActorsPic={true}
                                 displayLinks={true}
                                 movieId={id}
+                                genreFilter={genreFilter}
+                                dateOrder={dateOrder}
                             />
 
                             <p>

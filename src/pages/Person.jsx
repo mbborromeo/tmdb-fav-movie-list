@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import {
+    useParams,
+    useLocation,
+    useSearchParams,
+    Link
+} from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
@@ -16,6 +21,12 @@ const Person = () => {
     const { id } = useParams();
     const location = useLocation();
     const movieId = location.state ? location.state.movieId : null;
+
+    let [searchParams] = useSearchParams();
+    const filter = searchParams.get('filter');
+    const genreFilter = filter ? filter : null;
+    const order = searchParams.get('order');
+    const dateOrder = order ? order : null;
 
     const [person, setPerson] = useState(null);
     const [movies, setMovies] = useState([]);
@@ -113,11 +124,31 @@ const Person = () => {
                 <>
                     <div>
                         {movieId ? (
-                            <Link to={`/movie/${movieId}`}>
+                            <Link
+                                to={
+                                    genreFilter && dateOrder
+                                        ? `/movie/${movieId}?filter=${genreFilter}&order=${dateOrder}`
+                                        : genreFilter && !dateOrder
+                                          ? `/movie/${movieId}?filter=${genreFilter}`
+                                          : !genreFilter && dateOrder
+                                            ? `/movie/${movieId}?order=${dateOrder}`
+                                            : `/movie/${movieId}`
+                                }
+                            >
                                 <b>&laquo;Back to Movie</b>
                             </Link>
                         ) : (
-                            <Link to="/">
+                            <Link
+                                to={
+                                    genreFilter && dateOrder
+                                        ? `/?filter=${genreFilter}&order=${dateOrder}`
+                                        : genreFilter && !dateOrder
+                                          ? `/?filter=${genreFilter}`
+                                          : !genreFilter && dateOrder
+                                            ? `/?order=${dateOrder}`
+                                            : '/'
+                                }
+                            >
                                 <b>&laquo;Back to Movies</b>
                             </Link>
                         )}
@@ -171,7 +202,18 @@ const Person = () => {
                                                     )}
 
                                                     <Link
-                                                        to={`/movie/${movie.id}`}
+                                                        to={
+                                                            genreFilter &&
+                                                            dateOrder
+                                                                ? `/movie/${movie.id}?filter=${genreFilter}&order=${dateOrder}`
+                                                                : genreFilter &&
+                                                                    !dateOrder
+                                                                  ? `/movie/${movie.id}?filter=${genreFilter}`
+                                                                  : !genreFilter &&
+                                                                      dateOrder
+                                                                    ? `/movie/${movie.id}?order=${dateOrder}`
+                                                                    : `/movie/${movie.id}`
+                                                        }
                                                     >
                                                         {movie.title} (
                                                         {person.known_for_department ===
