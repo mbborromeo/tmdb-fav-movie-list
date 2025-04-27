@@ -35,7 +35,9 @@ h1 {
     line-height: 1.1;
 }
 
-button {
+.btn {
+    display: inline-block;
+    text-decoration: none;
     border-radius: 16px;
     border: 1px solid black;
     padding: 4px 8px; /* 0.3em 0.6em */
@@ -44,28 +46,27 @@ button {
     font-size: 13px; /* 1em */
     font-weight: bold;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: white;
     cursor: pointer;
-    transition: border-color 0.25s;
 }
-button:focus,
+/* button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
-button span {
+.btn span {
     font-size: 11px;
     font-weight: 400;
 }
 
-button:hover,
-button.on {
+.btn:hover,
+.btn.on {
     background-color: lightgray;
 }
 
-a.on {
-    font-weight: bold;
-    color: orange;
+.btn.on {
+    cursor: default;
+    pointer-events: none;
 }
 
 @media (prefers-color-scheme: light) {

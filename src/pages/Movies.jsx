@@ -146,9 +146,8 @@ const Movies = () => {
                             <div className="buttons-order-filter">
                                 <button
                                     onClick={toggleDateOrder}
-                                    className="btn-order"
+                                    className="btn"
                                     name="date-order"
-                                    key="btn-order"
                                 >
                                     Release Date:
                                     <span> {dateOrder}</span>
@@ -163,10 +162,8 @@ const Movies = () => {
                                     //     }
                                     // }}
                                     className={
-                                        genreFilter === null ? 'on' : ''
+                                        genreFilter === null ? 'btn on' : 'btn'
                                     }
-                                    // name="genre"
-                                    key="btn-all"
                                 >
                                     All Genres
                                 </NavLink>
@@ -189,10 +186,9 @@ const Movies = () => {
                                                 // }}
                                                 className={
                                                     genreFilter === genre
-                                                        ? 'on'
-                                                        : ''
+                                                        ? 'btn on'
+                                                        : 'btn'
                                                 }
-                                                // name="genre"
                                                 key={`btn-${genre}`}
                                             >
                                                 {genre}
