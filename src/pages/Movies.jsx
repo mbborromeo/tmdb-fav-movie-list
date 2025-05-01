@@ -11,9 +11,9 @@ import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
 const Movies = () => {
     const [movies, setMovies] = useState([]);
+    const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
-    const [moviesCategorized, setMoviesCategorized] = useState({});
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -27,7 +27,7 @@ const Movies = () => {
             // sort by release date
             const sorted = [...moviesArray];
             sorted.sort((a, b) =>
-                dateOrder === null
+                !dateOrder
                     ? Date.parse(a.release_date) - Date.parse(b.release_date)
                     : Date.parse(b.release_date) - Date.parse(a.release_date)
             );
@@ -37,36 +37,67 @@ const Movies = () => {
         [dateOrder]
     );
 
-    const handleClickOrder = (value) => {
-        const newValue = !value ? 'Descending' : null;
+    const getMoviesCategorized = useCallback((moviesArray, movieGenres) => {
+        const moviesByGenre = {};
 
-        if (!newValue) {
-            searchParams.delete('order');
-        }
+        // organize movies by genre
+        moviesArray.forEach((movie) =>
+            movie['genre_ids'].forEach((gid) => {
+                let genre = movieGenres.find((obj) => obj.id === gid)['name'];
 
-        setSearchParams({
-            ...(genreFilter && { filter: genreFilter }),
-            ...(newValue && { order: newValue })
-        });
-    };
+                // Abbreviate "Science Fiction" genre for button
+                if (genre === 'Science Fiction') {
+                    genre = 'Sci-Fi';
+                }
 
-    const handleClickFilter = (value) => {
-        const newValue = !value ? null : value;
+                // if that genre does not exist yet, create an array for that genre
+                // if (moviesByGenre[genre] === undefined) {
+                if (!Object.hasOwn(moviesByGenre, genre)) {
+                    moviesByGenre[genre] = [];
+                }
 
-        if (!newValue) {
-            searchParams.delete('filter');
-        }
+                // add movie JSON object to corresponding genre array
+                moviesByGenre[genre].push(movie);
+            })
+        );
 
-        setSearchParams({
-            ...(newValue && { filter: newValue }),
-            ...(dateOrder && { order: dateOrder })
-        });
-    };
+        return moviesByGenre;
+    }, []);
+
+    const handleClickOrder = useCallback(
+        (value) => {
+            const newValue = !value ? 'Descending' : null;
+
+            if (!newValue) {
+                searchParams.delete('order');
+            }
+
+            setSearchParams({
+                ...(genreFilter && { filter: genreFilter }),
+                ...(newValue && { order: newValue })
+            });
+        },
+        [genreFilter, searchParams, setSearchParams]
+    );
+
+    const handleClickFilter = useCallback(
+        (value) => {
+            const newValue = !value ? null : value;
+
+            if (!newValue) {
+                searchParams.delete('filter');
+            }
+
+            setSearchParams({
+                ...(newValue && { filter: newValue }),
+                ...(dateOrder && { order: dateOrder })
+            });
+        },
+        [dateOrder, searchParams, setSearchParams]
+    );
 
     useEffect(() => {
         (async () => {
-            let genres = [];
-
             try {
                 const data = await fetchApiCallOrThrowError(
                     'https://api.themoviedb.org/3/genre/movie/list?language=en'
@@ -74,14 +105,18 @@ const Movies = () => {
 
                 if (data && data.genres && data.genres.length > 0) {
                     // data undefined if nothing returned from fetch
-                    genres = data.genres;
+                    setGenres(data.genres);
                 }
             } catch (error) {
                 setErrorMessage(
                     'Failed to load Genres. Error: ' + error.message
                 );
             }
+        })(); // IIFE
+    }, []);
 
+    useEffect(() => {
+        (async () => {
             if (genres.length > 0) {
                 try {
                     // need to await here, since fetchApiCallOrThrowError() is async returning a promise
@@ -89,40 +124,9 @@ const Movies = () => {
                         `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
                     );
 
-                    const getMoviesCategorized = (moviesArray) => {
-                        const moviesByGenre = {};
-
-                        // organize movies by genre
-                        moviesArray.forEach((movie) =>
-                            movie['genre_ids'].forEach((gid) => {
-                                let genre = genres.find(
-                                    (obj) => obj.id === gid
-                                )['name'];
-
-                                // Abbreviate "Science Fiction" genre for button
-                                if (genre === 'Science Fiction') {
-                                    genre = 'Sci-Fi';
-                                }
-
-                                // if that genre does not exist yet, create an array for that genre
-                                // if (moviesByGenre[genre] === undefined) {
-                                if (!Object.hasOwn(moviesByGenre, genre)) {
-                                    moviesByGenre[genre] = [];
-                                }
-
-                                // add movie JSON object to corresponding genre array
-                                moviesByGenre[genre].push(movie);
-                            })
-                        );
-
-                        return moviesByGenre;
-                    };
-
                     if (data && data.results && data.results.length > 0) {
-                        const movies = data.results;
                         // data undefined if nothing returned from fetch
-                        setMovies(movies);
-                        setMoviesCategorized(getMoviesCategorized(movies));
+                        setMovies(data.results);
                     }
                 } catch (error) {
                     // receive any error from fetchApiCallOrThrowError()
@@ -133,9 +137,15 @@ const Movies = () => {
                 }
             }
 
-            setLoading(false);
+            setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
-    }, [setSearchParams]);
+    }, [genres]);
+
+    const moviesCategorized = useMemo(() => {
+        return movies.length > 0 && genres.length > 0
+            ? getMoviesCategorized(movies, genres)
+            : {};
+    }, [movies, genres, getMoviesCategorized]);
 
     const moviesSorted = useMemo(() => {
         // need to check if moviesCategorized has been calculated yet
@@ -173,7 +183,7 @@ const Movies = () => {
                                     Release Date:
                                     <span>
                                         {' '}
-                                        {dateOrder == null
+                                        {!dateOrder
                                             ? 'Ascending'
                                             : 'Descending'}
                                     </span>
