@@ -91,36 +91,59 @@ const Movies = () => {
     useEffect(() => {
         (async () => {
             try {
-                const data = await fetchApiCallOrThrowError(
-                    'https://api.themoviedb.org/3/genre/movie/list?language=en'
+                const [genresPromise, moviesPromise] = await Promise.allSettled(
+                    [
+                        fetchApiCallOrThrowError(
+                            `${BASE_URL}/genre/movie/list?language=en`
+                        ),
+                        fetchApiCallOrThrowError(
+                            `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
+                        )
+                    ]
                 );
 
-                if (data && data.genres && data.genres.length > 0) {
-                    // data undefined if nothing returned from fetch
-                    setGenres(data.genres);
+                if (genresPromise.status === 'rejected') {
+                    console.error('Error:', genresPromise.reason);
+                    setErrorMessage(
+                        'Failed to load Genres. Error: ' + genresPromise.reason
+                    );
+                }
+
+                if (genresPromise.status === 'fulfilled') {
+                    const genresResponse = genresPromise.value;
+
+                    if (
+                        genresResponse &&
+                        genresResponse.genres &&
+                        genresResponse.genres.length > 0
+                    ) {
+                        // genresResponse undefined if nothing returned from fetch
+                        setGenres(genresResponse.genres);
+                    }
+                }
+
+                if (moviesPromise.status === 'rejected') {
+                    console.error('Error:', moviesPromise.reason);
+                    setErrorMessage(
+                        'Failed to load Movies. Error: ' + moviesPromise.reason
+                    );
+                }
+
+                if (moviesPromise.status === 'fulfilled') {
+                    const moviesResponse = moviesPromise.value;
+
+                    if (
+                        moviesResponse &&
+                        moviesResponse.results &&
+                        moviesResponse.results.length > 0
+                    ) {
+                        // moviesResponse undefined if nothing returned from fetch
+                        setMovies(moviesResponse.results);
+                    }
                 }
             } catch (error) {
-                setErrorMessage(
-                    'Failed to load Genres. Error: ' + error.message
-                );
-            }
-
-            try {
-                // need to await here, since fetchApiCallOrThrowError() is async returning a promise
-                const data = await fetchApiCallOrThrowError(
-                    `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
-                );
-
-                if (data && data.results && data.results.length > 0) {
-                    // data undefined if nothing returned from fetch
-                    setMovies(data.results);
-                }
-            } catch (error) {
-                // receive any error from fetchApiCallOrThrowError()
-                // console.log("fileName", error.fileName); // only works in Firefox
-                setErrorMessage(
-                    'Failed to load Movies. Error: ' + error.message
-                );
+                // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
+                console.error('Error:', error);
             }
 
             setLoading(false); // after both genres and movies have been fetched
@@ -150,7 +173,7 @@ const Movies = () => {
 
             {errorMessage && <ErrorFeedback message={errorMessage} />}
 
-            {!loading && !errorMessage && (
+            {!loading && (
                 <>
                     {moviesSorted.length === 0 && <b>No movies found!</b>}
 
@@ -175,52 +198,60 @@ const Movies = () => {
                                     </span>
                                 </button>
 
-                                <button
-                                    type="button"
-                                    name="btn-all"
-                                    value={null}
-                                    onClick={(e) => {
-                                        handleClickFilter(e.target.value);
-                                    }}
-                                    className={
-                                        genreFilter === null ? 'btn on' : 'btn'
-                                    }
-                                >
-                                    All Genres
-                                </button>
+                                {Object.keys(moviesCategorized).length > 0 && (
+                                    <>
+                                        <button
+                                            type="button"
+                                            name="btn-all"
+                                            value={null}
+                                            onClick={(e) => {
+                                                handleClickFilter(
+                                                    e.target.value
+                                                );
+                                            }}
+                                            className={
+                                                genreFilter === null
+                                                    ? 'btn on'
+                                                    : 'btn'
+                                            }
+                                        >
+                                            All Genres
+                                        </button>
 
-                                {Object.keys(moviesCategorized).length > 0 &&
-                                    Object.keys(moviesCategorized).map(
-                                        (genre) => (
-                                            <button
-                                                type="button"
-                                                name={`btn-${genre}`}
-                                                key={`btn-${genre}`}
-                                                value={genre}
-                                                onClick={(e) => {
-                                                    handleClickFilter(
-                                                        e.target.value
-                                                    );
-                                                }}
-                                                className={
-                                                    genreFilter === genre
-                                                        ? 'btn on'
-                                                        : 'btn'
-                                                }
-                                            >
-                                                {genre}
-                                                <span>
-                                                    {' '}
-                                                    (
-                                                    {
-                                                        moviesCategorized[genre]
-                                                            .length
+                                        {Object.keys(moviesCategorized).map(
+                                            (genre) => (
+                                                <button
+                                                    type="button"
+                                                    name={`btn-${genre}`}
+                                                    key={`btn-${genre}`}
+                                                    value={genre}
+                                                    onClick={(e) => {
+                                                        handleClickFilter(
+                                                            e.target.value
+                                                        );
+                                                    }}
+                                                    className={
+                                                        genreFilter === genre
+                                                            ? 'btn on'
+                                                            : 'btn'
                                                     }
-                                                    )
-                                                </span>
-                                            </button>
-                                        )
-                                    )}
+                                                >
+                                                    {genre}
+                                                    <span>
+                                                        {' '}
+                                                        (
+                                                        {
+                                                            moviesCategorized[
+                                                                genre
+                                                            ].length
+                                                        }
+                                                        )
+                                                    </span>
+                                                </button>
+                                            )
+                                        )}
+                                    </>
+                                )}
                             </div>
 
                             <ol>
