@@ -135,9 +135,9 @@ const Movies = () => {
                         'Failed to load Movies. Error: ' + error.message
                     );
                 }
-            }
 
-            setLoading(false); // after both genres and movies have been fetched
+                setLoading(false); // after both genres and movies have been fetched
+            }
         })(); // IIFE
     }, [genres]);
 
