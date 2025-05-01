@@ -97,7 +97,7 @@ const Movies = () => {
                             `${BASE_URL}/genre/movie/list?language=en`
                         ),
                         fetchApiCallOrThrowError(
-                            `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
+                            `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/ovies?language=en-US&page=1&sort_by=created_at.asc`
                         )
                     ]
                 );
