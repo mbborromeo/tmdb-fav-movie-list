@@ -98,6 +98,8 @@ const Movies = () => {
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
+
             try {
                 const data = await fetchApiCallOrThrowError(
                     'https://api.themoviedb.org/3/genre/movie/list?language=en'
@@ -105,19 +107,25 @@ const Movies = () => {
 
                 if (data && data.genres && data.genres.length > 0) {
                     // data undefined if nothing returned from fetch
+                    setLoading(false);
                     setGenres(data.genres);
                 }
             } catch (error) {
+                setLoading(false);
                 setErrorMessage(
                     'Failed to load Genres. Error: ' + error.message
                 );
             }
+
+            setLoading(false);
         })(); // IIFE
     }, []);
 
     useEffect(() => {
         (async () => {
             if (genres.length > 0) {
+                setLoading(true);
+
                 try {
                     // need to await here, since fetchApiCallOrThrowError() is async returning a promise
                     const data = await fetchApiCallOrThrowError(
