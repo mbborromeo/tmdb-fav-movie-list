@@ -90,8 +90,6 @@ const Movies = () => {
 
     useEffect(() => {
         (async () => {
-            setLoading(true);
-
             try {
                 const data = await fetchApiCallOrThrowError(
                     'https://api.themoviedb.org/3/genre/movie/list?language=en'
@@ -99,47 +97,35 @@ const Movies = () => {
 
                 if (data && data.genres && data.genres.length > 0) {
                     // data undefined if nothing returned from fetch
-                    setLoading(false);
                     setGenres(data.genres);
                 }
             } catch (error) {
-                setLoading(false);
                 setErrorMessage(
                     'Failed to load Genres. Error: ' + error.message
                 );
             }
 
-            setLoading(false);
+            try {
+                // need to await here, since fetchApiCallOrThrowError() is async returning a promise
+                const data = await fetchApiCallOrThrowError(
+                    `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
+                );
+
+                if (data && data.results && data.results.length > 0) {
+                    // data undefined if nothing returned from fetch
+                    setMovies(data.results);
+                }
+            } catch (error) {
+                // receive any error from fetchApiCallOrThrowError()
+                // console.log("fileName", error.fileName); // only works in Firefox
+                setErrorMessage(
+                    'Failed to load Movies. Error: ' + error.message
+                );
+            }
+
+            setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
     }, []);
-
-    useEffect(() => {
-        (async () => {
-            if (genres.length > 0) {
-                setLoading(true);
-
-                try {
-                    // need to await here, since fetchApiCallOrThrowError() is async returning a promise
-                    const data = await fetchApiCallOrThrowError(
-                        `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
-                    );
-
-                    if (data && data.results && data.results.length > 0) {
-                        // data undefined if nothing returned from fetch
-                        setMovies(data.results);
-                    }
-                } catch (error) {
-                    // receive any error from fetchApiCallOrThrowError()
-                    // console.log("fileName", error.fileName); // only works in Firefox
-                    setErrorMessage(
-                        'Failed to load Movies. Error: ' + error.message
-                    );
-                }
-
-                setLoading(false); // after both genres and movies have been fetched
-            }
-        })(); // IIFE
-    }, [genres]);
 
     const moviesCategorized = useMemo(() => {
         return movies.length > 0 && genres.length > 0
