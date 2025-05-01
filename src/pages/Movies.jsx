@@ -68,32 +68,24 @@ const Movies = () => {
         (value) => {
             const newValue = !value ? 'Descending' : null;
 
-            if (!newValue) {
-                searchParams.delete('order');
-            }
-
             setSearchParams({
                 ...(genreFilter && { filter: genreFilter }),
                 ...(newValue && { order: newValue })
             });
         },
-        [genreFilter, searchParams, setSearchParams]
+        [genreFilter, setSearchParams]
     );
 
     const handleClickFilter = useCallback(
         (value) => {
             const newValue = !value ? null : value;
 
-            if (!newValue) {
-                searchParams.delete('filter');
-            }
-
             setSearchParams({
                 ...(newValue && { filter: newValue }),
                 ...(dateOrder && { order: dateOrder })
             });
         },
-        [dateOrder, searchParams, setSearchParams]
+        [dateOrder, setSearchParams]
     );
 
     useEffect(() => {
