@@ -116,6 +116,8 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                         <img
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"
+                            width="185"
+                            height="278"
                         />
 
                         <div className="data-column">

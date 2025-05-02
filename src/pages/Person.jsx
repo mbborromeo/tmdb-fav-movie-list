@@ -167,6 +167,8 @@ const Person = () => {
                                             person.profile_path
                                         }
                                         alt={`${person.name}'s profile pic`}
+                                        width="246"
+                                        height="368"
                                     />
                                 )}
                                 <p className="description">
@@ -198,6 +200,8 @@ const Person = () => {
                                                                 movie.poster_path
                                                             }
                                                             alt={`${person.name}'s profile pic`}
+                                                            width="123"
+                                                            height="184"
                                                         />
                                                     )}
 

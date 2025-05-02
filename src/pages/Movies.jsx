@@ -169,7 +169,7 @@ const Movies = () => {
         <>
             <h2>20 Great Movies from '79-'99</h2>
 
-            {loading && <img src={loadingGif} alt="loading" width="128" />}
+            {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {errorMessage && <ErrorFeedback message={errorMessage} />}
 

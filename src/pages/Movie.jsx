@@ -121,6 +121,8 @@ const Movie = () => {
                                 <img
                                     src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                                     alt="Poster"
+                                    width="338"
+                                    height="508"
                                 />
 
                                 <Trailer id={id} />

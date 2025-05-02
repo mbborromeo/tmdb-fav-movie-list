@@ -85,6 +85,7 @@ button:focus-visible {
 
 #root {
     max-width: 1024px;
+    width: 1024px;
     margin: 0 auto;
     padding: 0 10px;
     border: 1px dashed grey;
@@ -99,17 +100,23 @@ footer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: start;
 }
 
 .row img {
     width: 50%;
     height: auto;
+    object-fit: contain;
 }
 
 .row.row-movie-component .data-column {
     width: 46%;
     padding-left: 4%;
     font-size: 13px;
+}
+
+.row.row-movie {
+    align-items: stretch;
 }
 
 .row.row-movie img,
@@ -170,6 +177,7 @@ ol {
 ol li {
     margin: 0;
     padding: 0 0 10px 0;
+    min-height: 237px;
 }
 
 .info-bar div {

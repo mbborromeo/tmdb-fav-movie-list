@@ -18,6 +18,8 @@ const Person = ({
                 <img
                     src={BASE_URL_IMAGE + PROFILE_SIZE + person.profile_path}
                     alt="Photo"
+                    width="164"
+                    height="246"
                 />
             )}
 
