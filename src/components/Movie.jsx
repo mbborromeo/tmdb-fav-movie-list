@@ -92,8 +92,6 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                 />
             )}
 
-            {errorMessage && <ErrorFeedback message={errorMessage} />}
-
             {!loading && movie && (
                 <>
                     <div>
@@ -162,6 +160,8 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                     </div>
                 </>
             )}
+
+            {errorMessage && <ErrorFeedback message={errorMessage} />}
         </>
     );
 });
