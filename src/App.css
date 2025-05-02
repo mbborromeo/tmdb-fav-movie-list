@@ -112,9 +112,6 @@ footer {
     font-size: 13px;
 }
 
-/* .row.row-movie {
-} */
-
 .row.row-movie img,
 .row.row-person img
 {
@@ -123,7 +120,7 @@ footer {
 
 .row.row-movie iframe {
     width: 100%;
-    aspect-ratio: 1.77; /* 640/360 */
+    aspect-ratio: 16 / 9; /* 640/360 */
 }
 
 .row.row-movie .description, 
