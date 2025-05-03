@@ -32,6 +32,17 @@ body {
     background-color: thistle; /* papayawhip */
 }
 
+#root {
+    max-width: 1024px;
+    width: 1024px;
+    position: relative;
+    margin: 0 auto;
+    padding: 0 10px;
+    border: 1px dashed grey;
+    background-color: lightyellow;
+    padding-bottom: 80px; /* for footer */
+}
+
 footer {
     width: 100vw;
     min-height: 80px;
@@ -62,7 +73,7 @@ h2 {
     font-size: 13px; /* 1em */
     font-weight: bold;
     font-family: inherit;
-    background-color: palegoldenrod;
+    background-color: azure;
     cursor: pointer;
 }
 /* button:focus,
@@ -78,7 +89,7 @@ button:focus-visible {
 
 .btn:hover,
 .btn.on {
-    background-color: lightblue;
+    background-color: aqua;
 }
 
 .btn.on {
@@ -97,17 +108,6 @@ button:focus-visible {
     button {
         background-color: #f9f9f9;
     }
-}
-
-#root {
-    max-width: 1024px;
-    width: 1024px;
-    position: relative;
-    margin: 0 auto;
-    padding: 0 10px;
-    border: 1px dashed grey;
-    background-color: papayawhip;
-    padding-bottom: 80px; /* for footer */
 }
 
 .row {
@@ -196,7 +196,9 @@ ol li {
 }
 
 ol li a {
-    font-size: 16px;
+    font-size: 17px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
 }
 
 .info-bar div {
