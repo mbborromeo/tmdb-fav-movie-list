@@ -36,6 +36,11 @@ h1 {
     line-height: 1.1;
 }
 
+h2 {
+    font-family: monospace;
+    font-size: 17px;
+}
+
 .btn {
     display: inline-block;
     text-decoration: none;
@@ -47,7 +52,7 @@ h1 {
     font-size: 13px; /* 1em */
     font-weight: bold;
     font-family: inherit;
-    background-color: white;
+    background-color: palegoldenrod;
     cursor: pointer;
 }
 /* button:focus,
@@ -63,7 +68,7 @@ button:focus-visible {
 
 .btn:hover,
 .btn.on {
-    background-color: orange;
+    background-color: lightblue;
 }
 
 .btn.on {
