@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import Person from './Person';
 
 const Credits = ({

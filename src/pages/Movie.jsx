@@ -43,7 +43,7 @@ const Movie = () => {
         location.state ? location.state.actors : null
     );
 
-    const POSTER_SIZE = 'w185';
+    const POSTER_SIZE = 'w342'; /* w185 */
     const MAX_ACTORS = 6;
 
     useEffect(() => {

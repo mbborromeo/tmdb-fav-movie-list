@@ -33,8 +33,8 @@ const Person = () => {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const PROFILE_SIZE = 'w185'; // w138_and_h175_face
-    const POSTER_SIZE = 'w92';
+    const PROFILE_SIZE = 'w300'; // w185 w138_and_h175_face
+    const POSTER_SIZE = 'w185'; // w92
     const MAX_MOVIES = 8;
 
     useEffect(() => {

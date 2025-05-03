@@ -10,7 +10,7 @@ const Person = ({
     showPic = false,
     displayLinks = false
 }) => {
-    const PROFILE_SIZE = 'w92'; // w138_and_h175_face
+    const PROFILE_SIZE = 'w185'; // w92 w138_and_h175_face
 
     return (
         <div>
