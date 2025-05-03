@@ -25,31 +25,34 @@ a:hover {
 body {
     margin: 0;
     display: flex;
-    place-items: stretch;
+    /* place-items: stretch; */
     position: relative;
-    min-width: 300px;
+    width: 100vw;
     min-height: 100vh;
-    background-color: thistle; /* papayawhip */
+    background-color: thistle;
 }
 
 #root {
-    max-width: 1024px;
-    width: 1024px;
-    position: relative;
-    margin: 0 auto;
+    width: 100%;
     padding: 0 10px;
+    position: relative;
     border: 1px dashed grey;
     background-color: lightyellow;
     padding-bottom: 80px; /* for footer */
 }
 
 footer {
-    width: 100vw;
     min-height: 80px;
+    width: 100%;
     position: absolute;
     bottom: 0;
+    left: 0;
     display: flex;
     align-items: flex-end;
+}
+
+footer div {
+    padding: 10px;
 }
 
 h1 {
@@ -73,13 +76,9 @@ h2 {
     font-size: 13px; /* 1em */
     font-weight: bold;
     font-family: inherit;
-    background-color: azure;
+    background-color: azure; /* lightcyan */
     cursor: pointer;
 }
-/* button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-} */
 
 .btn span {
     font-size: 11px;
@@ -255,6 +254,12 @@ ol li a {
 }
 
 @media only screen and (min-width: 768px) {
+    #root {
+        max-width: 1024px;
+        width: 90%;
+        margin: 0 auto; /* center */
+    }
+
     .show-on-mobile {
         display: none;
     }
