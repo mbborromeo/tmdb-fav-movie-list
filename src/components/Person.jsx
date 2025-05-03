@@ -8,6 +8,7 @@ const Person = ({
     genreFilter,
     dateOrder,
     showPic = false,
+    character = '',
     displayLinks = false
 }) => {
     const PROFILE_SIZE = 'w185'; // w92 w138_and_h175_face
@@ -24,20 +25,23 @@ const Person = ({
             )}
 
             {displayLinks ? (
-                <Link
-                    to={
-                        genreFilter && dateOrder
-                            ? `/person/${person.id}/?filter=${genreFilter}&order=${dateOrder}`
-                            : genreFilter && !dateOrder
-                              ? `/person/${person.id}?filter=${genreFilter}`
-                              : !genreFilter && dateOrder
-                                ? `/person/${person.id}?order=${dateOrder}`
-                                : `/person/${person.id}`
-                    }
-                    state={{ movieId }}
-                >
-                    {person.name}
-                </Link>
+                <>
+                    <Link
+                        to={
+                            genreFilter && dateOrder
+                                ? `/person/${person.id}/?filter=${genreFilter}&order=${dateOrder}`
+                                : genreFilter && !dateOrder
+                                  ? `/person/${person.id}?filter=${genreFilter}`
+                                  : !genreFilter && dateOrder
+                                    ? `/person/${person.id}?order=${dateOrder}`
+                                    : `/person/${person.id}`
+                        }
+                        state={{ movieId }}
+                    >
+                        {person.name}
+                    </Link>
+                    {character && <span>{` (${person.character})`}</span>}
+                </>
             ) : (
                 person.name
             )}

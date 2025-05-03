@@ -219,13 +219,14 @@ const Person = () => {
                                                                     : `/movie/${movie.id}`
                                                         }
                                                     >
-                                                        {movie.title} (
+                                                        {movie.title}
+                                                    </Link>
+                                                    <span>
                                                         {person.known_for_department ===
                                                         'Acting'
-                                                            ? movie.character
-                                                            : movie.job}
-                                                        )
-                                                    </Link>
+                                                            ? ` (${movie.character})`
+                                                            : ` (${movie.job})`}
+                                                    </span>
                                                 </div>
                                             );
                                         })}

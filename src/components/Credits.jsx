@@ -49,6 +49,7 @@ const Credits = ({
                             <Person
                                 key={actor.id}
                                 person={actor}
+                                character={actor.character}
                                 movieId={movieId}
                                 genreFilter={genreFilter}
                                 dateOrder={dateOrder}
