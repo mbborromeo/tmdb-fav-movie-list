@@ -301,7 +301,7 @@ ol li a {
     }
 
     .persons-wrapper div {
-        width: 16%;
+        width: 12%; /* 16% */
     }
 
     .movies-wrapper div {

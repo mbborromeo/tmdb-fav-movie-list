@@ -44,7 +44,7 @@ const Movie = () => {
     );
 
     const POSTER_SIZE = 'w342'; /* w185 */
-    const MAX_ACTORS = 6;
+    const MAX_ACTORS = 8;
 
     useEffect(() => {
         (async () => {
