@@ -26,9 +26,19 @@ body {
     margin: 0;
     display: flex;
     place-items: stretch;
-    min-width: 320px;
+    position: relative;
+    min-width: 300px;
     min-height: 100vh;
     background-color: thistle; /* papayawhip */
+}
+
+footer {
+    width: 100vw;
+    min-height: 80px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
 }
 
 h1 {
@@ -92,13 +102,12 @@ button:focus-visible {
 #root {
     max-width: 1024px;
     width: 1024px;
+    position: relative;
     margin: 0 auto;
     padding: 0 10px;
     border: 1px dashed grey;
-}
-
-footer {
-    padding-top: 30px;
+    background-color: papayawhip;
+    padding-bottom: 80px; /* for footer */
 }
 
 .row {
