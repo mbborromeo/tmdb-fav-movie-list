@@ -42,6 +42,9 @@ const Movie = () => {
     const [actors, setActors] = useState(
         location.state ? location.state.actors : null
     );
+    const [rating, setRating] = useState(
+        location.state ? location.state.rating : null
+    );
 
     const POSTER_SIZE = 'w342'; /* w185 */
     const MAX_ACTORS = 8;
@@ -84,9 +87,44 @@ const Movie = () => {
                 }
             }
 
+            if (!rating) {
+                try {
+                    const releaseDataResponse = await fetchApiCallOrThrowError(
+                        `${BASE_URL}/movie/${id}/release_dates`
+                    );
+
+                    let releaseDataOfInterest =
+                        releaseDataResponse.results.find(
+                            (country) => country['iso_3166_1'] === 'AU'
+                        );
+                    let releaseData = releaseDataOfInterest?.release_dates.find(
+                        (rd) => rd['certification'] !== ''
+                    );
+
+                    if (!releaseDataOfInterest || !releaseData) {
+                        releaseDataOfInterest =
+                            releaseDataResponse.results.find(
+                                (country) => country['iso_3166_1'] === 'US'
+                            );
+                        releaseData = releaseDataOfInterest?.release_dates.find(
+                            (rd) => rd['certification'] !== ''
+                        );
+                    }
+
+                    const movieCertification = releaseData?.certification;
+                    if (movieCertification) {
+                        setRating(movieCertification);
+                    }
+                } catch (error) {
+                    setErrorMessage(
+                        'Failed to load Rating. Error: ' + error.message
+                    );
+                }
+            }
+
             setLoading(false);
         })(); // IIFE
-    }, [movie, directors, actors, id]);
+    }, [movie, directors, actors, rating, id]);
 
     return (
         <>
@@ -149,6 +187,16 @@ const Movie = () => {
                                 )}
                             </div>
                             <br />
+
+                            {rating && (
+                                <>
+                                    <div>
+                                        <b>Rating: </b>
+                                        {rating}
+                                    </div>
+                                    <br />
+                                </>
+                            )}
 
                             <div>
                                 <b>Runtime:</b>{' '}

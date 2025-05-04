@@ -17,6 +17,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
     const [movie, setMovie] = useState(null);
     const [directors, setDirectors] = useState([]);
     const [actors, setActors] = useState([]);
+    const [rating, setRating] = useState('');
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -27,16 +28,18 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
     useEffect(() => {
         (async () => {
             try {
-                const [moviePromise, creditsPromise] = await Promise.allSettled(
-                    [
+                const [moviePromise, creditsPromise, releaseDataPromise] =
+                    await Promise.allSettled([
                         fetchApiCallOrThrowError(
                             `${BASE_URL}/movie/${id}?language=en-US`
                         ),
                         fetchApiCallOrThrowError(
                             `${BASE_URL}/movie/${id}/credits?language=en-US`
+                        ),
+                        fetchApiCallOrThrowError(
+                            `${BASE_URL}/movie/${id}/release_dates`
                         )
-                    ]
-                );
+                    ]);
 
                 // https://gomakethings.com/waiting-for-multiple-all-api-responses-to-complete-with-the-vanilla-js-promise.all-method/
 
@@ -72,6 +75,41 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                     );
                     setActors(arrayActors);
                 }
+
+                if (releaseDataPromise.status === 'rejected') {
+                    console.error('Error:', releaseDataPromise.reason);
+                    setErrorMessage(
+                        'Failed to load Release Data. ' +
+                            releaseDataPromise.reason
+                    );
+                }
+
+                if (releaseDataPromise.status === 'fulfilled') {
+                    const releaseDataResponse = releaseDataPromise.value;
+
+                    let releaseDataOfInterest =
+                        releaseDataResponse.results.find(
+                            (country) => country['iso_3166_1'] === 'AU'
+                        );
+                    let releaseData = releaseDataOfInterest?.release_dates.find(
+                        (rd) => rd['certification'] !== ''
+                    );
+
+                    if (!releaseDataOfInterest || !releaseData) {
+                        releaseDataOfInterest =
+                            releaseDataResponse.results.find(
+                                (country) => country['iso_3166_1'] === 'US'
+                            );
+                        releaseData = releaseDataOfInterest?.release_dates.find(
+                            (rd) => rd['certification'] !== ''
+                        );
+                    }
+
+                    const movieCertification = releaseData?.certification;
+                    if (movieCertification) {
+                        setRating(movieCertification);
+                    }
+                }
             } catch (error) {
                 // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
                 console.error('Error:', error);
@@ -105,7 +143,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                         ? `/movie/${movie.id}?order=${dateOrder}`
                                         : `/movie/${movie.id}`
                             }
-                            state={{ movie, directors, actors }}
+                            state={{ movie, directors, actors, rating }}
                         >
                             {movie.title}
                         </Link>{' '}
@@ -133,6 +171,13 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                     )
                                 )}
                             </div>
+
+                            {rating && (
+                                <div>
+                                    <b>Rating: </b>
+                                    {rating}
+                                </div>
+                            )}
 
                             <div>
                                 <b>Runtime:</b>{' '}
