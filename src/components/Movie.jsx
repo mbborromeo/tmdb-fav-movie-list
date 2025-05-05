@@ -135,7 +135,6 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
         <>
             {loading && (
                 <img
-                    // src="%PUBLIC_URL%/images/gifer_loading_VAyR.gif"
                     src={loadingGif}
                     alt="loading"
                     width="32"
