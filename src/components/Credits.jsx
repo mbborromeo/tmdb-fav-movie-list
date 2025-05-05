@@ -6,6 +6,7 @@ const Credits = ({
     displayLinks = false,
     directors,
     writers,
+    novelists,
     actors,
     movieId,
     genreFilter,
@@ -16,6 +17,9 @@ const Credits = ({
 
     const numberOfWriters =
         writers && writers.length > 0 ? writers.length : 0;
+
+    const numberOfNovelists =
+        novelists && novelists.length > 0 ? novelists.length : 0;
 
     const numberOfActors = actors && actors.length > 0 ? actors.length : 0;
 
@@ -101,6 +105,26 @@ const Credits = ({
                         </div>
                     )}
                 </>
+            )}
+
+            {numberOfNovelists > 0 && (
+                <div className="credits-wrapper">
+                    <b>{`Novelist${numberOfNovelists > 1 ? 's' : ''}:`} </b>
+                    <div className="row persons-wrapper directors">
+                        {novelists.map((novelist) => (
+                            <Person
+                                key={novelist.id}
+                                person={novelist}
+                                movieId={movieId}
+                                genreFilter={genreFilter}
+                                dateOrder={dateOrder}
+                                {...(displayLinks && {
+                                    displayLinks: true
+                                })}
+                            />
+                        ))}
+                    </div>
+                </div>
             )}
             
             <div className="credits-wrapper">

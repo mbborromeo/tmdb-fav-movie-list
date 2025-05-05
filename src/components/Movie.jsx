@@ -17,6 +17,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
     const [movie, setMovie] = useState(null);
     const [directors, setDirectors] = useState([]);
     const [writers, setWriters] = useState([]);
+    const [novelists, setNovelists] = useState([]);
     const [actors, setActors] = useState([]);
     const [rating, setRating] = useState('');
     const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
 
     // https://developer.themoviedb.org/reference/configuration-details
     const POSTER_SIZE = 'w185'; // w154 w92
-    const MAX_ACTORS = 6;
+    const MAX_ACTORS = 8;
 
     useEffect(() => {
         (async () => {
@@ -75,6 +76,11 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                         (person) => person.job === 'Writer'
                     );
                     setWriters(arrayWriters);
+
+                    const arrayNovelists = creditsResponse.crew.filter(
+                        (person) => person.job === 'Novel'
+                    );
+                    setNovelists(arrayNovelists);
 
                     const arrayActors = creditsResponse.cast.filter(
                         (person) => person.order < MAX_ACTORS
@@ -149,7 +155,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                         ? `/movie/${movie.id}?order=${dateOrder}`
                                         : `/movie/${movie.id}`
                             }
-                            state={{ movie, directors, writers, actors, rating }}
+                            state={{ movie, directors, writers, novelists, actors, rating }}
                         >
                             {movie.title}
                         </Link>{' '}
@@ -193,6 +199,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                             <Credits
                                 directors={directors}
                                 writers={writers}
+                                novelists={novelists}
                                 actors={actors}
                                 actorsDisplayMaxThree={true}
                             />

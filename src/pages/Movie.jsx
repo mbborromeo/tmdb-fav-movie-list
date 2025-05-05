@@ -48,6 +48,9 @@ const Movie = () => {
     const [rating, setRating] = useState(
         location.state ? location.state.rating : null
     );
+    const [novelists, setNovelists] = useState(
+        location.state ? location.state.novelists : null
+    );
 
     const POSTER_SIZE = 'w342'; /* w185 */
     const MAX_ACTORS = 8;
@@ -68,7 +71,7 @@ const Movie = () => {
                 }
             }
 
-            if (!directors || !actors || !writers) {
+            if (!directors || !actors || !writers || !novelists) {
                 try {
                     const dataCredits = await fetchApiCallOrThrowError(
                         `${BASE_URL}/movie/${id}/credits?language=en-US`
@@ -83,6 +86,11 @@ const Movie = () => {
                         (person) => person.job === 'Writer'
                     );
                     setWriters(arrayWriters);
+
+                    const arrayNovelists = dataCredits.crew.filter(
+                        (person) => person.job === 'Novel'
+                    );
+                    setNovelists(arrayNovelists);
 
                     const arrayActors = dataCredits.cast.filter(
                         (person) => person.order < MAX_ACTORS
@@ -133,7 +141,7 @@ const Movie = () => {
 
             setLoading(false);
         })(); // IIFE
-    }, [movie, directors, writers, actors, rating, id]);
+    }, [movie, directors, writers, actors, rating, novelists, id]);
 
     return (
         <>
@@ -217,6 +225,7 @@ const Movie = () => {
                             <Credits
                                 directors={directors}
                                 writers={writers}
+                                novelists={novelists}
                                 actors={actors}
                                 showActorsPic={true}
                                 displayLinks={true}
