@@ -26,7 +26,7 @@ const Movie = () => {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
 
-    let [searchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const filter = searchParams.get('filter');
     const genreFilter = filter ? filter : null;
     const order = searchParams.get('order');
@@ -38,6 +38,9 @@ const Movie = () => {
     );
     const [directors, setDirectors] = useState(
         location.state ? location.state.directors : null
+    );
+    const [writers, setWriters] = useState(
+        location.state ? location.state.writers : null
     );
     const [actors, setActors] = useState(
         location.state ? location.state.actors : null
@@ -65,15 +68,21 @@ const Movie = () => {
                 }
             }
 
-            if (!directors || !actors) {
+            if (!directors || !actors || !writers) {
                 try {
                     const dataCredits = await fetchApiCallOrThrowError(
                         `${BASE_URL}/movie/${id}/credits?language=en-US`
                     );
+
                     const arrayDirectors = dataCredits.crew.filter(
                         (person) => person.job === 'Director'
                     );
                     setDirectors(arrayDirectors);
+
+                    const arrayWriters = dataCredits.crew.filter(
+                        (person) => person.job === 'Writer'
+                    );
+                    setWriters(arrayWriters);
 
                     const arrayActors = dataCredits.cast.filter(
                         (person) => person.order < MAX_ACTORS
@@ -124,7 +133,7 @@ const Movie = () => {
 
             setLoading(false);
         })(); // IIFE
-    }, [movie, directors, actors, rating, id]);
+    }, [movie, directors, writers, actors, rating, id]);
 
     return (
         <>
@@ -208,6 +217,7 @@ const Movie = () => {
                             <Credits
                                 directors={directors}
                                 actors={actors}
+                                writers={writers}
                                 showActorsPic={true}
                                 displayLinks={true}
                                 movieId={id}

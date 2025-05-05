@@ -22,7 +22,7 @@ const Person = () => {
     const location = useLocation();
     const movieId = location.state ? location.state.movieId : null;
 
-    let [searchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const filter = searchParams.get('filter');
     const genreFilter = filter ? filter : null;
     const order = searchParams.get('order');

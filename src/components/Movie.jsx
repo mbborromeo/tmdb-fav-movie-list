@@ -16,6 +16,7 @@ import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 const Movie = memo(({ id, genreFilter, dateOrder }) => {
     const [movie, setMovie] = useState(null);
     const [directors, setDirectors] = useState([]);
+    const [writers, setWriters] = useState([]);
     const [actors, setActors] = useState([]);
     const [rating, setRating] = useState('');
     const [loading, setLoading] = useState(true);
@@ -65,10 +66,17 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                 if (creditsPromise.status === 'fulfilled') {
                     const creditsResponse = creditsPromise.value;
 
+                    console.log('creditsResponse', creditsResponse);
+
                     const arrayDirectors = creditsResponse.crew.filter(
                         (person) => person.job === 'Director'
                     );
                     setDirectors(arrayDirectors);
+
+                    const arrayWriters = creditsResponse.crew.filter(
+                        (person) => person.job === 'Writer'
+                    );
+                    setWriters(arrayWriters);
 
                     const arrayActors = creditsResponse.cast.filter(
                         (person) => person.order < MAX_ACTORS
@@ -143,7 +151,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                         ? `/movie/${movie.id}?order=${dateOrder}`
                                         : `/movie/${movie.id}`
                             }
-                            state={{ movie, directors, actors, rating }}
+                            state={{ movie, directors, writers, actors, rating }}
                         >
                             {movie.title}
                         </Link>{' '}
@@ -186,6 +194,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
 
                             <Credits
                                 directors={directors}
+                                writers={writers}
                                 actors={actors}
                                 actorsDisplayMaxThree={true}
                             />

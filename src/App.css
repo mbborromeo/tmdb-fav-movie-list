@@ -288,6 +288,7 @@ ol li a {
 
     .row.row-person img {
         width: 24%;
+        padding-right: 2%;
     }
 
     .row.row-movie iframe {
@@ -296,7 +297,6 @@ ol li a {
 
     .row.row-person .description {
         width: 73%;
-        padding-left: 2%;
         margin-top: 0;
     }
 
