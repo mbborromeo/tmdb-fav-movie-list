@@ -123,7 +123,6 @@ h2 span {
 }
 
 .row img {
-    width: 50%;
     height: auto;
     object-fit: contain;
 }
@@ -132,6 +131,10 @@ h2 span {
     width: 46%;
     padding-left: 4%;
     font-size: 13px;
+}
+
+.row.row-movie-component img {
+    width: 50%;
 }
 
 .row.row-movie {
@@ -285,9 +288,8 @@ ol li a + span {
         display: block;
     }
     
-    .row img {
-        width: 16%; /* 140px */
-        /* height: fit-content; */
+    .row.row-movie-component img {
+        width: 16%;
     }
 
     .row.row-movie-component .data-column {
