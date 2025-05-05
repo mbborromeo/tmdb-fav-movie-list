@@ -22,7 +22,7 @@ const Credits = ({
         <div className={`credits${!showActorsPic ? ' no-photos' : ''}`}>
             <div className="credits-wrapper">
                 <b>{`Director${numberOfDirectors > 1 ? 's' : ''}:`} </b>
-                <div className="row persons-wrapper">
+                <div className="row persons-wrapper directors">
                     {directors &&
                         numberOfDirectors > 0 &&
                         directors.map((director) => (

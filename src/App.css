@@ -239,6 +239,10 @@ ol li a {
     flex-direction: column;
 }
 
+.persons-wrapper.directors div {
+    width: 100%;
+}
+
 /* .persons-wrapper div {
     width: 32%;
 } */
