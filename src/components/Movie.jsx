@@ -66,8 +66,6 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                 if (creditsPromise.status === 'fulfilled') {
                     const creditsResponse = creditsPromise.value;
 
-                    console.log('creditsResponse', creditsResponse);
-
                     const arrayDirectors = creditsResponse.crew.filter(
                         (person) => person.job === 'Director'
                     );

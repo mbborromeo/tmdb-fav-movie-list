@@ -216,8 +216,8 @@ const Movie = () => {
 
                             <Credits
                                 directors={directors}
-                                actors={actors}
                                 writers={writers}
+                                actors={actors}
                                 showActorsPic={true}
                                 displayLinks={true}
                                 movieId={id}
