@@ -167,12 +167,8 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                             {movie.title}
                         </Link>{' '}
                         <span>
-                            (
-                                {movie.release_date.split('-')[0]}
-                                {rating && (
-                                    `, ${rating}`
-                                )}
-                            )
+                            ({movie.release_date.split('-')[0]}
+                            {rating && `, ${rating}`})
                         </span>
                     </div>
 
@@ -214,9 +210,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                             <div className="stars-voted">
                                 <b>Stars:</b>{' '}
                                 {Math.round(movie.vote_average * 2) / 2}/10
-                                <span> (
-                                    {movie.vote_count} votes)
-                                </span>
+                                <span> ({movie.vote_count} votes)</span>
                             </div>
 
                             <div className="show-on-desktop">

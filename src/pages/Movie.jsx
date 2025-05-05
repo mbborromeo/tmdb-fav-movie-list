@@ -170,12 +170,8 @@ const Movie = () => {
                             <h2>
                                 {movie.title}{' '}
                                 <span>
-                                    (
-                                        {movie.release_date.split('-')[0]}
-                                        {rating && (
-                                            `, ${rating}`
-                                        )}
-                                    )
+                                    ({movie.release_date.split('-')[0]}
+                                    {rating && `, ${rating}`})
                                 </span>
                             </h2>
 
@@ -235,9 +231,7 @@ const Movie = () => {
                                 <b>Stars:</b>{' '}
                                 {Math.round(movie.vote_average * 2) / 2}
                                 /10
-                                <span> (
-                                    {movie.vote_count} votes)
-                                </span> 
+                                <span> ({movie.vote_count} votes)</span>
                             </p>
                         </>
                     )}
