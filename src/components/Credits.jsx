@@ -15,8 +15,7 @@ const Credits = ({
     const numberOfDirectors =
         directors && directors.length > 0 ? directors.length : 0;
 
-    const numberOfWriters =
-        writers && writers.length > 0 ? writers.length : 0;
+    const numberOfWriters = writers && writers.length > 0 ? writers.length : 0;
 
     const numberOfNovelists =
         novelists && novelists.length > 0 ? novelists.length : 0;
@@ -32,18 +31,24 @@ const Credits = ({
         }
         const sortedArray1 = [...array1].sort();
         const sortedArray2 = [...array2].sort();
-        
-        return sortedArray1.every((element, index) => (element.name === sortedArray2[index].name));
+
+        return sortedArray1.every(
+            (element, index) => element.name === sortedArray2[index].name
+        );
     };
 
-    const directorAndWriterAreSame = numberOfDirectors > 0 && numberOfWriters > 0 ? arraysContainSamePeople(directors, writers) : false;
+    const directorAndWriterAreSame =
+        numberOfDirectors > 0 && numberOfWriters > 0
+            ? arraysContainSamePeople(directors, writers)
+            : false;
 
     return (
         <div className={`credits${!showActorsPic ? ' no-photos' : ''}`}>
-
             {directorAndWriterAreSame && (
                 <div className="credits-wrapper">
-                    <b>{`Director${numberOfDirectors > 1 ? 's' : ''}/Writer${numberOfWriters > 1 ? 's' : ''}:`} </b>
+                    <b>
+                        {`Director${numberOfDirectors > 1 ? 's' : ''}/Writer${numberOfWriters > 1 ? 's' : ''}:`}{' '}
+                    </b>
                     <div className="row persons-wrapper directors">
                         {directors &&
                             numberOfDirectors > 0 &&
@@ -84,7 +89,7 @@ const Credits = ({
                                 ))}
                         </div>
                     </div>
-                
+
                     {writers && numberOfWriters > 0 && (
                         <div className="credits-wrapper">
                             <b>{`Writer${numberOfWriters > 1 ? 's' : ''}:`} </b>
@@ -126,7 +131,7 @@ const Credits = ({
                     </div>
                 </div>
             )}
-            
+
             <div className="credits-wrapper">
                 <b>Actors: </b>
                 <div className="row persons-wrapper">

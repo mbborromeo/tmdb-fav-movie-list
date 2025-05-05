@@ -155,7 +155,14 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                         ? `/movie/${movie.id}?order=${dateOrder}`
                                         : `/movie/${movie.id}`
                             }
-                            state={{ movie, directors, writers, novelists, actors, rating }}
+                            state={{
+                                movie,
+                                directors,
+                                writers,
+                                novelists,
+                                actors,
+                                rating
+                            }}
                         >
                             {movie.title}
                         </Link>{' '}
