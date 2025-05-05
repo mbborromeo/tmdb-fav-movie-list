@@ -166,7 +166,14 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                         >
                             {movie.title}
                         </Link>{' '}
-                        ({movie.release_date.split('-')[0]})
+                        <span>
+                            (
+                                {movie.release_date.split('-')[0]}
+                                {rating && (
+                                    `, ${rating}`
+                                )}
+                            )
+                        </span>
                     </div>
 
                     <div className="row row-movie-component">
@@ -191,13 +198,6 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                 )}
                             </div>
 
-                            {rating && (
-                                <div>
-                                    <b>Rating: </b>
-                                    {rating}
-                                </div>
-                            )}
-
                             <div>
                                 <b>Runtime:</b>{' '}
                                 {formatRuntimeHoursAndMinutes(movie.runtime)}
@@ -211,10 +211,12 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                 actorsDisplayMaxThree={true}
                             />
 
-                            <div>
+                            <div className="stars-voted">
                                 <b>Stars:</b>{' '}
-                                {Math.round(movie.vote_average * 2) / 2}/10 (
-                                {movie.vote_count} votes)
+                                {Math.round(movie.vote_average * 2) / 2}/10
+                                <span> (
+                                    {movie.vote_count} votes)
+                                </span>
                             </div>
 
                             <div className="show-on-desktop">

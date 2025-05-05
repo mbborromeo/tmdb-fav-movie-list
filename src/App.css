@@ -65,6 +65,11 @@ h2 {
     font-size: 17px;
 }
 
+h2 span {
+    font-weight: normal;
+    font-size: 14px;
+}
+
 .btn {
     display: inline-block;
     text-decoration: none;
@@ -183,7 +188,7 @@ ul li {
 }
 
 ol {
-    padding: 0 20px;
+    padding: 0 18px;
     min-height: 70%;
     height: auto;
 }
@@ -200,6 +205,10 @@ ol li a {
     font-weight: bold;
 }
 
+ol li a + span {
+    font-size: 11px;
+}
+
 .info-bar div {
     display: inline-block;
     padding-right: 10px;
@@ -208,6 +217,10 @@ ol li a {
 .credits div span {
     display: inline-block;
     padding-right: 10px;
+}
+
+.stars-voted span {
+    display: none;
 }
 
 .credits-wrapper {
@@ -310,5 +323,9 @@ ol li a {
 
     .movies-wrapper div {
         width: 12%;
+    }
+
+    .stars-voted span {
+        display: inline;
     }
 }

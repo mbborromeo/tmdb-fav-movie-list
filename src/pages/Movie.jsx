@@ -168,8 +168,15 @@ const Movie = () => {
                     {movie && (
                         <>
                             <h2>
-                                {movie.title} (
-                                {movie.release_date.split('-')[0]})
+                                {movie.title}{' '}
+                                <span>
+                                    (
+                                        {movie.release_date.split('-')[0]}
+                                        {rating && (
+                                            `, ${rating}`
+                                        )}
+                                    )
+                                </span>
                             </h2>
 
                             <div className="row row-movie">
@@ -205,16 +212,6 @@ const Movie = () => {
                             </div>
                             <br />
 
-                            {rating && (
-                                <>
-                                    <div>
-                                        <b>Rating: </b>
-                                        {rating}
-                                    </div>
-                                    <br />
-                                </>
-                            )}
-
                             <div>
                                 <b>Runtime:</b>{' '}
                                 {movie.runtime &&
@@ -237,7 +234,10 @@ const Movie = () => {
                             <p>
                                 <b>Stars:</b>{' '}
                                 {Math.round(movie.vote_average * 2) / 2}
-                                /10 ({movie.vote_count} votes)
+                                /10
+                                <span> (
+                                    {movie.vote_count} votes)
+                                </span> 
                             </p>
                         </>
                     )}
