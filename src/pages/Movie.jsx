@@ -146,13 +146,7 @@ const Movie = () => {
 
     return (
         <>
-            {loading && (
-                <img
-                    src={loadingGif}
-                    alt="loading"
-                    width="32"
-                />
-            )}
+            {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {!loading && (
                 <>
@@ -177,7 +171,8 @@ const Movie = () => {
                             <h2>
                                 {movie.title}
                                 <span>
-                                    {' '}({movie.release_date.split('-')[0]}
+                                    {' '}
+                                    ({movie.release_date.split('-')[0]}
                                     {rating && `, ${rating}`})
                                 </span>
                             </h2>

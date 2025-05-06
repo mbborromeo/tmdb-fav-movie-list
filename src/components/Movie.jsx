@@ -134,13 +134,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
 
     return (
         <>
-            {loading && (
-                <img
-                    src={loadingGif}
-                    alt="loading"
-                    width="32"
-                />
-            )}
+            {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {!loading && movie && (
                 <div>
@@ -167,7 +161,8 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                             {movie.title}
                         </Link>
                         <span>
-                            {' '}({movie.release_date.split('-')[0]}
+                            {' '}
+                            ({movie.release_date.split('-')[0]}
                             {rating && `, ${rating}`})
                         </span>
                     </h2>
