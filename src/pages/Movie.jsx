@@ -11,6 +11,9 @@ import Credits from '../components/Credits';
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
 import Genres from '../components/Genres';
+import ReleaseInfo from '../components/ReleaseInfo';
+import Votes from '../components/Votes';
+import Runtime from '../components/Runtime';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -19,7 +22,6 @@ import {
     BASE_URL,
     BASE_URL_IMAGE
 } from '../utils/api';
-import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = () => {
     const { id } = useParams();
@@ -170,11 +172,11 @@ const Movie = () => {
                         <div className="content-wrapper">
                             <h2>
                                 {movie.title}
-                                <span>
-                                    {' '}
-                                    ({movie.release_date.split('-')[0]}
-                                    {rating && `, ${rating}`})
-                                </span>
+
+                                <ReleaseInfo
+                                    releaseDate={movie.release_date}
+                                    rating={rating}
+                                />
                             </h2>
 
                             <div className="row row-movie page">
@@ -198,11 +200,7 @@ const Movie = () => {
 
                             <Genres genres={movie.genres} />
 
-                            <div>
-                                <b>Runtime:</b>{' '}
-                                {movie.runtime &&
-                                    formatRuntimeHoursAndMinutes(movie.runtime)}
-                            </div>
+                            <Runtime runtime={movie.runtime} />
 
                             <Credits
                                 directors={directors}
@@ -216,12 +214,10 @@ const Movie = () => {
                                 dateOrder={dateOrder}
                             />
 
-                            <div>
-                                <b>Stars:</b>{' '}
-                                {Math.round(movie.vote_average * 2) / 2}
-                                /10
-                                <span> ({movie.vote_count} votes)</span>
-                            </div>
+                            <Votes
+                                voteAverage={movie.vote_average}
+                                voteCount={movie.vote_count}
+                            />
                         </div>
                     )}
 
