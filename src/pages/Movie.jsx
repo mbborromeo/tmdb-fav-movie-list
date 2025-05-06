@@ -13,6 +13,7 @@ import Footer from '../components/Footer';
 import Genres from '../components/Genres';
 import ReleaseInfo from '../components/ReleaseInfo';
 import Votes from '../components/Votes';
+import Runtime from '../components/Runtime';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -21,7 +22,6 @@ import {
     BASE_URL,
     BASE_URL_IMAGE
 } from '../utils/api';
-import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = () => {
     const { id } = useParams();
@@ -197,11 +197,7 @@ const Movie = () => {
 
                             <Genres genres={movie.genres} />
 
-                            <div>
-                                <b>Runtime:</b>{' '}
-                                {movie.runtime &&
-                                    formatRuntimeHoursAndMinutes(movie.runtime)}
-                            </div>
+                            <Runtime runtime={movie.runtime} />
 
                             <Credits
                                 directors={directors}

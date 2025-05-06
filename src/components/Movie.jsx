@@ -6,6 +6,7 @@ import ErrorFeedback from './ErrorFeedback';
 import Genres from './Genres';
 import ReleaseInfo from './ReleaseInfo';
 import Votes from './Votes';
+import Runtime from './Runtime';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -14,7 +15,6 @@ import {
     BASE_URL,
     BASE_URL_IMAGE
 } from '../utils/api';
-import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
 const Movie = memo(({ id, genreFilter, dateOrder }) => {
     const [movie, setMovie] = useState(null);
@@ -177,11 +177,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                         <div className="data-column">
                             <Genres genres={movie.genres} />
 
-                            <div>
-                                <b>Runtime:</b>{' '}
-                                {movie.runtime &&
-                                    formatRuntimeHoursAndMinutes(movie.runtime)}
-                            </div>
+                            <Runtime runtime={movie.runtime} />
 
                             <Credits
                                 directors={directors}
