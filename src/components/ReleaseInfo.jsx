@@ -1,4 +1,4 @@
-const ReleaseInfo = ({releaseDate, rating}) => {
+const ReleaseInfo = ({ releaseDate, rating }) => {
     return (
         <span className="release-data">
             ({releaseDate.split('-')[0]}

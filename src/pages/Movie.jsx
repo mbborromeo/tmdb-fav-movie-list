@@ -173,7 +173,10 @@ const Movie = () => {
                             <h2>
                                 {movie.title}
 
-                                <ReleaseInfo releaseDate={movie.release_date} rating={rating} />
+                                <ReleaseInfo
+                                    releaseDate={movie.release_date}
+                                    rating={rating}
+                                />
                             </h2>
 
                             <div className="row row-movie page">
@@ -211,11 +214,10 @@ const Movie = () => {
                                 dateOrder={dateOrder}
                             />
 
-                            <Votes 
-                                voteAverage={movie.vote_average} 
-                                voteCount={movie.vote_count} 
+                            <Votes
+                                voteAverage={movie.vote_average}
+                                voteCount={movie.vote_count}
                             />
-
                         </div>
                     )}
 

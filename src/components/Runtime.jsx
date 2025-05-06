@@ -1,11 +1,9 @@
-import { formatRuntimeHoursAndMinutes } from "../utils/formatting";
+import { formatRuntimeHoursAndMinutes } from '../utils/formatting';
 
-const Runtime = ({runtime}) => {
+const Runtime = ({ runtime }) => {
     return (
         <div>
-            <b>Runtime:</b>{' '}
-            {runtime &&
-                formatRuntimeHoursAndMinutes(runtime)}
+            <b>Runtime:</b> {runtime && formatRuntimeHoursAndMinutes(runtime)}
         </div>
     );
 };

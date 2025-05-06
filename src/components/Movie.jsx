@@ -163,7 +163,10 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                             {movie.title}
                         </Link>
 
-                        <ReleaseInfo releaseDate={movie.release_date} rating={rating} />
+                        <ReleaseInfo
+                            releaseDate={movie.release_date}
+                            rating={rating}
+                        />
                     </h2>
 
                     <div className="row row-movie component">
@@ -188,8 +191,8 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                             />
 
                             <Votes
-                                className="stars-voted" 
-                                voteAverage={movie.vote_average} 
+                                className="stars-voted"
+                                voteAverage={movie.vote_average}
                                 voteCount={movie.vote_count}
                             />
 
