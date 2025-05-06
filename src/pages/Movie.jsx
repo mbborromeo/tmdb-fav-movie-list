@@ -10,6 +10,7 @@ import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
+import Genres from '../components/Genres';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -200,18 +201,7 @@ const Movie = () => {
                                 </div>
                             </div>
 
-                            <div>
-                                <b>Genre: </b>{' '}
-                                {movie.genres.map((genre, i) =>
-                                    i < movie.genres.length - 1 ? (
-                                        <span key={genre.id}>
-                                            {genre.name},{' '}
-                                        </span>
-                                    ) : (
-                                        <span key={genre.id}>{genre.name}</span>
-                                    )
-                                )}
-                            </div>
+                            <Genres genres={movie.genres} />
                             <br />
 
                             <div>
@@ -233,12 +223,13 @@ const Movie = () => {
                                 dateOrder={dateOrder}
                             />
 
-                            <p>
+                            <div>
                                 <b>Stars:</b>{' '}
                                 {Math.round(movie.vote_average * 2) / 2}
                                 /10
                                 <span> ({movie.vote_count} votes)</span>
-                            </p>
+                            </div>
+                            <br />
                         </>
                     )}
 

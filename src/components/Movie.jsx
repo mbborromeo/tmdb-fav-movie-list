@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Credits from './Credits';
 import ErrorFeedback from './ErrorFeedback';
+import Genres from './Genres';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -180,22 +181,12 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                         />
 
                         <div className="data-column">
-                            <div>
-                                <b>Genre: </b>{' '}
-                                {movie.genres.map((genre, i) =>
-                                    i < movie.genres.length - 1 ? (
-                                        <span key={genre.id}>
-                                            {genre.name},{' '}
-                                        </span>
-                                    ) : (
-                                        <span key={genre.id}>{genre.name}</span>
-                                    )
-                                )}
-                            </div>
+                            <Genres genres={movie.genres} />
 
                             <div>
                                 <b>Runtime:</b>{' '}
-                                {formatRuntimeHoursAndMinutes(movie.runtime)}
+                                {movie.runtime &&
+                                    formatRuntimeHoursAndMinutes(movie.runtime)}
                             </div>
 
                             <Credits
