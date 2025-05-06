@@ -285,6 +285,14 @@ ol li a + span {
     width: unset;
 }
 
+.release-data {
+    display: inline;
+}
+.release-data::before {
+    content: " ";
+    padding-left: 1px;
+}
+
 @media only screen and (min-width: 768px) {
     #root {
         max-width: 1024px;

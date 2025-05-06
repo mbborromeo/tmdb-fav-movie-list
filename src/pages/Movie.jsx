@@ -11,6 +11,7 @@ import Credits from '../components/Credits';
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
 import Genres from '../components/Genres';
+import ReleaseInfo from '../components/ReleaseInfo';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -170,11 +171,8 @@ const Movie = () => {
                         <div className="content-wrapper">
                             <h2>
                                 {movie.title}
-                                <span>
-                                    {' '}
-                                    ({movie.release_date.split('-')[0]}
-                                    {rating && `, ${rating}`})
-                                </span>
+
+                                <ReleaseInfo releaseDate={movie.release_date} rating={rating} />
                             </h2>
 
                             <div className="row row-movie page">

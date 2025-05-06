@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Credits from './Credits';
 import ErrorFeedback from './ErrorFeedback';
 import Genres from './Genres';
+import ReleaseInfo from './ReleaseInfo';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -160,11 +161,8 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                         >
                             {movie.title}
                         </Link>
-                        <span>
-                            {' '}
-                            ({movie.release_date.split('-')[0]}
-                            {rating && `, ${rating}`})
-                        </span>
+
+                        <ReleaseInfo releaseDate={movie.release_date} rating={rating} />
                     </h2>
 
                     <div className="row row-movie component">
