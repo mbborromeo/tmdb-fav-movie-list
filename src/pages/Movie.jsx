@@ -150,7 +150,7 @@ const Movie = () => {
                 <img
                     src={loadingGif}
                     alt="loading"
-                    width="128"
+                    width="32"
                 />
             )}
 
