@@ -143,7 +143,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
 
             {!loading && movie && (
                 <>
-                    <div>
+                    <h2 className="margin-bottom-none">
                         <Link
                             to={
                                 genreFilter && dateOrder
@@ -164,14 +164,14 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                             }}
                         >
                             {movie.title}
-                        </Link>{' '}
+                        </Link>
                         <span>
-                            ({movie.release_date.split('-')[0]}
+                            {' '}({movie.release_date.split('-')[0]}
                             {rating && `, ${rating}`})
                         </span>
-                    </div>
+                    </h2>
 
-                    <div className="row row-movie-component">
+                    <div className="row row-movie component">
                         <img
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"

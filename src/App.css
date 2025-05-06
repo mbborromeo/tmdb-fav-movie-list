@@ -65,6 +65,10 @@ h2 {
     font-size: 17px;
 }
 
+.margin-bottom-none {
+    margin-bottom: 0;
+}
+
 h2 span {
     font-weight: normal;
     font-size: 14px;
@@ -119,7 +123,6 @@ h2 span {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: start;
 }
 
 .row img {
@@ -127,18 +130,22 @@ h2 span {
     object-fit: contain;
 }
 
-.row.row-movie-component .data-column {
+.row.row-movie.component .data-column {
     width: 46%;
     padding-left: 4%;
     font-size: 13px;
 }
 
-.row.row-movie-component img {
+.row.row-movie.component img {
     width: 50%;
 }
 
 .row.row-movie {
     align-items: stretch;
+}
+
+.row.row-movie.component {
+    align-items: start;
 }
 
 .row.row-movie img,
@@ -209,7 +216,8 @@ ol li a {
 }
 
 ol li a + span {
-    font-size: 11px;
+    font-family: initial;
+    font-size: 13px; /* 11px; */
 }
 
 .info-bar div {
@@ -288,11 +296,11 @@ ol li a + span {
         display: block;
     }
     
-    .row.row-movie-component img {
+    .row.row-movie.component img {
         width: 16%;
     }
 
-    .row.row-movie-component .data-column {
+    .row.row-movie.component .data-column {
         width: 82%;
         padding-left: 2%;
     }

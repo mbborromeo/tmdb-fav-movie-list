@@ -174,9 +174,9 @@ const Movie = () => {
                     {movie && (
                         <>
                             <h2>
-                                {movie.title}{' '}
+                                {movie.title}
                                 <span>
-                                    ({movie.release_date.split('-')[0]}
+                                    {' '}({movie.release_date.split('-')[0]}
                                     {rating && `, ${rating}`})
                                 </span>
                             </h2>
