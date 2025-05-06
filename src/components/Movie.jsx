@@ -5,6 +5,7 @@ import Credits from './Credits';
 import ErrorFeedback from './ErrorFeedback';
 import Genres from './Genres';
 import ReleaseInfo from './ReleaseInfo';
+import Votes from './Votes';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -190,11 +191,11 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                 actorsDisplayMaxThree={true}
                             />
 
-                            <div className="stars-voted">
-                                <b>Stars:</b>{' '}
-                                {Math.round(movie.vote_average * 2) / 2}/10
-                                <span> ({movie.vote_count} votes)</span>
-                            </div>
+                            <Votes
+                                className="stars-voted" 
+                                voteAverage={movie.vote_average} 
+                                voteCount={movie.vote_count}
+                            />
 
                             <div className="show-on-desktop">
                                 <p>{movie.overview}</p>

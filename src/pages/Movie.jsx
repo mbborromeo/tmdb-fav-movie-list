@@ -12,6 +12,7 @@ import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
 import Genres from '../components/Genres';
 import ReleaseInfo from '../components/ReleaseInfo';
+import Votes from '../components/Votes';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -214,12 +215,11 @@ const Movie = () => {
                                 dateOrder={dateOrder}
                             />
 
-                            <div>
-                                <b>Stars:</b>{' '}
-                                {Math.round(movie.vote_average * 2) / 2}
-                                /10
-                                <span> ({movie.vote_count} votes)</span>
-                            </div>
+                            <Votes 
+                                voteAverage={movie.vote_average} 
+                                voteCount={movie.vote_count} 
+                            />
+
                         </div>
                     )}
 
