@@ -173,7 +173,7 @@ const Movie = () => {
                     </div>
 
                     {movie && (
-                        <>
+                        <div className="page-wrapper">
                             <h2>
                                 {movie.title}
                                 <span>
@@ -202,14 +202,12 @@ const Movie = () => {
                             </div>
 
                             <Genres genres={movie.genres} />
-                            <br />
 
                             <div>
                                 <b>Runtime:</b>{' '}
                                 {movie.runtime &&
                                     formatRuntimeHoursAndMinutes(movie.runtime)}
                             </div>
-                            <br />
 
                             <Credits
                                 directors={directors}
@@ -229,8 +227,7 @@ const Movie = () => {
                                 /10
                                 <span> ({movie.vote_count} votes)</span>
                             </div>
-                            <br />
-                        </>
+                        </div>
                     )}
 
                     {errorMessage && <ErrorFeedback message={errorMessage} />}

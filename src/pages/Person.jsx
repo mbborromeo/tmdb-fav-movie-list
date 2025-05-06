@@ -155,7 +155,7 @@ const Person = () => {
                     </div>
 
                     {person && (
-                        <>
+                        <div className="page-wrapper">
                             <h2>{person.name}</h2>
 
                             <div className="row row-person">
@@ -175,13 +175,11 @@ const Person = () => {
                                     {person.biography}
                                 </p>
                             </div>
-                            <br />
 
                             <div>
                                 <b>Known for department:</b>{' '}
                                 {person.known_for_department}
                             </div>
-                            <br />
 
                             {movies.length > 0 && (
                                 <div>
@@ -233,7 +231,7 @@ const Person = () => {
                                     </div>
                                 </div>
                             )}
-                        </>
+                        </div>
                     )}
 
                     {errorMessage && <ErrorFeedback message={errorMessage} />}

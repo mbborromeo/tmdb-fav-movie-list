@@ -143,7 +143,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
             )}
 
             {!loading && movie && (
-                <>
+                <div>
                     <h2 className="margin-bottom-none">
                         <Link
                             to={
@@ -212,7 +212,7 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                     <div className="show-on-mobile">
                         <p>{movie.overview}</p>
                     </div>
-                </>
+                </div>
             )}
 
             {errorMessage && <ErrorFeedback message={errorMessage} />}
