@@ -173,7 +173,7 @@ const Movie = () => {
                     </div>
 
                     {movie && (
-                        <div className="page-wrapper">
+                        <div className="content-wrapper">
                             <h2>
                                 {movie.title}
                                 <span>

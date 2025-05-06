@@ -155,7 +155,7 @@ const Person = () => {
                     </div>
 
                     {person && (
-                        <div className="page-wrapper">
+                        <div className="content-wrapper">
                             <h2>{person.name}</h2>
 
                             <div className="row row-person">
