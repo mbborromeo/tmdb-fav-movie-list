@@ -122,6 +122,7 @@ h2 span {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: start;
 }
 
 .row img {
@@ -139,18 +140,18 @@ h2 span {
     width: 50%;
 }
 
-.row.row-movie {
+.row.row-movie.page {
     align-items: stretch;
-}
-
-.row.row-movie.component {
-    align-items: start;
 }
 
 .row.row-movie img,
 .row.row-person img
 {
     width: 100%;
+}
+
+.row.row-movie img {
+    padding-bottom: 10px;
 }
 
 .row.row-movie iframe {
@@ -318,6 +319,7 @@ ol li a + span {
 
     .row.row-movie img {
         width: 33%;
+        padding-bottom: 0;
     }
 
     .row.row-person img {

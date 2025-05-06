@@ -177,7 +177,7 @@ const Movie = () => {
                                 </span>
                             </h2>
 
-                            <div className="row row-movie">
+                            <div className="row row-movie page">
                                 <img
                                     src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                                     alt="Poster"
