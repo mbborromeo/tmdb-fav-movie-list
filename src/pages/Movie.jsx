@@ -17,8 +17,8 @@ import { BASE_URL_IMAGE } from '../utils/api';
 
 const Movie = () => {
     const { id } = useParams();
-    const [searchParams] = useSearchParams();
 
+    const [searchParams] = useSearchParams();
     const filter = searchParams.get('filter');
     const genreFilter = filter ? filter : null;
     const order = searchParams.get('order');
