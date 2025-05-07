@@ -1,8 +1,4 @@
-import {
-    useParams,
-    useSearchParams,
-    Link
-} from 'react-router-dom';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import Trailer from '../components/Trailer';
 import Credits from '../components/Credits';
@@ -30,8 +26,17 @@ const Movie = () => {
 
     const POSTER_SIZE = 'w342'; /* w185 */
 
-    const {loading, movie, directors, writers, novelists, actors, rating, errorMessage} = useFetchMovie(id);
-    
+    const {
+        loading,
+        movie,
+        directors,
+        writers,
+        novelists,
+        actors,
+        rating,
+        errorMessage
+    } = useFetchMovie(id);
+
     return (
         <>
             {loading && <img src={loadingGif} alt="loading" width="32" />}
