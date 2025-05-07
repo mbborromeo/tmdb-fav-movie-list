@@ -104,6 +104,23 @@ h2 span {
     pointer-events: none;
 }
 
+.icon.order {
+    display: inline-block;
+    width: 12px;
+    /* height: 20px; */
+    margin-left: 5px;
+    aspect-ratio: 1;
+    vertical-align: middle;
+    background-image: url('./assets/images/up-arrow_by_ Roundicons_Flaticon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    transition: transform 0.15s linear;
+}
+.icon.order.desc {
+    transform: rotate(180deg);
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;

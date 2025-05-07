@@ -189,13 +189,10 @@ const Movies = () => {
                                         handleClickOrder(e.target.value);
                                     }}
                                 >
-                                    Release Date:
-                                    <span>
-                                        {' '}
-                                        {!dateOrder
-                                            ? 'Ascending'
-                                            : 'Descending'}
-                                    </span>
+                                    Release Date
+                                    <span
+                                        className={`icon order${!dateOrder ? '' : ' desc'}`}
+                                    ></span>
                                 </button>
 
                                 {Object.keys(moviesCategorized).length > 0 && (
