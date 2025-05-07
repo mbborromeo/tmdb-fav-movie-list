@@ -197,7 +197,7 @@ const Person = () => {
                                                                 POSTER_SIZE +
                                                                 movie.poster_path
                                                             }
-                                                            alt={`${person.name}'s profile pic`}
+                                                            alt="Poster"
                                                             width="123"
                                                             height="184"
                                                         />
