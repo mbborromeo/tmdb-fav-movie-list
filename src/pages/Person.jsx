@@ -125,29 +125,29 @@ const Person = () => {
                     <div>
                         {movieId ? (
                             <Link
-                                to={
-                                    genreFilter && dateOrder
-                                        ? `/movie/${movieId}?filter=${genreFilter}&order=${dateOrder}`
-                                        : genreFilter && !dateOrder
-                                          ? `/movie/${movieId}?filter=${genreFilter}`
-                                          : !genreFilter && dateOrder
-                                            ? `/movie/${movieId}?order=${dateOrder}`
-                                            : `/movie/${movieId}`
-                                }
+                                to={{
+                                    pathname: `/movie/${movieId}`,
+                                    search: new URLSearchParams({
+                                        ...(genreFilter && {
+                                            filter: genreFilter
+                                        }),
+                                        ...(dateOrder && { order: dateOrder })
+                                    }).toString()
+                                }}
                             >
                                 <b>&laquo;Back to Movie</b>
                             </Link>
                         ) : (
                             <Link
-                                to={
-                                    genreFilter && dateOrder
-                                        ? `/?filter=${genreFilter}&order=${dateOrder}`
-                                        : genreFilter && !dateOrder
-                                          ? `/?filter=${genreFilter}`
-                                          : !genreFilter && dateOrder
-                                            ? `/?order=${dateOrder}`
-                                            : '/'
-                                }
+                                to={{
+                                    pathname: '/',
+                                    search: new URLSearchParams({
+                                        ...(genreFilter && {
+                                            filter: genreFilter
+                                        }),
+                                        ...(dateOrder && { order: dateOrder })
+                                    }).toString()
+                                }}
                             >
                                 <b>&laquo;Back to Movies</b>
                             </Link>
@@ -204,18 +204,19 @@ const Person = () => {
                                                     )}
 
                                                     <Link
-                                                        to={
-                                                            genreFilter &&
-                                                            dateOrder
-                                                                ? `/movie/${movie.id}?filter=${genreFilter}&order=${dateOrder}`
-                                                                : genreFilter &&
-                                                                    !dateOrder
-                                                                  ? `/movie/${movie.id}?filter=${genreFilter}`
-                                                                  : !genreFilter &&
-                                                                      dateOrder
-                                                                    ? `/movie/${movie.id}?order=${dateOrder}`
-                                                                    : `/movie/${movie.id}`
-                                                        }
+                                                        to={{
+                                                            pathname: `/movie/${movie.id}`,
+                                                            search: new URLSearchParams(
+                                                                {
+                                                                    ...(genreFilter && {
+                                                                        filter: genreFilter
+                                                                    }),
+                                                                    ...(dateOrder && {
+                                                                        order: dateOrder
+                                                                    })
+                                                                }
+                                                            ).toString()
+                                                        }}
                                                     >
                                                         {movie.title}
                                                     </Link>

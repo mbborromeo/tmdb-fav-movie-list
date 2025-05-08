@@ -23,7 +23,7 @@ const Movies = () => {
     const order = searchParams.get('order');
     const dateOrder = order ? order : null;
 
-    const accountID = ensureEnv("VITE_TMDB_ACCOUNT_ID");
+    const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
 
     const sortMovies = useCallback(
         (moviesArray) => {
@@ -151,7 +151,7 @@ const Movies = () => {
 
             setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
-    }, []);
+    }, [accountID]);
 
     const moviesCategorized = useMemo(() => {
         return movies.length > 0 && genres.length > 0

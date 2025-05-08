@@ -4,7 +4,7 @@ export const BASE_URL = 'https://api.themoviedb.org/3';
 export const BASE_URL_IMAGE = 'https://image.tmdb.org/t/p/';
 export const MAX_ACTORS = 8;
 
-const apiToken = ensureEnv("VITE_TMDB_TOKEN");
+const apiToken = ensureEnv('VITE_TMDB_TOKEN');
 
 export const OPTIONS = {
     method: 'GET',

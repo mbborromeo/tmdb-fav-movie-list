@@ -5,4 +5,4 @@ export const ensureEnv = (name) => {
         throw new Error(`Missing environment variable ${name}`);
     }
     return value;
-}
+};
