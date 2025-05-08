@@ -7,6 +7,7 @@ import Genres from './Genres';
 import ReleaseInfo from './ReleaseInfo';
 import Votes from './Votes';
 import Runtime from './Runtime';
+import Trailer from './Trailer';
 
 import useFetchMovie from '../hooks/useFetchMovie';
 
@@ -14,9 +15,9 @@ import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
 import { BASE_URL_IMAGE } from '../utils/api';
 
-const Movie = memo(({ id, genreFilter, dateOrder }) => {
+const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
     // https://developer.themoviedb.org/reference/configuration-details
-    const POSTER_SIZE = 'w185'; // w154 w92
+    const POSTER_SIZE = page ? 'w342' : 'w185'; // w154 w92
 
     const {
         loading,
@@ -34,29 +35,33 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {!loading && movie && (
-                <div>
+                <div className={`content-wrapper${page ? ' page' : ''}`}>
                     <h2 className="margin-bottom-none">
-                        <Link
-                            to={
-                                genreFilter && dateOrder
-                                    ? `/movie/${movie.id}/?filter=${genreFilter}&order=${dateOrder}`
-                                    : genreFilter && !dateOrder
-                                      ? `/movie/${movie.id}?filter=${genreFilter}`
-                                      : !genreFilter && dateOrder
-                                        ? `/movie/${movie.id}?order=${dateOrder}`
-                                        : `/movie/${movie.id}`
-                            }
-                            state={{
-                                movie,
-                                directors,
-                                writers,
-                                novelists,
-                                actors,
-                                rating
-                            }}
-                        >
-                            {movie.title}
-                        </Link>
+                        {page ? 
+                            movie.title
+                            :
+                            <Link
+                                to={
+                                    genreFilter && dateOrder
+                                        ? `/movie/${movie.id}?filter=${genreFilter}&order=${dateOrder}`
+                                        : genreFilter && !dateOrder
+                                        ? `/movie/${movie.id}?filter=${genreFilter}`
+                                        : !genreFilter && dateOrder
+                                            ? `/movie/${movie.id}?order=${dateOrder}`
+                                            : `/movie/${movie.id}`
+                                }
+                                state={{
+                                    movie,
+                                    directors,
+                                    writers,
+                                    novelists,
+                                    actors,
+                                    rating
+                                }}
+                            >
+                                {movie.title}
+                            </Link>
+                        }
 
                         <ReleaseInfo
                             releaseDate={movie.release_date}
@@ -64,15 +69,57 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                         />
                     </h2>
 
-                    <div className="row row-movie component">
+                    <div className="row row-movie">
                         <img
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"
-                            width="185"
-                            height="278"
+                            width={page ? '338' : '185'}
+                            height={page ? '508' : '278'}
                         />
 
-                        <div className="data-column">
+                        {page ? (
+                            <>
+                                <Trailer id={id} />
+
+                                <div className="description">
+                                    <p>
+                                        <em>{movie.tagline}</em>
+                                    </p>
+
+                                    <p>{movie.overview}</p>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="data-column">
+                                <Genres genres={movie.genres} />
+
+                                <Runtime runtime={movie.runtime} />
+
+                                <Credits
+                                    directors={directors}
+                                    writers={writers}
+                                    novelists={novelists}
+                                    actors={actors}
+                                    actorsDisplayMaxThree={true}
+                                    genreFilter={genreFilter}
+                                    dateOrder={dateOrder}
+                                />
+
+                                <Votes
+                                    className="stars-voted"
+                                    voteAverage={movie.vote_average}
+                                    voteCount={movie.vote_count}
+                                />
+
+                                <div className="show-on-desktop">
+                                    <p>{movie.overview}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {page ? (
+                        <>
                             <Genres genres={movie.genres} />
 
                             <Runtime runtime={movie.runtime} />
@@ -82,24 +129,23 @@ const Movie = memo(({ id, genreFilter, dateOrder }) => {
                                 writers={writers}
                                 novelists={novelists}
                                 actors={actors}
-                                actorsDisplayMaxThree={true}
+                                showActorsPic={true}
+                                displayLinks={true}
+                                movieId={id}
+                                genreFilter={genreFilter}
+                                dateOrder={dateOrder}
                             />
 
                             <Votes
-                                className="stars-voted"
                                 voteAverage={movie.vote_average}
                                 voteCount={movie.vote_count}
                             />
-
-                            <div className="show-on-desktop">
-                                <p>{movie.overview}</p>
-                            </div>
+                        </>
+                    ):(
+                        <div className="show-on-mobile">
+                            <p>{movie.overview}</p>
                         </div>
-                    </div>
-
-                    <div className="show-on-mobile">
-                        <p>{movie.overview}</p>
-                    </div>
+                    )}
                 </div>
             )}
 
