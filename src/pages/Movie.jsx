@@ -12,25 +12,29 @@ const Movie = () => {
     const order = searchParams.get('order');
     const dateOrder = order ? order : null;
 
-    const urlParamsString = genreFilter && dateOrder
-        ? `?filter=${genreFilter}&order=${dateOrder}`
-        : genreFilter && !dateOrder
-        ? `?filter=${genreFilter}`
-        : !genreFilter && dateOrder
-            ? `?order=${dateOrder}`
-            : '';
+    const urlParamsString =
+        genreFilter && dateOrder
+            ? `?filter=${genreFilter}&order=${dateOrder}`
+            : genreFilter && !dateOrder
+              ? `?filter=${genreFilter}`
+              : !genreFilter && dateOrder
+                ? `?order=${dateOrder}`
+                : '';
 
     return (
         <>
             <div>
-                <Link
-                    to={`/${urlParamsString}`}
-                >
+                <Link to={`/${urlParamsString}`}>
                     <b>&laquo;Back to Movies</b>
                 </Link>
             </div>
 
-            <MovieComponent id={id} page={true} genreFilter={genreFilter} dateOrder={dateOrder} />
+            <MovieComponent
+                id={id}
+                page={true}
+                genreFilter={genreFilter}
+                dateOrder={dateOrder}
+            />
 
             <Footer />
         </>

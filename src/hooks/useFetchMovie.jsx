@@ -12,9 +12,13 @@ const useFetchMovie = (id) => {
 
     // location.state will be null if Movie page is opened in a new tab
     const [movie, setMovie] = useState(location.state?.movie || null);
-    const [directors, setDirectors] = useState(location.state?.directors || null);
+    const [directors, setDirectors] = useState(
+        location.state?.directors || null
+    );
     const [writers, setWriters] = useState(location.state?.writers || null);
-    const [novelists, setNovelists] = useState(location.state?.novelists || null);
+    const [novelists, setNovelists] = useState(
+        location.state?.novelists || null
+    );
     const [actors, setActors] = useState(location.state?.actors || null);
     const [rating, setRating] = useState(location.state?.rating || null);
 

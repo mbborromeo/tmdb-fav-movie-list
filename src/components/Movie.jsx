@@ -37,16 +37,16 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
             {!loading && movie && (
                 <div className={`content-wrapper${page ? ' page' : ''}`}>
                     <h2 className="margin-bottom-none">
-                        {page ? 
+                        {page ? (
                             movie.title
-                            :
+                        ) : (
                             <Link
                                 to={
                                     genreFilter && dateOrder
                                         ? `/movie/${movie.id}?filter=${genreFilter}&order=${dateOrder}`
                                         : genreFilter && !dateOrder
-                                        ? `/movie/${movie.id}?filter=${genreFilter}`
-                                        : !genreFilter && dateOrder
+                                          ? `/movie/${movie.id}?filter=${genreFilter}`
+                                          : !genreFilter && dateOrder
                                             ? `/movie/${movie.id}?order=${dateOrder}`
                                             : `/movie/${movie.id}`
                                 }
@@ -61,7 +61,7 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                             >
                                 {movie.title}
                             </Link>
-                        }
+                        )}
 
                         <ReleaseInfo
                             releaseDate={movie.release_date}
@@ -141,7 +141,7 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                                 voteCount={movie.vote_count}
                             />
                         </>
-                    ):(
+                    ) : (
                         <div className="show-on-mobile">
                             <p>{movie.overview}</p>
                         </div>
