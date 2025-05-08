@@ -11,35 +11,20 @@ const useFetchMovie = (id) => {
     const [errorMessage, setErrorMessage] = useState('');
 
     // location.state will be null if Movie page is opened in a new tab
-    const [movie, setMovie] = useState(
-        location.state ? location.state.movie : null
-    );
+    const [movie, setMovie] = useState(location.state?.movie || null);
     const [directors, setDirectors] = useState(
-        location.state ? location.state.directors : null
+        location.state?.directors || null
     );
-    const [writers, setWriters] = useState(
-        location.state ? location.state.writers : null
-    );
+    const [writers, setWriters] = useState(location.state?.writers || null);
     const [novelists, setNovelists] = useState(
-        location.state ? location.state.novelists : null
+        location.state?.novelists || null
     );
-    const [actors, setActors] = useState(
-        location.state ? location.state.actors : null
-    );
-    const [rating, setRating] = useState(
-        location.state ? location.state.rating : null
-    );
+    const [actors, setActors] = useState(location.state?.actors || null);
+    const [rating, setRating] = useState(location.state?.rating || null);
 
     useEffect(() => {
         const fetchMovie = async () => {
-            if (
-                !movie ||
-                !directors ||
-                !writers ||
-                !novelists ||
-                !actors ||
-                !rating
-            ) {
+            if (!location.state) {
                 try {
                     const [moviePromise, creditsPromise, releaseDataPromise] =
                         await Promise.allSettled([
@@ -142,7 +127,7 @@ const useFetchMovie = (id) => {
         };
 
         fetchMovie();
-    }, [id, movie, directors, writers, novelists, actors, rating]);
+    }, [id, location]);
 
     return {
         loading,

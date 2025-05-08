@@ -148,27 +148,31 @@ h2 span {
     object-fit: contain;
 }
 
-.row.row-movie.component .data-column {
+.row.row-movie .data-column {
     width: 46%;
     padding-left: 4%;
     font-size: 13px;
 }
 
-.row.row-movie.component img {
+.page .row.row-movie .data-column {
+    display: none;
+}
+
+.row.row-movie img {
     width: 50%;
 }
 
-.row.row-movie.page {
+.page .row.row-movie {
     align-items: stretch;
 }
 
-.row.row-movie img,
+.page .row.row-movie img,
 .row.row-person img
 {
     width: 100%;
 }
 
-.row.row-movie img {
+.page .row.row-movie img {
     padding-bottom: 10px;
 }
 
@@ -325,16 +329,16 @@ ol li a + span {
         display: block;
     }
     
-    .row.row-movie.component img {
+    .row.row-movie img {
         width: 16%;
     }
 
-    .row.row-movie.component .data-column {
+    .row.row-movie .data-column {
         width: 82%;
         padding-left: 2%;
     }
 
-    .row.row-movie img {
+    .page .row.row-movie img {
         width: 33%;
         padding-bottom: 0;
     }

@@ -29,7 +29,7 @@ const Person = ({
                     <Link
                         to={
                             genreFilter && dateOrder
-                                ? `/person/${person.id}/?filter=${genreFilter}&order=${dateOrder}`
+                                ? `/person/${person.id}?filter=${genreFilter}&order=${dateOrder}`
                                 : genreFilter && !dateOrder
                                   ? `/person/${person.id}?filter=${genreFilter}`
                                   : !genreFilter && dateOrder
