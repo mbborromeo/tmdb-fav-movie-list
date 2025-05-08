@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
+import { ensureEnv } from '../utils/helper';
 
 import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
@@ -21,6 +22,8 @@ const Movies = () => {
     const genreFilter = filter ? filter : null;
     const order = searchParams.get('order');
     const dateOrder = order ? order : null;
+
+    const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
 
     const sortMovies = useCallback(
         (moviesArray) => {
@@ -97,7 +100,7 @@ const Movies = () => {
                             `${BASE_URL}/genre/movie/list?language=en`
                         ),
                         fetchApiCallOrThrowError(
-                            `${BASE_URL}/account/${import.meta.env.VITE_TMDB_ACCOUNT_ID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
+                            `${BASE_URL}/account/${accountID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
                         )
                     ]
                 );
@@ -148,7 +151,7 @@ const Movies = () => {
 
             setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
-    }, []);
+    }, [accountID]);
 
     const moviesCategorized = useMemo(() => {
         return movies.length > 0 && genres.length > 0

@@ -12,19 +12,18 @@ const Movie = () => {
     const order = searchParams.get('order');
     const dateOrder = order ? order : null;
 
-    const urlParamsString =
-        genreFilter && dateOrder
-            ? `?filter=${genreFilter}&order=${dateOrder}`
-            : genreFilter && !dateOrder
-              ? `?filter=${genreFilter}`
-              : !genreFilter && dateOrder
-                ? `?order=${dateOrder}`
-                : '';
-
     return (
         <>
             <div>
-                <Link to={`/${urlParamsString}`}>
+                <Link
+                    to={{
+                        pathname: '/',
+                        search: new URLSearchParams({
+                            ...(genreFilter && { filter: genreFilter }),
+                            ...(dateOrder && { order: dateOrder })
+                        }).toString()
+                    }}
+                >
                     <b>&laquo;Back to Movies</b>
                 </Link>
             </div>

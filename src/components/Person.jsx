@@ -27,15 +27,13 @@ const Person = ({
             {displayLinks ? (
                 <>
                     <Link
-                        to={
-                            genreFilter && dateOrder
-                                ? `/person/${person.id}?filter=${genreFilter}&order=${dateOrder}`
-                                : genreFilter && !dateOrder
-                                  ? `/person/${person.id}?filter=${genreFilter}`
-                                  : !genreFilter && dateOrder
-                                    ? `/person/${person.id}?order=${dateOrder}`
-                                    : `/person/${person.id}`
-                        }
+                        to={{
+                            pathname: `/person/${person.id}`,
+                            search: new URLSearchParams({
+                                ...(genreFilter && { filter: genreFilter }),
+                                ...(dateOrder && { order: dateOrder })
+                            }).toString()
+                        }}
                         state={{ movieId }}
                     >
                         {person.name}

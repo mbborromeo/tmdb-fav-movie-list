@@ -41,15 +41,15 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                             movie.title
                         ) : (
                             <Link
-                                to={
-                                    genreFilter && dateOrder
-                                        ? `/movie/${movie.id}?filter=${genreFilter}&order=${dateOrder}`
-                                        : genreFilter && !dateOrder
-                                          ? `/movie/${movie.id}?filter=${genreFilter}`
-                                          : !genreFilter && dateOrder
-                                            ? `/movie/${movie.id}?order=${dateOrder}`
-                                            : `/movie/${movie.id}`
-                                }
+                                to={{
+                                    pathname: `/movie/${movie.id}`,
+                                    search: new URLSearchParams({
+                                        ...(genreFilter && {
+                                            filter: genreFilter
+                                        }),
+                                        ...(dateOrder && { order: dateOrder })
+                                    }).toString()
+                                }}
                                 state={{
                                     movie,
                                     directors,
