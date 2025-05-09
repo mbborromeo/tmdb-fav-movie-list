@@ -128,10 +128,12 @@ const Person = () => {
                                 to={{
                                     pathname: `/movie/${movieId}`,
                                     search: new URLSearchParams({
-                                        ...(genreFilter && {
-                                            filter: genreFilter
-                                        }),
-                                        ...(dateOrder && { order: dateOrder })
+                                        ...(genreFilter
+                                            ? { filter: genreFilter }
+                                            : {}),
+                                        ...(dateOrder
+                                            ? { order: dateOrder }
+                                            : {})
                                     }).toString()
                                 }}
                             >
@@ -142,10 +144,12 @@ const Person = () => {
                                 to={{
                                     pathname: '/',
                                     search: new URLSearchParams({
-                                        ...(genreFilter && {
-                                            filter: genreFilter
-                                        }),
-                                        ...(dateOrder && { order: dateOrder })
+                                        ...(genreFilter
+                                            ? { filter: genreFilter }
+                                            : {}),
+                                        ...(dateOrder
+                                            ? { order: dateOrder }
+                                            : {})
                                     }).toString()
                                 }}
                             >
@@ -208,12 +212,16 @@ const Person = () => {
                                                             pathname: `/movie/${movie.id}`,
                                                             search: new URLSearchParams(
                                                                 {
-                                                                    ...(genreFilter && {
-                                                                        filter: genreFilter
-                                                                    }),
-                                                                    ...(dateOrder && {
-                                                                        order: dateOrder
-                                                                    })
+                                                                    ...(genreFilter
+                                                                        ? {
+                                                                              filter: genreFilter
+                                                                          }
+                                                                        : {}),
+                                                                    ...(dateOrder
+                                                                        ? {
+                                                                              order: dateOrder
+                                                                          }
+                                                                        : {})
                                                                 }
                                                             ).toString()
                                                         }}

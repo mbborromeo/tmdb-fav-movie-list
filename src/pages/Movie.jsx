@@ -19,8 +19,8 @@ const Movie = () => {
                     to={{
                         pathname: '/',
                         search: new URLSearchParams({
-                            ...(genreFilter && { filter: genreFilter }),
-                            ...(dateOrder && { order: dateOrder })
+                            ...(genreFilter ? { filter: genreFilter } : {}),
+                            ...(dateOrder ? { order: dateOrder } : {})
                         }).toString()
                     }}
                 >
