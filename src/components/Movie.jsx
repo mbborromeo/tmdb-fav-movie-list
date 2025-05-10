@@ -27,7 +27,7 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
         novelists,
         actors,
         rating,
-        errorMessage
+        errorMessages
     } = useFetchMovie(id);
 
     return (
@@ -149,7 +149,11 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                 </div>
             )}
 
-            {errorMessage && <ErrorFeedback message={errorMessage} />}
+            {errorMessages.length > 0 && errorMessages.map(
+                (errorMessage, index) => (
+                    <ErrorFeedback key={index} message={errorMessage} />
+                )
+            )}
         </>
     );
 });

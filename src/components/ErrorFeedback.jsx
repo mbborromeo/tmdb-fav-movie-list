@@ -1,5 +1,5 @@
 const ErrorFeedback = ({ message }) => {
-    return <b style={{ color: 'red' }}>{message}</b>;
+    return <div><b style={{ color: 'red' }}>{message}</b></div>;
 };
 
 export default ErrorFeedback;

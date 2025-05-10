@@ -14,7 +14,7 @@ const Movies = () => {
     const [movies, setMovies] = useState([]);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessages, setErrorMessages] = useState([]);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -93,6 +93,8 @@ const Movies = () => {
 
     useEffect(() => {
         (async () => {
+            const errorsArray = [];
+
             try {
                 const [genresPromise, moviesPromise] = await Promise.allSettled(
                     [
@@ -107,9 +109,7 @@ const Movies = () => {
 
                 if (genresPromise.status === 'rejected') {
                     console.error('Error:', genresPromise.reason);
-                    setErrorMessage(
-                        'Failed to load Genres. Error: ' + genresPromise.reason
-                    );
+                    errorsArray.push('Failed to load Genres. Error: ' + genresPromise.reason);
                 }
 
                 if (genresPromise.status === 'fulfilled') {
@@ -127,9 +127,7 @@ const Movies = () => {
 
                 if (moviesPromise.status === 'rejected') {
                     console.error('Error:', moviesPromise.reason);
-                    setErrorMessage(
-                        'Failed to load Movies. Error: ' + moviesPromise.reason
-                    );
+                    errorsArray.push('Failed to load Movies. Error: ' + moviesPromise.reason);
                 }
 
                 if (moviesPromise.status === 'fulfilled') {
@@ -147,6 +145,11 @@ const Movies = () => {
             } catch (error) {
                 // Promise rejected (Network or CORS issues) OR output thrown Errors from try statement above
                 console.error('Error:', error);
+                errorsArray.push('Promise rejected. Error: ' + error.message);
+            }
+
+            if (errorsArray.length > 0) {
+                setErrorMessages(errorsArray);
             }
 
             setLoading(false); // after both genres and movies have been fetched
@@ -174,11 +177,15 @@ const Movies = () => {
 
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
-            {errorMessage && <ErrorFeedback message={errorMessage} />}
+            {errorMessages.length > 0 && errorMessages.map(
+                (errorMessage, index) => (
+                    <ErrorFeedback key={index} message={errorMessage} />
+                )
+            )}
 
             {!loading && (
                 <>
-                    {moviesSorted.length === 0 && <b>No movies found!</b>}
+                    {moviesSorted.length === 0 && errorMessages.length === 0 && <b>No movies found!</b>}
 
                     {moviesSorted.length > 0 && (
                         <>

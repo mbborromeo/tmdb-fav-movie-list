@@ -8,7 +8,7 @@ const useFetchMovie = (id) => {
     const location = useLocation();
 
     const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessages, setErrorMessages] = useState([]);
 
     // location.state will be null if Movie page is opened in a new tab
     const [movie, setMovie] = useState(location.state?.movie || null);
@@ -25,6 +25,8 @@ const useFetchMovie = (id) => {
     useEffect(() => {
         const fetchMovie = async () => {
             if (!location.state) {
+                const errorsArray = [];
+
                 try {
                     const [moviePromise, creditsPromise, releaseDataPromise] =
                         await Promise.allSettled([
@@ -41,7 +43,7 @@ const useFetchMovie = (id) => {
 
                     if (moviePromise.status === 'rejected') {
                         console.error('Error:', moviePromise.reason);
-                        setErrorMessage(
+                        errorsArray.push(
                             'Failed to load Movie. ' + moviePromise.reason
                         );
                     }
@@ -53,7 +55,7 @@ const useFetchMovie = (id) => {
 
                     if (creditsPromise.status === 'rejected') {
                         console.error('Error:', creditsPromise.reason);
-                        setErrorMessage(
+                        errorsArray.push(
                             'Failed to load Credits. ' + creditsPromise.reason
                         );
                     }
@@ -84,7 +86,7 @@ const useFetchMovie = (id) => {
 
                     if (releaseDataPromise.status === 'rejected') {
                         console.error('Error:', releaseDataPromise.reason);
-                        setErrorMessage(
+                        errorsArray.push(
                             'Failed to load Release Data. ' +
                                 releaseDataPromise.reason
                         );
@@ -120,6 +122,11 @@ const useFetchMovie = (id) => {
                     }
                 } catch (error) {
                     console.error('Error:', error);
+                    errorsArray.push('Promise rejected. Error: ' + error.message);
+                }
+
+                if (errorsArray.length > 0) {
+                    setErrorMessages(errorsArray);
                 }
             }
 
@@ -137,7 +144,7 @@ const useFetchMovie = (id) => {
         novelists,
         actors,
         rating,
-        errorMessage
+        errorMessages
     };
 };
 
