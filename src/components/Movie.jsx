@@ -44,10 +44,12 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                                 to={{
                                     pathname: `/movie/${movie.id}`,
                                     search: new URLSearchParams({
-                                        ...(genreFilter && {
-                                            filter: genreFilter
-                                        }),
-                                        ...(dateOrder && { order: dateOrder })
+                                        ...(genreFilter
+                                            ? { filter: genreFilter }
+                                            : {}),
+                                        ...(dateOrder
+                                            ? { order: dateOrder }
+                                            : {})
                                     }).toString()
                                 }}
                                 state={{

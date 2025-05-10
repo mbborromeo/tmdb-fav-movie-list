@@ -30,8 +30,8 @@ const Person = ({
                         to={{
                             pathname: `/person/${person.id}`,
                             search: new URLSearchParams({
-                                ...(genreFilter && { filter: genreFilter }),
-                                ...(dateOrder && { order: dateOrder })
+                                ...(genreFilter ? { filter: genreFilter } : {}),
+                                ...(dateOrder ? { order: dateOrder } : {})
                             }).toString()
                         }}
                         state={{ movieId }}
