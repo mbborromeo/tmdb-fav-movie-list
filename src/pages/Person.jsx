@@ -31,7 +31,7 @@ const Person = () => {
     const [person, setPerson] = useState(null);
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessages, setErrorMessages] = useState([]);
 
     const PROFILE_SIZE = 'w300'; // w185 w138_and_h175_face
     const POSTER_SIZE = 'w185'; // w92
@@ -40,6 +40,7 @@ const Person = () => {
     useEffect(() => {
         (async () => {
             let dataPerson = null;
+            const errorsArray = [];
 
             try {
                 dataPerson = await fetchApiCallOrThrowError(
@@ -47,8 +48,8 @@ const Person = () => {
                 ); // if fetch error, value will stay undefined
                 setPerson(dataPerson);
             } catch (error) {
-                // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage(
+                // receive any error from fetchApiCallOrThrowError
+                errorsArray.push(
                     'Failed to load Person. Error: ' + error.message
                 );
             }
@@ -105,11 +106,15 @@ const Person = () => {
 
                     setMovies(moviesOfInterest);
                 } catch (error) {
-                    // receive any error from fetchApiCallOrThrowError()
-                    setErrorMessage(
+                    // receive any error from fetchApiCallOrThrowError
+                    errorsArray.push(
                         'Failed to load Credits. Error: ' + error.message
                     );
                 }
+            }
+
+            if (errorsArray.length > 0) {
+                setErrorMessages(errorsArray);
             }
 
             setLoading(false);
@@ -243,7 +248,9 @@ const Person = () => {
                         </div>
                     )}
 
-                    {errorMessage && <ErrorFeedback message={errorMessage} />}
+                    {errorMessages.length > 0 && (
+                        <ErrorFeedback errors={errorMessages} />
+                    )}
                 </>
             )}
 

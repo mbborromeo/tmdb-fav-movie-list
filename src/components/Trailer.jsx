@@ -9,10 +9,12 @@ import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 const Trailer = ({ id }) => {
     const [trailer, setTrailer] = useState(undefined);
     const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessages, setErrorMessages] = useState([]);
 
     useEffect(() => {
         (async () => {
+            const errorsArray = [];
+
             try {
                 const data = await fetchApiCallOrThrowError(
                     `${BASE_URL}/movie/${id}/videos?language=en-US`
@@ -26,9 +28,13 @@ const Trailer = ({ id }) => {
                 }
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
-                setErrorMessage(
+                errorsArray.push(
                     'Failed to load Trailer. Error: ' + error.message
                 );
+            }
+
+            if (errorsArray.length > 0) {
+                setErrorMessages(errorsArray);
             }
 
             setLoading(false);
@@ -39,9 +45,11 @@ const Trailer = ({ id }) => {
         <>
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
-            {errorMessage && <ErrorFeedback message={errorMessage} />}
+            {errorMessages.length > 0 && (
+                <ErrorFeedback errors={errorMessages} />
+            )}
 
-            {!loading && !errorMessage && trailer && (
+            {!loading && errorMessages.length === 0 && trailer && (
                 <iframe
                     id="ytplayer"
                     type="text/html"
