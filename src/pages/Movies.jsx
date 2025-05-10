@@ -181,9 +181,9 @@ const Movies = () => {
 
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
-            {errorMessages.length > 0 &&
+            {errorMessages.length > 0 && (
                 <ErrorFeedback errors={errorMessages} />
-            }
+            )}
 
             {!loading && (
                 <>

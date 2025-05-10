@@ -248,9 +248,9 @@ const Person = () => {
                         </div>
                     )}
 
-                    {errorMessages.length > 0 &&
+                    {errorMessages.length > 0 && (
                         <ErrorFeedback errors={errorMessages} />
-                    }
+                    )}
                 </>
             )}
 

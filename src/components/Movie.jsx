@@ -151,9 +151,9 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                 </div>
             )}
 
-            {errorMessages.length > 0 &&
+            {errorMessages.length > 0 && (
                 <ErrorFeedback errors={errorMessages} />
-            }
+            )}
         </>
     );
 });
