@@ -28,7 +28,9 @@ const Trailer = ({ id }) => {
                 }
             } catch (error) {
                 // receive any error from fetchApiCallOrThrowError()
-                errorsArray.push('Failed to load Trailer. Error: ' + error.message);
+                errorsArray.push(
+                    'Failed to load Trailer. Error: ' + error.message
+                );
             }
 
             if (errorsArray.length > 0) {
@@ -43,11 +45,9 @@ const Trailer = ({ id }) => {
         <>
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
-            {errorMessages.length > 0 && errorMessages.map(
-                (errorMessage, index) => (
-                    <ErrorFeedback key={index} message={errorMessage} />
-                )
-            )}
+            {errorMessages.length > 0 &&
+                <ErrorFeedback errors={errorMessages} />
+            }
 
             {!loading && errorMessages.length === 0 && trailer && (
                 <iframe

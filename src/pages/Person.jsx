@@ -248,11 +248,9 @@ const Person = () => {
                         </div>
                     )}
 
-                    {errorMessages.length > 0 && errorMessages.map(
-                        (errorMessage, index) => (
-                            <ErrorFeedback key={index} message={errorMessage} />
-                        )
-                    )}
+                    {errorMessages.length > 0 &&
+                        <ErrorFeedback errors={errorMessages} />
+                    }
                 </>
             )}
 

@@ -109,7 +109,9 @@ const Movies = () => {
 
                 if (genresPromise.status === 'rejected') {
                     console.error('Error:', genresPromise.reason);
-                    errorsArray.push('Failed to load Genres. Error: ' + genresPromise.reason);
+                    errorsArray.push(
+                        'Failed to load Genres. Error: ' + genresPromise.reason
+                    );
                 }
 
                 if (genresPromise.status === 'fulfilled') {
@@ -127,7 +129,9 @@ const Movies = () => {
 
                 if (moviesPromise.status === 'rejected') {
                     console.error('Error:', moviesPromise.reason);
-                    errorsArray.push('Failed to load Movies. Error: ' + moviesPromise.reason);
+                    errorsArray.push(
+                        'Failed to load Movies. Error: ' + moviesPromise.reason
+                    );
                 }
 
                 if (moviesPromise.status === 'fulfilled') {
@@ -177,15 +181,14 @@ const Movies = () => {
 
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
-            {errorMessages.length > 0 && errorMessages.map(
-                (errorMessage, index) => (
-                    <ErrorFeedback key={index} message={errorMessage} />
-                )
-            )}
+            {errorMessages.length > 0 &&
+                <ErrorFeedback errors={errorMessages} />
+            }
 
             {!loading && (
                 <>
-                    {moviesSorted.length === 0 && errorMessages.length === 0 && <b>No movies found!</b>}
+                    {moviesSorted.length === 0 &&
+                        errorMessages.length === 0 && <b>No movies found!</b>}
 
                     {moviesSorted.length > 0 && (
                         <>

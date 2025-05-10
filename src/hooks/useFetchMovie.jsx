@@ -122,7 +122,9 @@ const useFetchMovie = (id) => {
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    errorsArray.push('Promise rejected. Error: ' + error.message);
+                    errorsArray.push(
+                        'Promise rejected. Error: ' + error.message
+                    );
                 }
 
                 if (errorsArray.length > 0) {
