@@ -207,9 +207,10 @@ const Movies = () => {
                                         className={`icon order${!dateOrder ? '' : ' desc'}`}
                                     ></span>
                                 </button>
-                                
+
                                 <div className="buttons-filter">
-                                    {Object.keys(moviesCategorized).length > 0 && (
+                                    {Object.keys(moviesCategorized).length >
+                                        0 && (
                                         <>
                                             <button
                                                 type="button"
@@ -242,7 +243,8 @@ const Movies = () => {
                                                             );
                                                         }}
                                                         className={
-                                                            genreFilter === genre
+                                                            genreFilter ===
+                                                            genre
                                                                 ? 'btn on'
                                                                 : 'btn'
                                                         }
