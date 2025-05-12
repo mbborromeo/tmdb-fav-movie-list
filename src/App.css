@@ -73,6 +73,23 @@ h2 span {
     font-size: 14px;
 }
 
+.buttons-wrapper {
+    display: flex; /* to fix vertical align */
+    position: sticky;
+    top: 0;
+    background: lightyellow;
+    padding: 5px 0 3px;
+}
+
+.buttons-filter {
+    display: inline-block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+    margin-left: 5px;
+}
+
 .btn {
     display: inline-block;
     text-decoration: none;
@@ -86,6 +103,10 @@ h2 span {
     font-family: inherit;
     background-color: azure; /* lightcyan */
     cursor: pointer;
+}
+
+.buttons-wrapper .btn:last-child {
+    margin-right: 0;
 }
 
 .btn span {
@@ -102,6 +123,11 @@ h2 span {
 .btn.on {
     cursor: default;
     pointer-events: none;
+}
+
+.btn.order {
+    min-width: 68px;
+    border-radius: unset;
 }
 
 .icon.order {
@@ -189,6 +215,10 @@ h2 span {
 
 .content-wrapper > div {
     padding-bottom: 20px;
+}
+
+ol .content-wrapper > div {
+    padding-bottom: 0;
 }
 
 .show-on-mobile {
