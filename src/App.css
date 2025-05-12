@@ -75,6 +75,10 @@ h2 span {
 
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
+    position: sticky;
+    top: 0;
+    background: lightyellow;
+    padding: 5px 0 3px;
 }
 
 .buttons-filter {
