@@ -87,7 +87,7 @@ h2 span {
     overflow-y: hidden;
     white-space: nowrap;
     scrollbar-width: none;
-    margin-left: 3px;
+    margin-left: 5px;
 }
 
 .btn {
@@ -103,6 +103,10 @@ h2 span {
     font-family: inherit;
     background-color: azure; /* lightcyan */
     cursor: pointer;
+}
+
+.buttons-wrapper .btn:last-child {
+    margin-right: 0;
 }
 
 .btn span {
