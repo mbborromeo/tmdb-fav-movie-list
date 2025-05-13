@@ -14,7 +14,7 @@ import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 import {
     fetchApiCallOrThrowError,
     BASE_URL,
-    BASE_URL_IMAGE, 
+    BASE_URL_IMAGE,
     MAX_MOVIES
 } from '../utils/api';
 
@@ -181,7 +181,7 @@ const Person = () => {
                                             height="368"
                                         />
                                     )}
-                                    
+
                                     {person.biography}
                                 </p>
                             </div>
