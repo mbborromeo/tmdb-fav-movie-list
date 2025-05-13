@@ -35,7 +35,7 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {!loading && movie && (
-                <div className={`content-wrapper${page ? ' page' : ''}`}>
+                <>
                     <h2 className="margin-bottom-none">
                         {page ? (
                             movie.title
@@ -73,6 +73,7 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
 
                     <div className="row row-movie">
                         <img
+                            className={page ? ' show-on-desktop' : ''}
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"
                             width={page ? '338' : '185'}
@@ -84,6 +85,14 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                                 <Trailer id={id} />
 
                                 <div className="description">
+                                    <img
+                                        className="show-on-mobile"
+                                        src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                                        alt="Poster"
+                                        width={page ? '338' : '185'}
+                                        height={page ? '508' : '278'}
+                                    />
+
                                     <p>
                                         <em>{movie.tagline}</em>
                                     </p>
@@ -148,7 +157,7 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                             <p>{movie.overview}</p>
                         </div>
                     )}
-                </div>
+                </>
             )}
 
             {errorMessages.length > 0 && (

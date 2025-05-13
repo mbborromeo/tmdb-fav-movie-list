@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 import { ensureEnv } from '../utils/helper';
+import { scrollToTop } from '../utils/scrollToTop';
 
 import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
@@ -15,6 +16,9 @@ const Movies = () => {
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessages, setErrorMessages] = useState([]);
+    const [pageLoaded, setPageLoaded] = useState(false);
+
+    const filterButtonsRef = useRef(null);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -71,6 +75,8 @@ const Movies = () => {
         (value) => {
             const newValue = !value ? 'Descending' : null;
 
+            scrollToTop();
+
             setSearchParams({
                 ...(genreFilter && { filter: genreFilter }),
                 ...(newValue && { order: newValue })
@@ -83,6 +89,8 @@ const Movies = () => {
         (value) => {
             const newValue = !value ? null : value;
 
+            scrollToTop();
+
             setSearchParams({
                 ...(newValue && { filter: newValue }),
                 ...(dateOrder && { order: dateOrder })
@@ -90,6 +98,37 @@ const Movies = () => {
         },
         [dateOrder, setSearchParams]
     );
+
+    const handleLoad = useCallback(() => {
+        setPageLoaded(true);
+    }, []);
+
+    // Resource: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
+    useEffect(() => {
+        if (document.readyState !== 'complete') {
+            window.addEventListener('load', handleLoad);
+            return () => window.removeEventListener('load', handleLoad);
+        } else {
+            handleLoad();
+        }
+    }, [handleLoad]);
+
+    useEffect(() => {
+        /* scroll to selected filter button after page has loaded AND fetch call is not loading */
+
+        if (!loading && pageLoaded && filterButtonsRef.current) {
+            // Resource: https://medium.com/@ryan_forrester_/javascript-scroll-to-anchor-fast-easy-guide-48dde5878fbe
+            const filterButtonsNode = filterButtonsRef.current;
+            const currentFilterButton =
+                filterButtonsNode.querySelector('.btn.on');
+
+            currentFilterButton.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start' // nearest
+            });
+        }
+    }, [loading, pageLoaded]);
 
     useEffect(() => {
         (async () => {
@@ -192,76 +231,83 @@ const Movies = () => {
 
                     {moviesSorted.length > 0 && (
                         <>
-                            <div className="buttons-order-filter">
+                            <div className="buttons-wrapper">
                                 <button
                                     type="button"
-                                    className="btn"
+                                    className="btn order"
                                     name="btn-order"
                                     value={dateOrder}
                                     onClick={(e) => {
                                         handleClickOrder(e.target.value);
                                     }}
                                 >
-                                    Release Date
+                                    Date
                                     <span
                                         className={`icon order${!dateOrder ? '' : ' desc'}`}
                                     ></span>
                                 </button>
 
-                                {Object.keys(moviesCategorized).length > 0 && (
-                                    <>
-                                        <button
-                                            type="button"
-                                            name="btn-all"
-                                            value={null}
-                                            onClick={(e) => {
-                                                handleClickFilter(
-                                                    e.target.value
-                                                );
-                                            }}
-                                            className={
-                                                genreFilter === null
-                                                    ? 'btn on'
-                                                    : 'btn'
-                                            }
-                                        >
-                                            All Genres
-                                        </button>
+                                <div
+                                    className="buttons-filter"
+                                    ref={filterButtonsRef}
+                                >
+                                    {Object.keys(moviesCategorized).length >
+                                        0 && (
+                                        <>
+                                            <button
+                                                type="button"
+                                                name="btn-all"
+                                                value={null}
+                                                onClick={(e) => {
+                                                    handleClickFilter(
+                                                        e.target.value
+                                                    );
+                                                }}
+                                                className={
+                                                    genreFilter === null
+                                                        ? 'btn on'
+                                                        : 'btn'
+                                                }
+                                            >
+                                                All Genres
+                                            </button>
 
-                                        {Object.keys(moviesCategorized).map(
-                                            (genre) => (
-                                                <button
-                                                    type="button"
-                                                    name={`btn-${genre}`}
-                                                    key={`btn-${genre}`}
-                                                    value={genre}
-                                                    onClick={(e) => {
-                                                        handleClickFilter(
-                                                            e.target.value
-                                                        );
-                                                    }}
-                                                    className={
-                                                        genreFilter === genre
-                                                            ? 'btn on'
-                                                            : 'btn'
-                                                    }
-                                                >
-                                                    {genre}
-                                                    <span>
-                                                        {' '}
-                                                        (
-                                                        {
-                                                            moviesCategorized[
-                                                                genre
-                                                            ].length
+                                            {Object.keys(moviesCategorized).map(
+                                                (genre) => (
+                                                    <button
+                                                        type="button"
+                                                        name={`btn-${genre}`}
+                                                        key={`btn-${genre}`}
+                                                        value={genre}
+                                                        onClick={(e) => {
+                                                            handleClickFilter(
+                                                                e.target.value
+                                                            );
+                                                        }}
+                                                        className={
+                                                            genreFilter ===
+                                                            genre
+                                                                ? 'btn on'
+                                                                : 'btn'
                                                         }
-                                                        )
-                                                    </span>
-                                                </button>
-                                            )
-                                        )}
-                                    </>
-                                )}
+                                                    >
+                                                        {genre}
+                                                        <span>
+                                                            {' '}
+                                                            (
+                                                            {
+                                                                moviesCategorized[
+                                                                    genre
+                                                                ].length
+                                                            }
+                                                            )
+                                                        </span>
+                                                    </button>
+                                                )
+                                            )}
+                                        </>
+                                    )}
+                                </div>
                             </div>
 
                             <ol>
