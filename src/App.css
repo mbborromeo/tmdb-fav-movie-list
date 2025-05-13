@@ -29,6 +29,7 @@ body {
     width: 100vw;
     min-height: 100vh;
     background-color: thistle;
+    color: #000;
 }
 
 #root {
@@ -418,5 +419,34 @@ ol li a + span {
 
     .stars-voted span {
         display: inline;
+    }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #111;
+        color: white;
+    }
+
+    #root,
+    .buttons-wrapper {
+        background-color: #333; /* Dark background */
+    }
+
+    .btn {
+        background-color: cornflowerblue;
+        color: white;
+    }
+    .btn:hover, 
+    .btn.on {
+        background-color: orange;
+    }
+
+    a {
+        color: white;
+    }
+    a:hover {
+        color: cornflowerblue;
     }
 }
