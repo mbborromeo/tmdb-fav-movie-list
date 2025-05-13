@@ -14,7 +14,8 @@ import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 import {
     fetchApiCallOrThrowError,
     BASE_URL,
-    BASE_URL_IMAGE
+    BASE_URL_IMAGE, 
+    MAX_MOVIES
 } from '../utils/api';
 
 const Person = () => {
@@ -35,7 +36,6 @@ const Person = () => {
 
     const PROFILE_SIZE = 'w300'; // w185 w138_and_h175_face
     const POSTER_SIZE = 'w185'; // w92
-    const MAX_MOVIES = 8;
 
     useEffect(() => {
         (async () => {
@@ -164,23 +164,24 @@ const Person = () => {
                     </div>
 
                     {person && (
-                        <div className="content-wrapper">
+                        <div className="content-wrapper page">
                             <h2>{person.name}</h2>
 
                             <div className="row row-person">
-                                {person.profile_path && (
-                                    <img
-                                        src={
-                                            BASE_URL_IMAGE +
-                                            PROFILE_SIZE +
-                                            person.profile_path
-                                        }
-                                        alt={`${person.name}'s profile pic`}
-                                        width="246"
-                                        height="368"
-                                    />
-                                )}
                                 <p className="description">
+                                    {person.profile_path && (
+                                        <img
+                                            src={
+                                                BASE_URL_IMAGE +
+                                                PROFILE_SIZE +
+                                                person.profile_path
+                                            }
+                                            alt={`${person.name}'s profile pic`}
+                                            width="246"
+                                            height="368"
+                                        />
+                                    )}
+                                    
                                     {person.biography}
                                 </p>
                             </div>

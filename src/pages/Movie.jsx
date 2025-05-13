@@ -28,12 +28,14 @@ const Movie = () => {
                 </Link>
             </div>
 
-            <MovieComponent
-                id={id}
-                page={true}
-                genreFilter={genreFilter}
-                dateOrder={dateOrder}
-            />
+            <div className="content-wrapper page">
+                <MovieComponent
+                    id={id}
+                    page={true}
+                    genreFilter={genreFilter}
+                    dateOrder={dateOrder}
+                />
+            </div>
 
             <Footer />
         </>

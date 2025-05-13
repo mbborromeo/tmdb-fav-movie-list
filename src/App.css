@@ -62,6 +62,7 @@ h1 {
 h2 {
     font-family: monospace;
     font-size: 17px;
+    display: inline-block;
 }
 
 .margin-bottom-none {
@@ -133,7 +134,6 @@ h2 span {
 .icon.order {
     display: inline-block;
     width: 12px;
-    /* height: 20px; */
     margin-left: 5px;
     aspect-ratio: 1;
     vertical-align: middle;
@@ -195,7 +195,17 @@ h2 span {
 .page .row.row-movie img,
 .row.row-person img
 {
-    width: 100%;
+    width: 48%;
+    float: left;
+}
+
+.page .row.row-movie .description img,
+.row.row-person .description img {
+    padding-right: 4%;
+}
+
+.page .row.row-movie .description img {
+    padding-top: 5%;
 }
 
 .page .row.row-movie img {
@@ -213,7 +223,7 @@ h2 span {
     width: 100%;
 }
 
-.content-wrapper > div {
+.content-wrapper.page > div {
     padding-bottom: 20px;
 }
 
@@ -258,7 +268,8 @@ ul li {
 }
 
 ol {
-    padding: 0 18px;
+    padding: 0;
+    margin: 0;
     min-height: 70%;
     height: auto;
 }
@@ -266,6 +277,7 @@ ol {
 ol li {
     margin: 0;
     padding: 0 0 10px 0;
+    list-style-position: inside;
     min-height: 237px;
 }
 
@@ -328,7 +340,7 @@ ol li a + span {
 
 .persons-wrapper div,
 .movies-wrapper div {
-    width: 48%;
+    width: 31%;
 }
 
 .persons-wrapper div img,
@@ -351,6 +363,10 @@ ol li a + span {
         margin: 0 auto; /* center */
     }
 
+    ol {
+        padding: 0 4px;
+    }
+
     .show-on-mobile {
         display: none;
     }
@@ -368,14 +384,18 @@ ol li a + span {
         padding-left: 2%;
     }
 
+    .row.row-person img,
     .page .row.row-movie img {
-        width: 33%;
-        padding-bottom: 0;
+        width: 32.5%;
     }
 
-    .row.row-person img {
-        width: 24%;
+    .page .row.row-movie .description img,
+    .row.row-person .description img {
         padding-right: 2%;
+    }
+
+    .page .row.row-movie img {
+        padding-bottom: 0;
     }
 
     .row.row-movie iframe {
@@ -383,7 +403,7 @@ ol li a + span {
     }
 
     .row.row-person .description {
-        width: 73%;
+        width: 100%;
         margin-top: 0;
     }
 
@@ -393,7 +413,7 @@ ol li a + span {
 
     .persons-wrapper div,
     .movies-wrapper div {
-        width: 12%;
+        width: 10%;
     }
 
     .stars-voted span {
