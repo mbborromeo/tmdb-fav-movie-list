@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import Footer from '../components/Footer';
 import MovieComponent from '../components/Movie';
+
+import { scrollToTop } from '../utils/scrollToTop';
 
 const Movie = () => {
     const { id } = useParams();
@@ -11,6 +14,10 @@ const Movie = () => {
     const genreFilter = filter ? filter : null;
     const order = searchParams.get('order');
     const dateOrder = order ? order : null;
+
+    useEffect(() => {
+        scrollToTop();
+    }, []);
 
     return (
         <>

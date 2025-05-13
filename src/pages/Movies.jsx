@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 import { ensureEnv } from '../utils/helper';
+import { scrollToTop } from '../utils/scrollToTop';
 
 import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
@@ -71,6 +72,8 @@ const Movies = () => {
         (value) => {
             const newValue = !value ? 'Descending' : null;
 
+            scrollToTop();
+
             setSearchParams({
                 ...(genreFilter && { filter: genreFilter }),
                 ...(newValue && { order: newValue })
@@ -82,6 +85,8 @@ const Movies = () => {
     const handleClickFilter = useCallback(
         (value) => {
             const newValue = !value ? null : value;
+
+            scrollToTop();
 
             setSearchParams({
                 ...(newValue && { filter: newValue }),
