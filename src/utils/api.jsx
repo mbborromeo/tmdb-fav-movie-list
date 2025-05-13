@@ -2,7 +2,8 @@ import { ensureEnv } from './helper';
 
 export const BASE_URL = 'https://api.themoviedb.org/3';
 export const BASE_URL_IMAGE = 'https://image.tmdb.org/t/p/';
-export const MAX_ACTORS = 8;
+export const MAX_ACTORS = 9;
+export const MAX_MOVIES = 9;
 
 const apiToken = ensureEnv('VITE_TMDB_TOKEN');
 
