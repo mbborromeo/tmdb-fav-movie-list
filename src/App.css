@@ -440,7 +440,7 @@ ol li a + span {
     }
     .btn:hover, 
     .btn.on {
-        background-color: orange;
+        background-color: darkorange;
     }
 
     a {
