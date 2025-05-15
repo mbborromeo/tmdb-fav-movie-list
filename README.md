@@ -27,7 +27,7 @@ Create your own .env file inside the project root folder, and define the followi
 - VITE_TMDB_TOKEN=, set it to your TMDB API Token
 - VITE_TMDB_ACCOUNT_ID=, set it to your own TMDB Account ID to get movies from your own [Favourites List](https://developer.themoviedb.org/reference/account-get-favorites)
 
-## Running Linters
+## Running Lint Check
 
 Check ES syntax
 
@@ -37,7 +37,7 @@ Report and auto-fix issues:
 Will report issues without auto-fixing:
 `npm run lint:check`
 
-Prettier Format Checker
+## Prettier Format Checker
 
 Check code format such as single-quotes, comma-dangle, indentation, etc.
 
@@ -47,14 +47,40 @@ Check format without auto-fixing:
 Check format and auto-fix issues:
 `npm run format`
 
-## Deploying to GitHub Pages manually
+## Deploying to GitHub Pages 
 
-Generate the published files to 'dist' folder by running command:
+### Automatic deploy - using GitHub Actions
+
+Set the GitHub Pages settings to:
+GitHub > Settings > Pages > Source: 'GitHub Actions'
+
+Push the feature branch to origin.
+
+In GitHub, create a merge request onto the 'main' branch.
+
+GitHub will automatically deploy the GitHug Pages site.
+
+Go to GitHub > Actions, to see the status of the deployment.
+
+### Manual deploy - from a branch
+
+Set the GitHub Pages settings to:
+GitHub > Settings > Pages > Source: 'Deploy from a branch'
+
+Locally, on the feature branch, generate the published/static files to the 'docs' folder by running command:
 `npm run build`
 
-Move the 'dist' folder to 'docs'.
+Then, commit these files to the feature branch. 
 
-Inside the 'docs' folder, copy & paste the index.html file and rename it to 404.html.  This workaround makes the single-page app routing work on GitHub Pages server for 'deep links', ie. when links are opened in a new tab or a page is refreshed.
+Push the feature branch onto origin.
+
+In GitHub, create a merge request onto the 'main' branch.
+
+GitHub will automatically deploy the GitHug Pages site.
+
+Go to GitHub > Actions, to see the status of the deployment.
+
+(Note: Inside the static build 'docs' folder, I'm copying and pasting the index.html file and renaming it to 404.html.  This workaround makes the single-page app routing work on GitHub Pages server for 'deep links', ie. when links are opened in a new tab or a page is refreshed.)
 
 ## Dependencies
 
