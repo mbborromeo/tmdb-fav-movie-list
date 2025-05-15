@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build --outDir docs && cp docs/index.html docs/404.html",
+        "deploy": "gh-pages -d docs",
         "preview": "vite preview",
         "lint": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx ./src",
         "lint:check": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx ./src",
