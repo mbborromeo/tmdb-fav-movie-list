@@ -47,20 +47,20 @@ jobs:
               env:
                 VITE_TMDB_TOKEN: ${{ secrets.VITE_TMDB_TOKEN }}
 
-            # - name: Setup Pages
-            #   uses: actions/configure-pages@v4
+            - name: Setup Pages
+              uses: actions/configure-pages@v4
 
-            # - name: Upload artifact
-            #   uses: actions/upload-pages-artifact@v3
-            #   with:
-            #     # Upload static build folder
-            #     path: './docs'
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              # with:
+                # Upload static build folder
+                # path: './dist'
 
-            # - name: Deploy to GitHub Pages
-            #   id: deployment
-            #   uses: actions/deploy-pages@v4
             - name: Deploy to GitHub Pages
-              run: |
-                git config --global user.email "mbborromeo@@gmail.com"
-                git config --global user.name "Michael Borromeo"
-                npm run deploy
+              id: deployment
+              uses: actions/deploy-pages@v4
+            # - name: Deploy to GitHub Pages
+            #   run: |
+            #     git config --global user.email "mbborromeo@@gmail.com"
+            #     git config --global user.name "Michael Borromeo"
+            #     npm run deploy
