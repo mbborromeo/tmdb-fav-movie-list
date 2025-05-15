@@ -62,6 +62,5 @@ jobs:
             - name: Deploy to GitHub Pages
               run: |
                 git config --global user.email "mbborromeo@@gmail.com"
+                git config --global user.name "mbborromeo"
                 npm run deploy
-              # git config --global user.name "Michael Borromeo"
-              
