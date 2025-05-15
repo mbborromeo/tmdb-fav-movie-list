@@ -53,11 +53,14 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
-                # Upload dist folder
-                path: './dist'
+                # Upload static build folder
+                path: './docs'
 
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v4
             # - name: Deploy to GitHub Pages
-            #   run: npm run deploy
+            #   run: |
+            #     git config --global user.email "mbborromeo@@gmail.com"
+            #     git config --global user.name "Michael Borromeo"
+            #     npm run deploy
