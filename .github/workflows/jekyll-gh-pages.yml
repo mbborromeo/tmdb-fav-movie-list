@@ -56,11 +56,6 @@ jobs:
                 # Upload static build folder
                 path: './docs'
 
-            # - name: Deploy to GitHub Pages
-            #   id: deployment
-            #   uses: actions/deploy-pages@v4
             - name: Deploy to GitHub Pages
-              run: |
-                git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-                git config --global user.name "${{ github.actor }}"
-                npm run deploy
+              id: deployment
+              uses: actions/deploy-pages@v4
