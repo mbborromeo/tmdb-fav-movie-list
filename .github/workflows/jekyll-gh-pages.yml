@@ -46,16 +46,16 @@ jobs:
             - name: Clean build output
               run: rm -rf ./docs
 
-            # - name: Create .env
-            #   run: |
-            #     echo "VITE_TMDB_TOKEN=${{ secrets.VITE_TMDB_TOKEN }}" >> .env
-            #     echo "VITE_TMDB_ACCOUNT_ID=${{ secrets.VITE_TMDB_ACCOUNT_ID }}" >> .env
+            - name: Create .env
+              run: |
+                echo "VITE_TMDB_TOKEN=${{ secrets.VITE_TMDB_TOKEN }}" >> .env
+                echo "VITE_TMDB_ACCOUNT_ID=${{ secrets.VITE_TMDB_ACCOUNT_ID }}" >> .env
 
             - name: Build
               run: npm run build
-              env:
-                VITE_TMDB_TOKEN: ${{ secrets.VITE_TMDB_TOKEN }}
-                VITE_TMDB_ACCOUNT_ID: ${{ secrets.VITE_TMDB_ACCOUNT_ID }}
+              # env:
+              #   VITE_TMDB_TOKEN: ${{ secrets.VITE_TMDB_TOKEN }}
+              #   VITE_TMDB_ACCOUNT_ID: ${{ secrets.VITE_TMDB_ACCOUNT_ID }}
 
             - name: Setup Pages
               uses: actions/configure-pages@v4
