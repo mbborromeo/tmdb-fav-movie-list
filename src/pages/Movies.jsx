@@ -7,7 +7,7 @@ import { scrollToTop } from '../utils/scrollToTop';
 
 import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
-import Footer from '../components/Footer';
+import PageTemplate from '../components/PageTemplate';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
@@ -215,9 +215,7 @@ const Movies = () => {
     }, [genreFilter, moviesCategorized, movies, sortMovies]);
 
     return (
-        <>
-            <h2>20 Great Movies from '79-'99</h2>
-
+        <PageTemplate>
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {errorMessages.length > 0 && (
@@ -241,7 +239,7 @@ const Movies = () => {
                                         handleClickOrder(e.target.value);
                                     }}
                                 >
-                                    Date
+                                    Date Order
                                     <span
                                         className={`icon order${!dateOrder ? '' : ' desc'}`}
                                     ></span>
@@ -269,7 +267,15 @@ const Movies = () => {
                                                         : 'btn'
                                                 }
                                             >
-                                                All Genres
+                                                ALL
+                                                <span>
+                                                    {' '}
+                                                    (
+                                                    {
+                                                        movies.length
+                                                    }
+                                                    )
+                                                </span>
                                             </button>
 
                                             {Object.keys(moviesCategorized).map(
@@ -325,9 +331,7 @@ const Movies = () => {
                     )}
                 </>
             )}
-
-            <Footer />
-        </>
+        </PageTemplate>
     );
 };
 

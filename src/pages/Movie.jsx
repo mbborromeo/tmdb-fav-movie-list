@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 
-import Footer from '../components/Footer';
+import PageTemplate from '../components/PageTemplate';
 import MovieComponent from '../components/Movie';
 import BackButton from '../components/BackButton';
 
@@ -21,7 +21,7 @@ const Movie = () => {
     }, []);
 
     return (
-        <>
+        <PageTemplate>
             <div>
                 <BackButton />
             </div>
@@ -34,9 +34,7 @@ const Movie = () => {
                     dateOrder={dateOrder}
                 />
             </div>
-
-            <Footer />
-        </>
+        </PageTemplate>
     );
 };
 

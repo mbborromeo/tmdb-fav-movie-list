@@ -24,6 +24,7 @@ a:hover {
 
 body {
     margin: 0;
+    padding: 0;
     display: flex;
     position: relative;
     width: 100vw;
@@ -140,7 +141,7 @@ h2 span {
 }
 
 .btn.order {
-    min-width: 68px;
+    min-width: 108px;
     border-radius: unset;
 }
 
