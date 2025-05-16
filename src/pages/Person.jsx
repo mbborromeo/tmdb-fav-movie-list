@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-    useParams,
-    useSearchParams,
-    Link
-} from 'react-router-dom';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
