@@ -39,17 +39,21 @@ body {
     position: relative;
     border: 1px dashed grey;
     background-color: lightyellow;
-    padding-bottom: 80px; /* for footer */
+    padding-bottom: 120px; /* for footer */
 }
 
 footer {
-    min-height: 80px;
+    /* min-height: 80px; */ /* corresponds to padding-bottom on #root */
     width: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center; /* flex-end */
+    border-top: 1px dashed grey;
+    padding-bottom: 10px;
 }
 
 footer div {

@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import PageTemplate from '../components/PageTemplate';
 import MovieComponent from '../components/Movie';
 import BackButton from '../components/BackButton';
-
-import { scrollToTop } from '../utils/scrollToTop';
 
 const Movie = () => {
     const { id } = useParams();
@@ -15,10 +12,6 @@ const Movie = () => {
     const genreFilter = filter ? filter : null;
     const order = searchParams.get('order');
     const dateOrder = order ? order : null;
-
-    useEffect(() => {
-        scrollToTop();
-    }, []);
 
     return (
         <PageTemplate>

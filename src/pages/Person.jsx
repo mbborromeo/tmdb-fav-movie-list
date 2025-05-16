@@ -5,8 +5,6 @@ import ErrorFeedback from '../components/ErrorFeedback';
 import PageTemplate from '../components/PageTemplate';
 import BackButton from '../components/BackButton';
 
-import { scrollToTop } from '../utils/scrollToTop';
-
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
 import {
@@ -37,8 +35,6 @@ const Person = () => {
         (async () => {
             let dataPerson = null;
             const errorsArray = [];
-
-            scrollToTop();
 
             try {
                 dataPerson = await fetchApiCallOrThrowError(
