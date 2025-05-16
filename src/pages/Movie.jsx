@@ -3,6 +3,7 @@ import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import Footer from '../components/Footer';
 import MovieComponent from '../components/Movie';
+import BackButton from '../components/BackButton';
 
 import { scrollToTop } from '../utils/scrollToTop';
 
@@ -22,17 +23,7 @@ const Movie = () => {
     return (
         <>
             <div>
-                <Link
-                    to={{
-                        pathname: '/',
-                        search: new URLSearchParams({
-                            ...(genreFilter ? { filter: genreFilter } : {}),
-                            ...(dateOrder ? { order: dateOrder } : {})
-                        }).toString()
-                    }}
-                >
-                    <b>&laquo;Back to Movies</b>
-                </Link>
+                <BackButton />
             </div>
 
             <div className="content-wrapper page">

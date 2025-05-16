@@ -8,6 +8,7 @@ import {
 
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
+import BackButton from '../components/BackButton';
 
 import { scrollToTop } from '../utils/scrollToTop';
 
@@ -133,21 +134,7 @@ const Person = () => {
                 <>
                     <div>
                         {movieId ? (
-                            <Link
-                                to={{
-                                    pathname: `/movie/${movieId}`,
-                                    search: new URLSearchParams({
-                                        ...(genreFilter
-                                            ? { filter: genreFilter }
-                                            : {}),
-                                        ...(dateOrder
-                                            ? { order: dateOrder }
-                                            : {})
-                                    }).toString()
-                                }}
-                            >
-                                <b>&laquo;Back to Movie</b>
-                            </Link>
+                            <BackButton />
                         ) : (
                             <Link
                                 to={{
