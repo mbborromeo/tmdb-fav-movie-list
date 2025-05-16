@@ -29,8 +29,11 @@ const Movies = () => {
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
 
-    const topOfButtons = filterButtonsRef && filterButtonsRef.current ? filterButtonsRef.current.offsetHeight + 30 : 0; // 30 is for h2
-    
+    const topOfButtons =
+        filterButtonsRef && filterButtonsRef.current
+            ? filterButtonsRef.current.offsetHeight + 30
+            : 0; // 30 is for h2
+
     const sortMovies = useCallback(
         (moviesArray) => {
             // sort by release date
