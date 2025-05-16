@@ -49,19 +49,6 @@ Check format and auto-fix issues:
 
 ## Deploying to GitHub Pages 
 
-### Automatic deploy - using GitHub Actions
-
-Set the GitHub Pages settings to:
-GitHub > Settings > Pages > Source: 'GitHub Actions'
-
-Push the feature branch to origin.
-
-In GitHub, create a merge request onto the 'main' branch.
-
-GitHub will automatically deploy the GitHug Pages site.
-
-Go to GitHub > Actions, to see the status of the deployment.
-
 ### Manual deploy - from a branch
 
 Set the GitHub Pages settings to:
@@ -71,6 +58,20 @@ Locally, on the feature branch, generate the published/static files to the 'docs
 `npm run build`
 
 Then, commit these files to the feature branch. 
+
+Push the feature branch onto origin.
+
+In GitHub, create a merge request onto the 'main' branch.
+
+GitHub will automatically deploy the GitHug Pages site.
+
+Go to GitHub > Actions, to see the status of the deployment.
+
+### Automatic deploy - using GitHub Actions 
+(known bug: currently throws a 401 Error, might be to do with .env)
+
+Set the GitHub Pages settings to:
+GitHub > Settings > Pages > Source: 'GitHub Actions'
 
 Push the feature branch onto origin.
 
