@@ -125,7 +125,7 @@ const Movies = () => {
             currentFilterButton.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start',
-                inline: 'start' // nearest
+                inline: 'start'
             });
         }
     }, [loading, pageLoaded]);
@@ -239,7 +239,15 @@ const Movies = () => {
                                         handleClickOrder(e.target.value);
                                     }}
                                 >
-                                    Date Order
+                                    Date
+                                    <span>
+                                        {' '}
+                                        (
+                                        {dateOrder === 'Descending'
+                                            ? 'desc'
+                                            : 'asc'}
+                                        )
+                                    </span>
                                     <span
                                         className={`icon order${!dateOrder ? '' : ' desc'}`}
                                     ></span>
