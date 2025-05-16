@@ -95,6 +95,7 @@ h2 span {
     white-space: nowrap;
     scrollbar-width: none;
     margin-left: 5px;
+    /* scroll-margin-top: 36px; */
 }
 
 .btn {
@@ -106,6 +107,7 @@ h2 span {
     margin-right: .3em;
     margin-bottom: .3em;
     font-size: 13px; /* 1em */
+    line-height: 160%;
     font-weight: bold;
     font-family: inherit;
     background-color: azure; /* lightcyan */

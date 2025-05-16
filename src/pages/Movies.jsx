@@ -29,6 +29,8 @@ const Movies = () => {
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
 
+    const topOfButtons = filterButtonsRef && filterButtonsRef.current ? filterButtonsRef.current.offsetHeight + 30 : 0; // 30 is for h2
+    
     const sortMovies = useCallback(
         (moviesArray) => {
             // sort by release date
@@ -75,28 +77,28 @@ const Movies = () => {
         (value) => {
             const newValue = !value ? 'Descending' : null;
 
-            scrollToTop();
+            scrollToTop(topOfButtons);
 
             setSearchParams({
                 ...(genreFilter && { filter: genreFilter }),
                 ...(newValue && { order: newValue })
             });
         },
-        [genreFilter, setSearchParams]
+        [genreFilter, setSearchParams, topOfButtons]
     );
 
     const handleClickFilter = useCallback(
         (value) => {
             const newValue = !value ? null : value;
 
-            scrollToTop();
+            scrollToTop(topOfButtons);
 
             setSearchParams({
                 ...(newValue && { filter: newValue }),
                 ...(dateOrder && { order: dateOrder })
             });
         },
-        [dateOrder, setSearchParams]
+        [dateOrder, setSearchParams, topOfButtons]
     );
 
     const handleLoad = useCallback(() => {
@@ -115,9 +117,9 @@ const Movies = () => {
 
     useEffect(() => {
         /* scroll to selected filter button after page has loaded AND fetch call is not loading */
-
         if (!loading && pageLoaded && filterButtonsRef.current) {
             // Resource: https://medium.com/@ryan_forrester_/javascript-scroll-to-anchor-fast-easy-guide-48dde5878fbe
+
             const filterButtonsNode = filterButtonsRef.current;
             const currentFilterButton =
                 filterButtonsNode.querySelector('.btn.on');
