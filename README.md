@@ -73,7 +73,7 @@ Go to GitHub > Actions, to see the status of the deployment.
 Set the GitHub Pages settings to:
 GitHub > Settings > Pages > Source: 'GitHub Actions'
 
-Push the feature branch to origin.
+Push the feature branch onto origin.
 
 In GitHub, create a merge request onto the 'main' branch.
 
