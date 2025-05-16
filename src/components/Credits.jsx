@@ -7,10 +7,7 @@ const Credits = ({
     directors,
     writers,
     novelists,
-    actors,
-    movieId,
-    genreFilter,
-    dateOrder
+    actors
 }) => {
     const numberOfDirectors =
         directors && directors.length > 0 ? directors.length : 0;
@@ -56,9 +53,6 @@ const Credits = ({
                                 <Person
                                     key={director.id}
                                     person={director}
-                                    movieId={movieId}
-                                    genreFilter={genreFilter}
-                                    dateOrder={dateOrder}
                                     {...(displayLinks && {
                                         displayLinks: true
                                     })}
@@ -79,9 +73,6 @@ const Credits = ({
                                     <Person
                                         key={director.id}
                                         person={director}
-                                        movieId={movieId}
-                                        genreFilter={genreFilter}
-                                        dateOrder={dateOrder}
                                         {...(displayLinks && {
                                             displayLinks: true
                                         })}
@@ -98,9 +89,6 @@ const Credits = ({
                                     <Person
                                         key={writer.id}
                                         person={writer}
-                                        movieId={movieId}
-                                        genreFilter={genreFilter}
-                                        dateOrder={dateOrder}
                                         {...(displayLinks && {
                                             displayLinks: true
                                         })}
@@ -120,9 +108,6 @@ const Credits = ({
                             <Person
                                 key={novelist.id}
                                 person={novelist}
-                                movieId={movieId}
-                                genreFilter={genreFilter}
-                                dateOrder={dateOrder}
                                 {...(displayLinks && {
                                     displayLinks: true
                                 })}
@@ -142,9 +127,6 @@ const Credits = ({
                                 key={actor.id}
                                 person={actor}
                                 character={actor.character}
-                                movieId={movieId}
-                                genreFilter={genreFilter}
-                                dateOrder={dateOrder}
                                 {...(showActorsPic && {
                                     showPic: true
                                 })}

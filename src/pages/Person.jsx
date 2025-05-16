@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-    useParams,
-    useLocation,
-    useSearchParams,
-    Link
-} from 'react-router-dom';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
 import Footer from '../components/Footer';
@@ -23,8 +18,6 @@ import {
 
 const Person = () => {
     const { id } = useParams();
-    const location = useLocation();
-    const movieId = location.state ? location.state.movieId : null;
 
     const [searchParams] = useSearchParams();
     const filter = searchParams.get('filter');
@@ -133,25 +126,7 @@ const Person = () => {
             {!loading && (
                 <>
                     <div>
-                        {movieId ? (
-                            <BackButton />
-                        ) : (
-                            <Link
-                                to={{
-                                    pathname: '/',
-                                    search: new URLSearchParams({
-                                        ...(genreFilter
-                                            ? { filter: genreFilter }
-                                            : {}),
-                                        ...(dateOrder
-                                            ? { order: dateOrder }
-                                            : {})
-                                    }).toString()
-                                }}
-                            >
-                                <b>&laquo;Back to Movies</b>
-                            </Link>
-                        )}
+                        <BackButton />
                     </div>
 
                     {person && (

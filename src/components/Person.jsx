@@ -4,9 +4,6 @@ import { BASE_URL_IMAGE } from '../utils/api';
 
 const Person = ({
     person,
-    movieId,
-    genreFilter,
-    dateOrder,
     showPic = false,
     character = '',
     displayLinks = false
@@ -28,13 +25,8 @@ const Person = ({
                 <>
                     <Link
                         to={{
-                            pathname: `/person/${person.id}`,
-                            search: new URLSearchParams({
-                                ...(genreFilter ? { filter: genreFilter } : {}),
-                                ...(dateOrder ? { order: dateOrder } : {})
-                            }).toString()
+                            pathname: `/person/${person.id}`
                         }}
-                        state={{ movieId }}
                     >
                         {person.name}
                     </Link>

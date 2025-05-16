@@ -15,7 +15,7 @@ import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
 import { BASE_URL_IMAGE } from '../utils/api';
 
-const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
+const Movie = memo(({ id, page = false }) => {
     // https://developer.themoviedb.org/reference/configuration-details
     const POSTER_SIZE = page ? 'w342' : 'w185'; // w154 w92
 
@@ -42,15 +42,7 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                         ) : (
                             <Link
                                 to={{
-                                    pathname: `/movie/${movie.id}`,
-                                    search: new URLSearchParams({
-                                        ...(genreFilter
-                                            ? { filter: genreFilter }
-                                            : {}),
-                                        ...(dateOrder
-                                            ? { order: dateOrder }
-                                            : {})
-                                    }).toString()
+                                    pathname: `/movie/${movie.id}`
                                 }}
                                 state={{
                                     movie,
@@ -112,8 +104,6 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                                     novelists={novelists}
                                     actors={actors}
                                     actorsDisplayMaxThree={true}
-                                    genreFilter={genreFilter}
-                                    dateOrder={dateOrder}
                                 />
 
                                 <Votes
@@ -142,9 +132,6 @@ const Movie = memo(({ id, genreFilter, dateOrder, page = false }) => {
                                 actors={actors}
                                 showActorsPic={true}
                                 displayLinks={true}
-                                movieId={id}
-                                genreFilter={genreFilter}
-                                dateOrder={dateOrder}
                             />
 
                             <Votes

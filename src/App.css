@@ -107,6 +107,18 @@ h2 span {
     cursor: pointer;
 }
 
+.btn.back {
+    border-radius: unset;
+    background-color: unset !important;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+}
+.btn.back:hover {
+    text-decoration: none;
+}
+
 .buttons-wrapper .btn:last-child {
     margin-right: 0;
 }
