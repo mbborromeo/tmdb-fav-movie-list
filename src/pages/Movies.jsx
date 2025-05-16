@@ -268,14 +268,7 @@ const Movies = () => {
                                                 }
                                             >
                                                 ALL
-                                                <span>
-                                                    {' '}
-                                                    (
-                                                    {
-                                                        movies.length
-                                                    }
-                                                    )
-                                                </span>
+                                                <span> ({movies.length})</span>
                                             </button>
 
                                             {Object.keys(moviesCategorized).map(
