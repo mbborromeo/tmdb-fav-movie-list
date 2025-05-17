@@ -96,6 +96,7 @@ h2 span {
     scrollbar-width: none;
     margin-left: 5px;
     /* scroll-margin-top: 36px; */
+    position: relative; /* so child offsetwidth can be calculated correctly */ 
 }
 
 .btn {

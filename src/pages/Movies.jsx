@@ -123,11 +123,13 @@ const Movies = ({ templateRef }) => {
             const currentFilterButton =
                 filterButtonsNode.querySelector('.btn.on');
 
-            currentFilterButton.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'start'
-            });
+            // Scroll animates into view, but has bug which causes page to zoom in and scroll down
+            // currentFilterButton.scrollIntoView({
+            //     behavior: 'smooth',
+            //     block: 'start',
+            //     inline: 'start'
+            // });
+            filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
         }
     }, [loading, pageLoaded]);
 
