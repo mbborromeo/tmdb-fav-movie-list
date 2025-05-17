@@ -18,6 +18,8 @@ const Movies = () => {
     const [errorMessages, setErrorMessages] = useState([]);
     const [pageLoaded, setPageLoaded] = useState(false);
 
+    // const isFirstRender = useRef(true);
+    const [isFirstRender, setIsFirstRender] = useState(true);
     const filterButtonsRef = useRef(null);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -108,6 +110,20 @@ const Movies = () => {
         setPageLoaded(true);
     }, []);
 
+
+    useEffect(() => {
+        if (isFirstRender) { // .current
+            // Code to run only on the first render
+            console.log('First render!');
+            // isFirstRender.current = false; // Set to false after the first render
+            setIsFirstRender(false);
+        } else {
+            // Code to run on subsequent renders
+            console.log('Not the first render');
+        }
+    }, [isFirstRender]);
+
+
     // Resource: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
     useEffect(() => {
         if (document.readyState !== 'complete') {
@@ -120,7 +136,7 @@ const Movies = () => {
 
     useEffect(() => {
         /* scroll to selected filter button after page has loaded AND fetch call is not loading */
-        if (!loading && pageLoaded && filterButtonsRef.current) {
+        if (!loading && pageLoaded && filterButtonsRef.current && !isFirstRender) { // .current
             // Resource: https://medium.com/@ryan_forrester_/javascript-scroll-to-anchor-fast-easy-guide-48dde5878fbe
 
             const filterButtonsNode = filterButtonsRef.current;
@@ -133,7 +149,7 @@ const Movies = () => {
                 inline: 'start'
             });
         }
-    }, [loading, pageLoaded]);
+    }, [loading, pageLoaded, isFirstRender]);
 
     useEffect(() => {
         (async () => {
