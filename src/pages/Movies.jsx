@@ -129,7 +129,13 @@ const Movies = ({ templateRef }) => {
             //     block: 'start',
             //     inline: 'start'
             // });
-            filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
+
+            // filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
+
+            filterButtonsNode.scrollTo({
+                left: currentFilterButton.offsetLeft,
+                behavior: 'smooth'
+            });
         }
     }, [loading, pageLoaded]);
 
