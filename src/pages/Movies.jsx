@@ -7,11 +7,10 @@ import { scrollToTop } from '../utils/scrollToTop';
 
 import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
-import PageTemplate from '../components/PageTemplate';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
-const Movies = () => {
+const Movies = ({ templateRef }) => {
     const [movies, setMovies] = useState([]);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -28,11 +27,6 @@ const Movies = () => {
     const dateOrder = order ? order : null;
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
-
-    const topOfButtons =
-        filterButtonsRef && filterButtonsRef.current
-            ? filterButtonsRef.current.offsetHeight + 30
-            : 0; // 30 is for h2
 
     const sortMovies = useCallback(
         (moviesArray) => {
@@ -80,28 +74,30 @@ const Movies = () => {
         (value) => {
             const newValue = !value ? 'Descending' : null;
 
-            scrollToTop(topOfButtons);
+            const headerHeight = templateRef.current?.getHeaderHeight() || 0;
+            scrollToTop(headerHeight);
 
             setSearchParams({
                 ...(genreFilter && { filter: genreFilter }),
                 ...(newValue && { order: newValue })
             });
         },
-        [genreFilter, setSearchParams, topOfButtons]
+        [genreFilter, setSearchParams, templateRef]
     );
 
     const handleClickFilter = useCallback(
         (value) => {
             const newValue = !value ? null : value;
 
-            scrollToTop(topOfButtons);
+            const headerHeight = templateRef.current?.getHeaderHeight() || 0;
+            scrollToTop(headerHeight);
 
             setSearchParams({
                 ...(newValue && { filter: newValue }),
                 ...(dateOrder && { order: dateOrder })
             });
         },
-        [dateOrder, setSearchParams, topOfButtons]
+        [dateOrder, setSearchParams, templateRef]
     );
 
     const handleLoad = useCallback(() => {
@@ -220,7 +216,7 @@ const Movies = () => {
     }, [genreFilter, moviesCategorized, movies, sortMovies]);
 
     return (
-        <PageTemplate>
+        <>
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {errorMessages.length > 0 && (
@@ -337,7 +333,7 @@ const Movies = () => {
                     )}
                 </>
             )}
-        </PageTemplate>
+        </>
     );
 };
 

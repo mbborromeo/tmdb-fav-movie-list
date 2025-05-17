@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
-import PageTemplate from '../components/PageTemplate';
 import BackButton from '../components/BackButton';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
@@ -116,7 +115,7 @@ const Person = () => {
     }, [id]);
 
     return (
-        <PageTemplate>
+        <>
             {loading && <img src={loadingGif} alt="loading" width="64" />}
 
             {!loading && (
@@ -216,7 +215,7 @@ const Person = () => {
                     )}
                 </>
             )}
-        </PageTemplate>
+        </>
     );
 };
 
