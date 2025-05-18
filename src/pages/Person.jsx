@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
 import BackButton from '../components/BackButton';
@@ -15,12 +15,6 @@ import {
 
 const Person = () => {
     const { id } = useParams();
-
-    const [searchParams] = useSearchParams();
-    const filter = searchParams.get('filter');
-    const genreFilter = filter ? filter : null;
-    const order = searchParams.get('order');
-    const dateOrder = order ? order : null;
 
     const [person, setPerson] = useState(null);
     const [movies, setMovies] = useState([]);
@@ -175,23 +169,7 @@ const Person = () => {
                                                     )}
 
                                                     <Link
-                                                        to={{
-                                                            pathname: `/movie/${movie.id}`,
-                                                            search: new URLSearchParams(
-                                                                {
-                                                                    ...(genreFilter
-                                                                        ? {
-                                                                              filter: genreFilter
-                                                                          }
-                                                                        : {}),
-                                                                    ...(dateOrder
-                                                                        ? {
-                                                                              order: dateOrder
-                                                                          }
-                                                                        : {})
-                                                                }
-                                                            ).toString()
-                                                        }}
+                                                        to={`/movie/${movie.id}`}
                                                     >
                                                         {movie.title}
                                                     </Link>
