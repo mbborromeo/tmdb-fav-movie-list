@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 
 import { fetchApiCallOrThrowError, BASE_URL } from '../utils/api';
 import { ensureEnv } from '../utils/helper';
@@ -19,7 +19,7 @@ const Movies = ({ templateRef }) => {
 
     const filterButtonsRef = useRef(null);
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const filter = searchParams.get('filter');
     const genreFilter = filter ? filter : null;
@@ -69,36 +69,6 @@ const Movies = ({ templateRef }) => {
 
         return moviesByGenre;
     }, []);
-
-    const handleClickOrder = useCallback(
-        (value) => {
-            const newValue = !value ? 'Descending' : null;
-
-            const headerHeight = templateRef.current?.getHeaderHeight() || 0;
-            scrollToTop(headerHeight);
-
-            setSearchParams({
-                ...(genreFilter && { filter: genreFilter }),
-                ...(newValue && { order: newValue })
-            });
-        },
-        [genreFilter, setSearchParams, templateRef]
-    );
-
-    const handleClickFilter = useCallback(
-        (value) => {
-            const newValue = !value ? null : value;
-
-            const headerHeight = templateRef.current?.getHeaderHeight() || 0;
-            scrollToTop(headerHeight);
-
-            setSearchParams({
-                ...(newValue && { filter: newValue }),
-                ...(dateOrder && { order: dateOrder })
-            });
-        },
-        [dateOrder, setSearchParams, templateRef]
-    );
 
     const handleLoad = useCallback(() => {
         setPageLoaded(true);
@@ -239,13 +209,24 @@ const Movies = ({ templateRef }) => {
                     {moviesSorted.length > 0 && (
                         <>
                             <div className="buttons-wrapper">
-                                <button
-                                    type="button"
+                                <Link
+                                    to={{
+                                        pathname: '/',
+                                        search: new URLSearchParams({
+                                            ...(genreFilter
+                                                ? { filter: genreFilter }
+                                                : {}),
+                                            ...(!dateOrder
+                                                ? { order: 'Descending' }
+                                                : {})
+                                        }).toString()
+                                    }}
                                     className="btn order"
-                                    name="btn-order"
-                                    value={dateOrder}
-                                    onClick={(e) => {
-                                        handleClickOrder(e.target.value);
+                                    onClick={() => {
+                                        const headerHeight =
+                                            templateRef.current?.getHeaderHeight() ||
+                                            0;
+                                        scrollToTop(headerHeight);
                                     }}
                                 >
                                     Date
@@ -260,7 +241,7 @@ const Movies = ({ templateRef }) => {
                                     <span
                                         className={`icon order${!dateOrder ? '' : ' desc'}`}
                                     ></span>
-                                </button>
+                                </Link>
 
                                 <div
                                     className="buttons-filter"
@@ -269,35 +250,62 @@ const Movies = ({ templateRef }) => {
                                     {Object.keys(moviesCategorized).length >
                                         0 && (
                                         <>
-                                            <button
-                                                type="button"
-                                                name="btn-all"
-                                                value={null}
-                                                onClick={(e) => {
-                                                    handleClickFilter(
-                                                        e.target.value
-                                                    );
+                                            <Link
+                                                to={{
+                                                    pathname: '/',
+                                                    search: new URLSearchParams(
+                                                        {
+                                                            ...(dateOrder
+                                                                ? {
+                                                                      order: dateOrder
+                                                                  }
+                                                                : {})
+                                                        }
+                                                    ).toString()
+                                                }}
+                                                onClick={() => {
+                                                    const headerHeight =
+                                                        templateRef.current?.getHeaderHeight() ||
+                                                        0;
+                                                    scrollToTop(headerHeight);
                                                 }}
                                                 className={
                                                     genreFilter === null
                                                         ? 'btn on'
                                                         : 'btn'
                                                 }
+                                                key="btn-all"
                                             >
                                                 ALL
                                                 <span> ({movies.length})</span>
-                                            </button>
+                                            </Link>
 
                                             {Object.keys(moviesCategorized).map(
                                                 (genre) => (
-                                                    <button
-                                                        type="button"
-                                                        name={`btn-${genre}`}
-                                                        key={`btn-${genre}`}
-                                                        value={genre}
-                                                        onClick={(e) => {
-                                                            handleClickFilter(
-                                                                e.target.value
+                                                    <Link
+                                                        to={{
+                                                            pathname: '/',
+                                                            search: new URLSearchParams(
+                                                                {
+                                                                    ...(genre
+                                                                        ? {
+                                                                              filter: genre
+                                                                          }
+                                                                        : {}),
+                                                                    ...(dateOrder
+                                                                        ? {
+                                                                              order: dateOrder
+                                                                          }
+                                                                        : {})
+                                                                }
+                                                            ).toString()
+                                                        }}
+                                                        onClick={() => {
+                                                            const headerHeight =
+                                                                templateRef.current?.getHeaderHeight() ||
+                                                                0;
+                                                            scrollToTop(
+                                                                headerHeight
                                                             );
                                                         }}
                                                         className={
@@ -306,6 +314,7 @@ const Movies = ({ templateRef }) => {
                                                                 ? 'btn on'
                                                                 : 'btn'
                                                         }
+                                                        key={`btn-${genre}`}
                                                     >
                                                         {genre}
                                                         <span>
@@ -318,7 +327,7 @@ const Movies = ({ templateRef }) => {
                                                             }
                                                             )
                                                         </span>
-                                                    </button>
+                                                    </Link>
                                                 )
                                             )}
                                         </>
