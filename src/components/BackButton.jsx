@@ -4,7 +4,7 @@ const BackButton = () => {
     const navigate = useNavigate();
     const location = useLocation(); // to make the component re-render on history change
 
-    const canGoBack = location.key !== "default"; // window.history.state?.idx > 0
+    const canGoBack = location.key !== 'default'; // window.history.state?.idx > 0
 
     return (
         canGoBack && (
