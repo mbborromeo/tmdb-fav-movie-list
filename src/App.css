@@ -256,6 +256,35 @@ p {
     margin-bottom: 0;
 }
 
+.show-on-desktop p {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow-y: hidden;
+}
+/* .show-on-desktop p {
+    position: relative;
+    max-height: 120px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 1rem;
+}
+.show-on-desktop p::before {
+  position: absolute;
+  content: "...";
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+.show-on-desktop p::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0;
+  width: 1rem;
+  height: 1rem;
+  background: white;
+} */
+
 a {
     text-decoration: underline;
 }
@@ -280,6 +309,9 @@ ol {
     margin: 0;
     min-height: 70%;
     height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 ol li {
@@ -288,6 +320,7 @@ ol li {
     list-style-position: inside;
     min-height: 237px;
     font-size: 14px;
+    width: 100%;
 }
 
 ol li a {
@@ -385,12 +418,13 @@ ol li a + span {
     }
     
     .row.row-movie img {
-        width: 16%;
+        width: 33%; /* 16% */
     }
 
     .row.row-movie .data-column {
-        width: 82%;
+        width: 61%; /* 82% */
         padding-left: 2%;
+        padding-right: 4%;
     }
 
     .row.row-person img,
@@ -427,6 +461,10 @@ ol li a + span {
 
     .stars-voted span {
         display: inline;
+    }
+
+    ol li {
+        width: 50%;
     }
 }
 
