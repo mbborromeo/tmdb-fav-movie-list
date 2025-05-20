@@ -1,22 +1,13 @@
-// import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // , useLocation
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const BackButton = () => {
     const navigate = useNavigate();
-    // const location = useLocation();
+    const location = useLocation(); // to make the component re-render on history change
 
-    console.log('BackButon: window.history.state', window.history.state);
-    // console.log('location', location);
-
-    // useEffect( 
-    //     () => {
-    //         console.log('BackButton has re-rendered upon location change');
-    //     }, 
-    //     [location]
-    // );
+    const canGoBack = location.key !== "default"; // window.history.state?.idx > 0
 
     return (
-        window.history.state.idx >= 1 && (
+        canGoBack && (
             <button onClick={() => navigate(-1)} className="btn back">
                 &laquo;Back
             </button>
