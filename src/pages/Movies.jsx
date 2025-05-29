@@ -21,10 +21,8 @@ const Movies = ({ templateRef }) => {
 
     const [searchParams] = useSearchParams();
 
-    const filter = searchParams.get('filter');
-    const genreFilter = filter ? filter : null;
-    const order = searchParams.get('order');
-    const dateOrder = order ? order : null;
+    const filter = searchParams.get('filter') || null;
+    const order = searchParams.get('order') || null;
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
 
@@ -33,14 +31,14 @@ const Movies = ({ templateRef }) => {
             // sort by release date
             const sorted = [...moviesArray];
             sorted.sort((a, b) =>
-                !dateOrder
+                !order
                     ? Date.parse(a.release_date) - Date.parse(b.release_date)
                     : Date.parse(b.release_date) - Date.parse(a.release_date)
             );
 
             return sorted;
         },
-        [dateOrder]
+        [order]
     );
 
     const getMoviesCategorized = useCallback((moviesArray, movieGenres) => {
@@ -187,11 +185,11 @@ const Movies = ({ templateRef }) => {
     const moviesSorted = useMemo(() => {
         // need to check if moviesCategorized has been calculated yet
         return sortMovies(
-            genreFilter !== null && Object.keys(moviesCategorized).length > 0
-                ? moviesCategorized[genreFilter]
+            filter !== null && Object.keys(moviesCategorized).length > 0
+                ? moviesCategorized[filter]
                 : movies
         );
-    }, [genreFilter, moviesCategorized, movies, sortMovies]);
+    }, [filter, moviesCategorized, movies, sortMovies]);
 
     return (
         <>
@@ -213,10 +211,10 @@ const Movies = ({ templateRef }) => {
                                     to={{
                                         pathname: '/',
                                         search: new URLSearchParams({
-                                            ...(genreFilter
-                                                ? { filter: genreFilter }
+                                            ...(filter
+                                                ? { filter: filter }
                                                 : {}),
-                                            ...(!dateOrder
+                                            ...(!order
                                                 ? { order: 'Descending' }
                                                 : {})
                                         }).toString()
@@ -233,13 +231,13 @@ const Movies = ({ templateRef }) => {
                                     <span>
                                         {' '}
                                         (
-                                        {dateOrder === 'Descending'
+                                        {order === 'Descending'
                                             ? 'desc'
                                             : 'asc'}
                                         )
                                     </span>
                                     <span
-                                        className={`icon order${!dateOrder ? '' : ' desc'}`}
+                                        className={`icon order${!order ? '' : ' desc'}`}
                                     ></span>
                                 </Link>
 
@@ -255,9 +253,9 @@ const Movies = ({ templateRef }) => {
                                                     pathname: '/',
                                                     search: new URLSearchParams(
                                                         {
-                                                            ...(dateOrder
+                                                            ...(order
                                                                 ? {
-                                                                      order: dateOrder
+                                                                      order: order
                                                                   }
                                                                 : {})
                                                         }
@@ -270,7 +268,7 @@ const Movies = ({ templateRef }) => {
                                                     scrollToTop(headerHeight);
                                                 }}
                                                 className={
-                                                    genreFilter === null
+                                                    filter === null
                                                         ? 'btn on'
                                                         : 'btn'
                                                 }
@@ -292,9 +290,9 @@ const Movies = ({ templateRef }) => {
                                                                               filter: genre
                                                                           }
                                                                         : {}),
-                                                                    ...(dateOrder
+                                                                    ...(order
                                                                         ? {
-                                                                              order: dateOrder
+                                                                              order: order
                                                                           }
                                                                         : {})
                                                                 }
@@ -309,8 +307,7 @@ const Movies = ({ templateRef }) => {
                                                             );
                                                         }}
                                                         className={
-                                                            genreFilter ===
-                                                            genre
+                                                            filter === genre
                                                                 ? 'btn on'
                                                                 : 'btn'
                                                         }
@@ -338,11 +335,7 @@ const Movies = ({ templateRef }) => {
                             <ol>
                                 {moviesSorted.map((movie) => (
                                     <li key={movie.id}>
-                                        <Movie
-                                            id={movie.id}
-                                            genreFilter={genreFilter}
-                                            dateOrder={dateOrder}
-                                        />
+                                        <Movie id={movie.id} />
                                     </li>
                                 ))}
                             </ol>
