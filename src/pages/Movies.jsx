@@ -19,10 +19,24 @@ const Movies = ({ templateRef }) => {
 
     const filterButtonsRef = useRef(null);
 
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const filter = searchParams.get('filter') || null;
+    const sortby = searchParams.get('sortby') || '';
     const order = searchParams.get('order') || null;
+
+    const [selectedSortBy, setSelectedSortBy] = useState(sortby);
+
+    const handleSelectChange = (event) => {
+        const sortValue = event.target.value || '';
+        setSelectedSortBy(sortValue);
+
+        setSearchParams({
+            ...(sortValue ? { sortby: sortValue } : {}),
+            ...(filter ? { filter: filter } : {}),
+            ...(order ? { order: order } : {})
+        });
+    };
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
 
@@ -30,15 +44,23 @@ const Movies = ({ templateRef }) => {
         (moviesArray) => {
             // sort by release date
             const sorted = [...moviesArray];
-            sorted.sort((a, b) =>
-                !order
-                    ? Date.parse(a.release_date) - Date.parse(b.release_date)
-                    : Date.parse(b.release_date) - Date.parse(a.release_date)
-            );
+            sorted.sort((a, b) => {
+                if (!selectedSortBy) {
+                    return !order
+                        ? Date.parse(b.release_date) -
+                              Date.parse(a.release_date)
+                        : Date.parse(a.release_date) -
+                              Date.parse(b.release_date);
+                } else if (selectedSortBy === 'stars') {
+                    return !order
+                        ? b.vote_average - a.vote_average
+                        : a.vote_average - b.vote_average;
+                }
+            });
 
             return sorted;
         },
-        [order]
+        [order, selectedSortBy]
     );
 
     const getMoviesCategorized = useCallback((moviesArray, movieGenres) => {
@@ -207,6 +229,15 @@ const Movies = ({ templateRef }) => {
                     {moviesSorted.length > 0 && (
                         <>
                             <div className="buttons-wrapper">
+                                <select
+                                    value={selectedSortBy}
+                                    onChange={handleSelectChange}
+                                >
+                                    <option value="">Date</option>
+                                    <option value="stars">Stars</option>
+                                    {/* <option value="runtime">Runtime</option> */}
+                                </select>
+
                                 <Link
                                     to={{
                                         pathname: '/',
@@ -214,8 +245,11 @@ const Movies = ({ templateRef }) => {
                                             ...(filter
                                                 ? { filter: filter }
                                                 : {}),
+                                            ...(sortby
+                                                ? { sortby: sortby }
+                                                : {}),
                                             ...(!order
-                                                ? { order: 'Descending' }
+                                                ? { order: 'Ascending' }
                                                 : {})
                                         }).toString()
                                     }}
@@ -227,17 +261,8 @@ const Movies = ({ templateRef }) => {
                                         scrollToTop(headerHeight);
                                     }}
                                 >
-                                    Date
-                                    <span>
-                                        {' '}
-                                        (
-                                        {order === 'Descending'
-                                            ? 'desc'
-                                            : 'asc'}
-                                        )
-                                    </span>
                                     <span
-                                        className={`icon order${!order ? '' : ' desc'}`}
+                                        className={`icon order${!order ? '' : ' asc'}`}
                                     ></span>
                                 </Link>
 
@@ -256,6 +281,11 @@ const Movies = ({ templateRef }) => {
                                                             ...(order
                                                                 ? {
                                                                       order: order
+                                                                  }
+                                                                : {}),
+                                                            ...(sortby
+                                                                ? {
+                                                                      sortby: sortby
                                                                   }
                                                                 : {})
                                                         }
@@ -288,6 +318,11 @@ const Movies = ({ templateRef }) => {
                                                                     ...(genre
                                                                         ? {
                                                                               filter: genre
+                                                                          }
+                                                                        : {}),
+                                                                    ...(sortby
+                                                                        ? {
+                                                                              sortby: sortby
                                                                           }
                                                                         : {}),
                                                                     ...(order
