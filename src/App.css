@@ -80,6 +80,10 @@ h2 span {
     font-size: 14px;
 }
 
+select {
+    height: 32px;
+}
+
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
     position: sticky;
@@ -148,24 +152,23 @@ h2 span {
 }
 
 .btn.order {
-    min-width: 88px;
     border-radius: unset;
+    margin-left: 10px;
 }
 
 .icon.order {
     display: inline-block;
-    width: 12px;
-    margin-left: 5px;
+    width: 16px;
     aspect-ratio: 1;
     vertical-align: middle;
-    background-image: url('./assets/images/up-arrow_by_ Roundicons_Flaticon.png');
+    background-image: url('./assets/images/flaticon-downArrow-by_Handicon.png');
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
     transition: transform 0.15s linear;
 }
-.icon.order.desc {
-    transform: rotate(180deg);
+.icon.order.asc {
+    transform: rotate(-180deg); /* point up */
 }
 
 .row {
