@@ -25,11 +25,8 @@ const Movies = ({ templateRef }) => {
     const sortby = searchParams.get('sortby') || '';
     const order = searchParams.get('order') || null;
 
-    const [selectedSortBy, setSelectedSortBy] = useState(sortby);
-
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
-        setSelectedSortBy(sortValue);
 
         setSearchParams({
             ...(sortValue ? { sortby: sortValue } : {}),
@@ -45,13 +42,13 @@ const Movies = ({ templateRef }) => {
             // sort by release date
             const sorted = [...moviesArray];
             sorted.sort((a, b) => {
-                if (!selectedSortBy) {
+                if (!sortby) {
                     return !order
                         ? Date.parse(b.release_date) -
                               Date.parse(a.release_date)
                         : Date.parse(a.release_date) -
                               Date.parse(b.release_date);
-                } else if (selectedSortBy === 'stars') {
+                } else if (sortby === 'stars') {
                     return !order
                         ? b.vote_average - a.vote_average
                         : a.vote_average - b.vote_average;
@@ -60,7 +57,7 @@ const Movies = ({ templateRef }) => {
 
             return sorted;
         },
-        [order, selectedSortBy]
+        [order, sortby]
     );
 
     const getMoviesCategorized = useCallback((moviesArray, movieGenres) => {
@@ -230,7 +227,7 @@ const Movies = ({ templateRef }) => {
                         <>
                             <div className="buttons-wrapper">
                                 <select
-                                    value={selectedSortBy}
+                                    value={sortby}
                                     onChange={handleSelectChange}
                                 >
                                     <option value="">Date</option>
