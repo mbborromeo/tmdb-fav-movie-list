@@ -163,7 +163,7 @@ select {
     height: 36px;
 }
 
-.icon.order {
+.btn.order .icon {
     display: inline-block;
     height: 36px;
     width: 16px;
@@ -174,7 +174,7 @@ select {
     background-position: center center;
     transition: transform 0.15s linear;
 }
-.icon.order.asc {
+.btn.order .icon.asc {
     transform: rotate(-180deg); /* point up */
 }
 

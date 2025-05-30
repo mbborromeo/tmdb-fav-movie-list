@@ -253,7 +253,7 @@ const Movies = ({ templateRef }) => {
                                     onClick={handleClickButtonOrder}
                                 >
                                     <span
-                                        className={`icon order${!order ? '' : ' asc'}`}
+                                        className={`icon${!order ? '' : ' asc'}`}
                                     ></span>
                                 </button>
 
