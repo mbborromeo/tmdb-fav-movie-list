@@ -355,7 +355,8 @@ ol li a + span {
 }
 
 .stars-voted span {
-    display: none;
+    display: inline;
+    font-size: 11px;
 }
 
 .credits .credits-wrapper {
@@ -467,10 +468,6 @@ ol li a + span {
     .persons-wrapper div,
     .movies-wrapper div {
         width: 10%;
-    }
-
-    .stars-voted span {
-        display: inline;
     }
 
     ol li {
