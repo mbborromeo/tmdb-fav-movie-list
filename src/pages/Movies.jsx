@@ -29,9 +29,9 @@ const Movies = ({ templateRef }) => {
         const sortValue = event.target.value || '';
 
         setSearchParams({
+            ...(filter ? { filter: filter } : {}),
             ...(sortValue ? { sortby: sortValue } : {}),
-            ...(order ? { order: order } : {}),
-            ...(filter ? { filter: filter } : {})
+            ...(order ? { order: order } : {})
         });
     };
 
@@ -41,9 +41,9 @@ const Movies = ({ templateRef }) => {
         scrollToTop(headerHeight);
 
         setSearchParams({
+            ...(filter ? { filter: filter } : {}),
             ...(sortby ? { sortby: sortby } : {}),
-            ...(!order ? { order: 'Ascending' } : {}),
-            ...(filter ? { filter: filter } : {})
+            ...(!order ? { order: 'Ascending' } : {})
         });
     };
 
@@ -64,6 +64,10 @@ const Movies = ({ templateRef }) => {
                     return !order
                         ? b.vote_average - a.vote_average
                         : a.vote_average - b.vote_average;
+                } else if (sortby === 'votes') {
+                    return !order
+                        ? b.vote_count - a.vote_count
+                        : a.vote_count - b.vote_count;
                 }
             });
 
@@ -244,7 +248,7 @@ const Movies = ({ templateRef }) => {
                                 >
                                     <option value="">Date</option>
                                     <option value="stars">Stars</option>
-                                    {/* <option value="runtime">Runtime</option> */}
+                                    <option value="votes">Votes</option>
                                 </select>
 
                                 <button
