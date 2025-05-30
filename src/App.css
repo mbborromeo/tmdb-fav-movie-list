@@ -160,16 +160,17 @@ select {
 .btn.order {
     border-radius: unset;
     margin-left: 10px;
+    height: 36px;
 }
 
 .icon.order {
     display: inline-block;
+    height: 36px;
     width: 16px;
-    aspect-ratio: 1;
     vertical-align: middle;
     background-image: url('./assets/images/flaticon-downArrow-by_Handicon.png');
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 20px;
     background-position: center center;
     transition: transform 0.15s linear;
 }

@@ -30,8 +30,20 @@ const Movies = ({ templateRef }) => {
 
         setSearchParams({
             ...(sortValue ? { sortby: sortValue } : {}),
-            ...(filter ? { filter: filter } : {}),
-            ...(order ? { order: order } : {})
+            ...(order ? { order: order } : {}),
+            ...(filter ? { filter: filter } : {})
+        });
+    };
+
+    const handleClickButtonOrder = () => {
+        const headerHeight = templateRef.current?.getHeaderHeight() || 0;
+
+        scrollToTop(headerHeight);
+
+        setSearchParams({
+            ...(sortby ? { sortby: sortby } : {}),
+            ...(!order ? { order: 'Ascending' } : {}),
+            ...(filter ? { filter: filter } : {})
         });
     };
 
@@ -235,33 +247,15 @@ const Movies = ({ templateRef }) => {
                                     {/* <option value="runtime">Runtime</option> */}
                                 </select>
 
-                                <Link
-                                    to={{
-                                        pathname: '/',
-                                        search: new URLSearchParams({
-                                            ...(filter
-                                                ? { filter: filter }
-                                                : {}),
-                                            ...(sortby
-                                                ? { sortby: sortby }
-                                                : {}),
-                                            ...(!order
-                                                ? { order: 'Ascending' }
-                                                : {})
-                                        }).toString()
-                                    }}
+                                <button
+                                    type="button"
                                     className="btn order"
-                                    onClick={() => {
-                                        const headerHeight =
-                                            templateRef.current?.getHeaderHeight() ||
-                                            0;
-                                        scrollToTop(headerHeight);
-                                    }}
+                                    onClick={handleClickButtonOrder}
                                 >
                                     <span
                                         className={`icon order${!order ? '' : ' asc'}`}
                                     ></span>
-                                </Link>
+                                </button>
 
                                 <div
                                     className="buttons-filter"
