@@ -16,7 +16,6 @@ const Movies = ({ templateRef }) => {
     const [loading, setLoading] = useState(true);
     const [errorMessages, setErrorMessages] = useState([]);
     const [pageLoaded, setPageLoaded] = useState(false);
-    const [selectedDecade, setSelectedDecade] = useState('1980');
 
     const filterButtonsRef = useRef(null);
 
@@ -25,6 +24,12 @@ const Movies = ({ templateRef }) => {
     const filter = searchParams.get('filter') || null;
     const sortby = searchParams.get('sortby') || '';
     const order = searchParams.get('order') || null;
+    const decade = searchParams.get('decade') || '1980';
+
+    const scrollToTopOffsetHeader = () => {
+        const headerHeight = templateRef.current?.getHeaderHeight() || 0;
+        scrollToTop(headerHeight);
+    };
 
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
@@ -32,21 +37,18 @@ const Movies = ({ templateRef }) => {
         scrollToTopOffsetHeader();
 
         setSearchParams({
+            ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortValue ? { sortby: sortValue } : {}),
             ...(order ? { order: order } : {})
         });
     };
 
-    const scrollToTopOffsetHeader = () => {
-        const headerHeight = templateRef.current?.getHeaderHeight() || 0;
-        scrollToTop(headerHeight);
-    };
-
     const handleClickButtonOrder = () => {
         scrollToTopOffsetHeader();
 
         setSearchParams({
+            ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortby ? { sortby: sortby } : {}),
             ...(!order ? { order: 'Ascending' } : {})
@@ -54,8 +56,13 @@ const Movies = ({ templateRef }) => {
     };
 
     const handleRangeSelection = (event) => {
-        console.log('handleRangeSelection event', event);
-        setSelectedDecade(event.target.value);
+        const selectedDecade = event.target.value;
+
+        setSearchParams({
+            ...{ decade: selectedDecade },
+            ...(sortby ? { sortby: sortby } : {}),
+            ...(order ? { order: order } : {})
+        });
     };
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
@@ -154,10 +161,7 @@ const Movies = ({ templateRef }) => {
             // set heading logic
             let decadeString;
 
-            switch (selectedDecade) {
-                case '1980':
-                    decadeString = "80's";
-                    break;
+            switch (decade) {
                 case '1990':
                     decadeString = "90's";
                     break;
@@ -165,14 +169,14 @@ const Movies = ({ templateRef }) => {
                     decadeString = "00's";
                     break;
                 default:
-                    decadeString = '';
+                    decadeString = "80's";
             }
 
             if (templateRef.current) {
                 templateRef.current.getHeaderSpan().innerHTML = `: ${decadeString}`;
             }
         }
-    }, [loading, pageLoaded, selectedDecade, templateRef]);
+    }, [loading, pageLoaded, decade, templateRef]);
 
     useEffect(() => {
         (async () => {
@@ -205,7 +209,6 @@ const Movies = ({ templateRef }) => {
                         genresResponse.genres &&
                         genresResponse.genres.length > 0
                     ) {
-                        // genresResponse undefined if nothing returned from fetch
                         setGenres(genresResponse.genres);
                     }
                 }
@@ -225,7 +228,6 @@ const Movies = ({ templateRef }) => {
                         moviesResponse.results &&
                         moviesResponse.results.length > 0
                     ) {
-                        // moviesResponse undefined if nothing returned from fetch
                         setMovies(moviesResponse.results);
                     }
                 }
@@ -269,7 +271,7 @@ const Movies = ({ templateRef }) => {
                     min="1980"
                     max="2000"
                     step="10"
-                    value={selectedDecade}
+                    value={decade}
                     onChange={handleRangeSelection}
                 />
                 <datalist id="values">
@@ -324,6 +326,11 @@ const Movies = ({ templateRef }) => {
                                                     pathname: '/',
                                                     search: new URLSearchParams(
                                                         {
+                                                            ...(decade
+                                                                ? {
+                                                                      decade: decade
+                                                                  }
+                                                                : {}),
                                                             ...(order
                                                                 ? {
                                                                       order: order
@@ -358,6 +365,11 @@ const Movies = ({ templateRef }) => {
                                                             pathname: '/',
                                                             search: new URLSearchParams(
                                                                 {
+                                                                    ...(decade
+                                                                        ? {
+                                                                              decade: decade
+                                                                          }
+                                                                        : {}),
                                                                     ...(genre
                                                                         ? {
                                                                               filter: genre
