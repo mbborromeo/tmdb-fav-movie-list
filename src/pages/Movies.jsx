@@ -58,6 +58,8 @@ const Movies = ({ templateRef }) => {
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
 
+        scrollToTopOffsetHeader();
+
         setSearchParams({
             ...{ decade: selectedDecade },
             ...(sortby ? { sortby: sortby } : {}),
