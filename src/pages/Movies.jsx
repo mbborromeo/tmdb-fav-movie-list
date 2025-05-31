@@ -157,7 +157,9 @@ const Movies = ({ templateRef }) => {
                 left: currentFilterButton.offsetLeft,
                 behavior: 'smooth'
             });
+        }
 
+        if (pageLoaded) {
             // set heading logic
             let decadeString;
 
