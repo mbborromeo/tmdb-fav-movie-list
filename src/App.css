@@ -42,6 +42,11 @@ body {
     padding-bottom: 120px; /* for footer */
 }
 
+header {
+    text-align: center;
+    padding: 20px 0 5px;
+}
+
 footer {
     /* min-height: 80px; */ /* corresponds to padding-bottom on #root */
     width: 100%;
@@ -61,8 +66,9 @@ footer div {
 }
 
 h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
 }
 
 h2 {
@@ -92,7 +98,7 @@ select {
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
     position: sticky;
-    top: 0;
+    top: 60px; /* 0 */
     background: lightyellow;
     padding: 5px 0 3px;
 }
@@ -193,9 +199,10 @@ select {
 }
 
 .row.row-movie .data-column {
-    width: 46%;
-    padding-left: 4%;
     font-size: 13px;
+    width: 63%;
+    padding-right: 0;
+    padding-left: 4%;
 }
 
 .page .row.row-movie .data-column {
@@ -203,7 +210,7 @@ select {
 }
 
 .row.row-movie img {
-    width: 50%;
+    width: 33%;
 }
 
 .page .row.row-movie {
@@ -409,6 +416,35 @@ ol li a + span {
     padding-left: 1px;
 }
 
+.range-wrapper {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: lightyellow;
+    position: sticky;
+    top: 0;
+}
+
+input[type="range"] {
+    width: 300px;
+    margin: 0;
+}
+
+datalist {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* writing-mode: vertical-lr; */
+    width: 300px;
+}
+
+option {
+    padding: 0;
+}
+
 @media only screen and (min-width: 768px) {
     #root {
         max-width: 1024px;
@@ -427,15 +463,11 @@ ol li a + span {
     .show-on-desktop {
         display: block;
     }
-    
-    .row.row-movie img {
-        width: 33%; /* 16% */
-    }
 
     .row.row-movie .data-column {
-        width: 61%; /* 82% */
-        padding-left: 2%;
-        padding-right: 4%;
+        width: 61%;
+        padding-left: 3%;
+        padding-right: 3%;
     }
 
     .row.row-person img,

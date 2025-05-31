@@ -10,7 +10,10 @@ const PageTemplate = forwardRef(({ children }, ref) => {
 
     // Expose the height via the forwarded ref
     useImperativeHandle(ref, () => ({
-        getHeaderHeight: () => headerRef?.current?.offsetHeight || 100
+        getHeaderHeight: () =>
+            headerRef?.current?.offsetHeight + headerRef?.current?.offsetTop ||
+            100,
+        getHeaderSpan: () => headerRef?.current?.querySelector('h1 span')
     }));
 
     useEffect(() => {

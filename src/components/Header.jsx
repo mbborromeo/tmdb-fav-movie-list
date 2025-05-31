@@ -1,7 +1,9 @@
 const Header = ({ ref }) => {
     return (
         <header ref={ref}>
-            <h2>Mike's movie picks: 80's &amp; 90's</h2>
+            <h1>
+                Mike's movie picks<span></span>
+            </h1>
         </header>
     );
 };

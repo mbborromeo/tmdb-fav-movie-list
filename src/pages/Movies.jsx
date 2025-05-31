@@ -24,11 +24,20 @@ const Movies = ({ templateRef }) => {
     const filter = searchParams.get('filter') || null;
     const sortby = searchParams.get('sortby') || '';
     const order = searchParams.get('order') || null;
+    const decade = searchParams.get('decade') || '1980';
+
+    const scrollToTopOffsetHeader = () => {
+        const headerHeight = templateRef.current?.getHeaderHeight() || 0;
+        scrollToTop(headerHeight);
+    };
 
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
 
+        scrollToTopOffsetHeader();
+
         setSearchParams({
+            ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortValue ? { sortby: sortValue } : {}),
             ...(order ? { order: order } : {})
@@ -36,14 +45,25 @@ const Movies = ({ templateRef }) => {
     };
 
     const handleClickButtonOrder = () => {
-        const headerHeight = templateRef.current?.getHeaderHeight() || 0;
-
-        scrollToTop(headerHeight);
+        scrollToTopOffsetHeader();
 
         setSearchParams({
+            ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortby ? { sortby: sortby } : {}),
             ...(!order ? { order: 'Ascending' } : {})
+        });
+    };
+
+    const handleRangeSelection = (event) => {
+        const selectedDecade = event.target.value;
+
+        scrollToTopOffsetHeader();
+
+        setSearchParams({
+            ...{ decade: selectedDecade },
+            ...(sortby ? { sortby: sortby } : {}),
+            ...(order ? { order: order } : {})
         });
     };
 
@@ -140,11 +160,48 @@ const Movies = ({ templateRef }) => {
                 behavior: 'smooth'
             });
         }
-    }, [loading, pageLoaded]);
+
+        if (pageLoaded) {
+            // set heading logic
+            let decadeString;
+
+            switch (decade) {
+                case '1990':
+                    decadeString = "90's";
+                    break;
+                case '2000':
+                    decadeString = "00's";
+                    break;
+                default:
+                    decadeString = "80's";
+            }
+
+            if (templateRef.current) {
+                templateRef.current.getHeaderSpan().innerHTML = `: ${decadeString}`;
+            }
+        }
+    }, [loading, pageLoaded, decade, templateRef]);
 
     useEffect(() => {
         (async () => {
             const errorsArray = [];
+
+            const getListID = () => {
+                let id;
+                switch (decade) {
+                    case '1990':
+                        id = 8531415;
+                        break;
+                    case '2000':
+                        id = 8517669;
+                        break;
+                    default:
+                        id = 8531383;
+                }
+                return id;
+            };
+
+            const listID = getListID();
 
             try {
                 const [genresPromise, moviesPromise] = await Promise.allSettled(
@@ -153,7 +210,7 @@ const Movies = ({ templateRef }) => {
                             `${BASE_URL}/genre/movie/list?language=en`
                         ),
                         fetchApiCallOrThrowError(
-                            `${BASE_URL}/account/${accountID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
+                            `${BASE_URL}/list/${listID}?language=en-US&page=1&sort_by=created_at.asc`
                         )
                     ]
                 );
@@ -173,7 +230,6 @@ const Movies = ({ templateRef }) => {
                         genresResponse.genres &&
                         genresResponse.genres.length > 0
                     ) {
-                        // genresResponse undefined if nothing returned from fetch
                         setGenres(genresResponse.genres);
                     }
                 }
@@ -190,11 +246,10 @@ const Movies = ({ templateRef }) => {
 
                     if (
                         moviesResponse &&
-                        moviesResponse.results &&
-                        moviesResponse.results.length > 0
+                        moviesResponse.items &&
+                        moviesResponse.items.length > 0
                     ) {
-                        // moviesResponse undefined if nothing returned from fetch
-                        setMovies(moviesResponse.results);
+                        setMovies(moviesResponse.items);
                     }
                 }
             } catch (error) {
@@ -209,7 +264,7 @@ const Movies = ({ templateRef }) => {
 
             setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
-    }, [accountID]);
+    }, [accountID, decade]);
 
     const moviesCategorized = useMemo(() => {
         return movies.length > 0 && genres.length > 0
@@ -228,6 +283,25 @@ const Movies = ({ templateRef }) => {
 
     return (
         <>
+            <div className="range-wrapper">
+                <input
+                    type="range"
+                    id="decade"
+                    name="decade"
+                    list="values"
+                    min="1980"
+                    max="2000"
+                    step="10"
+                    value={decade}
+                    onChange={handleRangeSelection}
+                />
+                <datalist id="values">
+                    <option value="1980" label="80's"></option>
+                    <option value="1990" label="90's"></option>
+                    <option value="2000" label="00's"></option>
+                </datalist>
+            </div>
+
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {errorMessages.length > 0 && (
@@ -273,6 +347,11 @@ const Movies = ({ templateRef }) => {
                                                     pathname: '/',
                                                     search: new URLSearchParams(
                                                         {
+                                                            ...(decade
+                                                                ? {
+                                                                      decade: decade
+                                                                  }
+                                                                : {}),
                                                             ...(order
                                                                 ? {
                                                                       order: order
@@ -286,12 +365,9 @@ const Movies = ({ templateRef }) => {
                                                         }
                                                     ).toString()
                                                 }}
-                                                onClick={() => {
-                                                    const headerHeight =
-                                                        templateRef.current?.getHeaderHeight() ||
-                                                        0;
-                                                    scrollToTop(headerHeight);
-                                                }}
+                                                onClick={
+                                                    scrollToTopOffsetHeader
+                                                }
                                                 className={
                                                     filter === null
                                                         ? 'btn on'
@@ -310,6 +386,11 @@ const Movies = ({ templateRef }) => {
                                                             pathname: '/',
                                                             search: new URLSearchParams(
                                                                 {
+                                                                    ...(decade
+                                                                        ? {
+                                                                              decade: decade
+                                                                          }
+                                                                        : {}),
                                                                     ...(genre
                                                                         ? {
                                                                               filter: genre
@@ -328,14 +409,9 @@ const Movies = ({ templateRef }) => {
                                                                 }
                                                             ).toString()
                                                         }}
-                                                        onClick={() => {
-                                                            const headerHeight =
-                                                                templateRef.current?.getHeaderHeight() ||
-                                                                0;
-                                                            scrollToTop(
-                                                                headerHeight
-                                                            );
-                                                        }}
+                                                        onClick={
+                                                            scrollToTopOffsetHeader
+                                                        }
                                                         className={
                                                             filter === genre
                                                                 ? 'btn on'
