@@ -428,13 +428,22 @@ ol li a + span {
     top: 0; */
 }
 
+.slider-row {
+    display: flex;
+    flex-direction: row;
+}
+.slider-row span {
+    padding: 0 4px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .stick-to-top {
     position: sticky;
     top: 0;
 }
 
 input[type="range"] {
-    width: 300px;
     margin: 0;
 }
 
@@ -443,7 +452,12 @@ datalist {
     flex-direction: row;
     justify-content: space-between;
     /* writing-mode: vertical-lr; */
-    width: 300px;
+}
+
+input[type="range"],
+datalist
+{
+    width: 240px; /* 300px */
 }
 
 option {

@@ -24,7 +24,7 @@ const Movies = ({ templateRef }) => {
     const filter = searchParams.get('filter') || null;
     const sortby = searchParams.get('sortby') || '';
     const order = searchParams.get('order') || null;
-    const decade = searchParams.get('decade') || '1980';
+    const decade = searchParams.get('decade') || '1990';
 
     const scrollToTopOffsetHeader = () => {
         const headerHeight = templateRef.current?.getHeaderHeight() || 0;
@@ -161,26 +161,26 @@ const Movies = ({ templateRef }) => {
             });
         }
 
-        if (pageLoaded) {
-            // set heading logic
-            let decadeString;
+        // set heading logic
+        // if (pageLoaded) {
+        //     let decadeString;
 
-            switch (decade) {
-                case '1990':
-                    decadeString = "90's";
-                    break;
-                case '2000':
-                    decadeString = "00's";
-                    break;
-                default:
-                    decadeString = "80's";
-            }
+        //     switch (decade) {
+        //         case '1980':
+        //             decadeString = "80's";
+        //             break;
+        //         case '2000':
+        //             decadeString = "00's";
+        //             break;
+        //         default:
+        //             decadeString = "90's";
+        //     }
 
-            if (templateRef.current) {
-                templateRef.current.getHeaderSpan().innerHTML = `: ${decadeString}`;
-            }
-        }
-    }, [loading, pageLoaded, decade, templateRef]);
+        //     if (templateRef.current) {
+        //         templateRef.current.getHeaderSpan().innerHTML = `: ${decadeString}`;
+        //     }
+        // }
+    }, [loading, pageLoaded]); // , decade, templateRef
 
     useEffect(() => {
         (async () => {
@@ -189,14 +189,14 @@ const Movies = ({ templateRef }) => {
             const getListID = () => {
                 let id;
                 switch (decade) {
-                    case '1990':
-                        id = 8531415;
+                    case '1980':
+                        id = 8531383;
                         break;
                     case '2000':
                         id = 8517669;
                         break;
                     default:
-                        id = 8531383;
+                        id = 8531415;
                 }
                 return id;
             };
@@ -298,29 +298,33 @@ const Movies = ({ templateRef }) => {
                         <>
                             <div className="stick-to-top">
                                 <div className="range-wrapper">
-                                    <input
-                                        type="range"
-                                        id="decade"
-                                        name="decade"
-                                        list="values"
-                                        min="1980"
-                                        max="2000"
-                                        step="10"
-                                        value={decade}
-                                        onChange={handleRangeSelection}
-                                    />
+                                    <div className="slider-row">
+                                        <span>80's</span>
+                                        <input
+                                            type="range"
+                                            id="decade"
+                                            name="decade"
+                                            list="values"
+                                            min="1980"
+                                            max="2000"
+                                            step="10"
+                                            value={decade}
+                                            onChange={handleRangeSelection}
+                                        />
+                                        <span>00's</span>
+                                    </div>
                                     <datalist id="values">
                                         <option
                                             value="1980"
-                                            label="80's"
+                                            // label="80's"
                                         ></option>
                                         <option
                                             value="1990"
-                                            label="90's"
+                                            // label="90's"
                                         ></option>
                                         <option
                                             value="2000"
-                                            label="00's"
+                                            // label="00's"
                                         ></option>
                                     </datalist>
                                 </div>
