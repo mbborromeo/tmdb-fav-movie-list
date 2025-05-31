@@ -182,15 +182,30 @@ const Movies = ({ templateRef }) => {
         (async () => {
             const errorsArray = [];
 
+            const getListID = () => {
+                let id;
+                switch (decade) {
+                    case '1990':
+                        id = 8531415;
+                        break;
+                    case '2000':
+                        id = 8517669;
+                        break;
+                    default:
+                        id = 8531383;
+                }
+                return id;
+            };
+
+            const listID = getListID();
+
             try {
                 const [genresPromise, moviesPromise] = await Promise.allSettled(
                     [
                         fetchApiCallOrThrowError(
                             `${BASE_URL}/genre/movie/list?language=en`
                         ),
-                        fetchApiCallOrThrowError(
-                            `${BASE_URL}/account/${accountID}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`
-                        )
+                        fetchApiCallOrThrowError(`${BASE_URL}/list/${listID}?language=en-US&page=1&sort_by=created_at.asc`)
                     ]
                 );
 
@@ -225,10 +240,10 @@ const Movies = ({ templateRef }) => {
 
                     if (
                         moviesResponse &&
-                        moviesResponse.results &&
-                        moviesResponse.results.length > 0
+                        moviesResponse.items &&
+                        moviesResponse.items.length > 0
                     ) {
-                        setMovies(moviesResponse.results);
+                        setMovies(moviesResponse.items);
                     }
                 }
             } catch (error) {
@@ -243,7 +258,7 @@ const Movies = ({ templateRef }) => {
 
             setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
-    }, [accountID]);
+    }, [accountID, decade]);
 
     const moviesCategorized = useMemo(() => {
         return movies.length > 0 && genres.length > 0
