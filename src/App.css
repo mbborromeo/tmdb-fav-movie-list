@@ -196,9 +196,10 @@ select {
 }
 
 .row.row-movie .data-column {
-    width: 46%;
-    padding-left: 4%;
     font-size: 13px;
+    width: 63%;
+    padding-right: 0;
+    padding-left: 4%;
 }
 
 .page .row.row-movie .data-column {
@@ -206,7 +207,7 @@ select {
 }
 
 .row.row-movie img {
-    width: 50%;
+    width: 33%;
 }
 
 .page .row.row-movie {
@@ -456,15 +457,11 @@ option {
     .show-on-desktop {
         display: block;
     }
-    
-    .row.row-movie img {
-        width: 33%; /* 16% */
-    }
 
     .row.row-movie .data-column {
-        width: 61%; /* 82% */
-        padding-left: 2%;
-        padding-right: 4%;
+        width: 61%;
+        padding-left: 3%;
+        padding-right: 3%;
     }
 
     .row.row-person img,
