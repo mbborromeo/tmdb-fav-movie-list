@@ -209,7 +209,9 @@ const Movies = ({ templateRef }) => {
                         fetchApiCallOrThrowError(
                             `${BASE_URL}/genre/movie/list?language=en`
                         ),
-                        fetchApiCallOrThrowError(`${BASE_URL}/list/${listID}?language=en-US&page=1&sort_by=created_at.asc`)
+                        fetchApiCallOrThrowError(
+                            `${BASE_URL}/list/${listID}?language=en-US&page=1&sort_by=created_at.asc`
+                        )
                     ]
                 );
 
