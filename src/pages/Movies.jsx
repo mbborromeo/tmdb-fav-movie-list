@@ -16,6 +16,7 @@ const Movies = ({ templateRef }) => {
     const [loading, setLoading] = useState(true);
     const [errorMessages, setErrorMessages] = useState([]);
     const [pageLoaded, setPageLoaded] = useState(false);
+    const [selectedDecade, setSelectedDecade] = useState('1980');
 
     const filterButtonsRef = useRef(null);
 
@@ -28,6 +29,8 @@ const Movies = ({ templateRef }) => {
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
 
+        scrollToTopOffsetHeader();
+
         setSearchParams({
             ...(filter ? { filter: filter } : {}),
             ...(sortValue ? { sortby: sortValue } : {}),
@@ -35,16 +38,24 @@ const Movies = ({ templateRef }) => {
         });
     };
 
-    const handleClickButtonOrder = () => {
+    const scrollToTopOffsetHeader = () => {
         const headerHeight = templateRef.current?.getHeaderHeight() || 0;
-
         scrollToTop(headerHeight);
+    };
+
+    const handleClickButtonOrder = () => {
+        scrollToTopOffsetHeader();
 
         setSearchParams({
             ...(filter ? { filter: filter } : {}),
             ...(sortby ? { sortby: sortby } : {}),
             ...(!order ? { order: 'Ascending' } : {})
         });
+    };
+
+    const handleRangeSelection = (event) => {
+        console.log('handleRangeSelection event', event);
+        setSelectedDecade(event.target.value);
     };
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
@@ -139,8 +150,29 @@ const Movies = ({ templateRef }) => {
                 left: currentFilterButton.offsetLeft,
                 behavior: 'smooth'
             });
+
+            // set heading logic
+            let decadeString;
+
+            switch (selectedDecade) {
+                case '1980':
+                    decadeString = "80's";
+                    break;
+                case '1990':
+                    decadeString = "90's";
+                    break;
+                case '2000':
+                    decadeString = "00's";
+                    break;
+                default:
+                    decadeString = '';
+            }
+
+            if (templateRef.current) {
+                templateRef.current.getHeaderSpan().innerHTML = `: ${decadeString}`;
+            }
         }
-    }, [loading, pageLoaded]);
+    }, [loading, pageLoaded, selectedDecade, templateRef]);
 
     useEffect(() => {
         (async () => {
@@ -228,6 +260,25 @@ const Movies = ({ templateRef }) => {
 
     return (
         <>
+            <div className="range-wrapper">
+                <input
+                    type="range"
+                    id="decade"
+                    name="decade"
+                    list="values"
+                    min="1980"
+                    max="2000"
+                    step="10"
+                    value={selectedDecade}
+                    onChange={handleRangeSelection}
+                />
+                <datalist id="values">
+                    <option value="1980" label="80's"></option>
+                    <option value="1990" label="90's"></option>
+                    <option value="2000" label="00's"></option>
+                </datalist>
+            </div>
+
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {errorMessages.length > 0 && (
@@ -286,12 +337,9 @@ const Movies = ({ templateRef }) => {
                                                         }
                                                     ).toString()
                                                 }}
-                                                onClick={() => {
-                                                    const headerHeight =
-                                                        templateRef.current?.getHeaderHeight() ||
-                                                        0;
-                                                    scrollToTop(headerHeight);
-                                                }}
+                                                onClick={
+                                                    scrollToTopOffsetHeader
+                                                }
                                                 className={
                                                     filter === null
                                                         ? 'btn on'
@@ -328,14 +376,9 @@ const Movies = ({ templateRef }) => {
                                                                 }
                                                             ).toString()
                                                         }}
-                                                        onClick={() => {
-                                                            const headerHeight =
-                                                                templateRef.current?.getHeaderHeight() ||
-                                                                0;
-                                                            scrollToTop(
-                                                                headerHeight
-                                                            );
-                                                        }}
+                                                        onClick={
+                                                            scrollToTopOffsetHeader
+                                                        }
                                                         className={
                                                             filter === genre
                                                                 ? 'btn on'
