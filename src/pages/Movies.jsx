@@ -32,8 +32,6 @@ const Movies = ({ templateRef }) => {
     };
 
     const scrollToCurrentFilterButton = useCallback((ref) => {
-        console.log('scrollToCurrentFilterButton ref', ref);
-
         const filterButtonsNode = ref;
         const currentFilterButton = filterButtonsNode.querySelector('.btn.on');
 
@@ -55,40 +53,42 @@ const Movies = ({ templateRef }) => {
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
 
+        scrollToTopOffsetHeader();
+
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortValue ? { sortby: sortValue } : {}),
             ...(order ? { order: order } : {})
         });
-
-        scrollToTopOffsetHeader();
     };
 
     const handleClickButtonOrder = () => {
+        scrollToTopOffsetHeader();
+
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortby ? { sortby: sortby } : {}),
             ...(!order ? { order: 'Ascending' } : {})
         });
-
-        scrollToTopOffsetHeader();
     };
 
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
+
+        scrollToTopOffsetHeader();
 
         setSearchParams({
             ...{ decade: selectedDecade },
             ...(sortby ? { sortby: sortby } : {}),
             ...(order ? { order: order } : {})
         });
-
-        scrollToTopOffsetHeader();
     };
 
-    const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
+    const listID_80s = ensureEnv('VITE_TMDB_LIST_ID_80S');
+    const listID_90s = ensureEnv('VITE_TMDB_LIST_ID_90S');
+    const listID_00s = ensureEnv('VITE_TMDB_LIST_ID_00S');
 
     const sortMovies = useCallback(
         (moviesArray) => {
@@ -176,13 +176,13 @@ const Movies = ({ templateRef }) => {
                 let id;
                 switch (decade) {
                     case '1980':
-                        id = 8531383;
+                        id = listID_80s;
                         break;
                     case '2000':
-                        id = 8517669;
+                        id = listID_00s;
                         break;
                     default:
-                        id = 8531415;
+                        id = listID_90s;
                 }
                 return id;
             };
@@ -250,7 +250,7 @@ const Movies = ({ templateRef }) => {
 
             setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
-    }, [accountID, decade]);
+    }, [decade, listID_80s, listID_90s, listID_00s]);
 
     const moviesCategorized = useMemo(() => {
         return movies.length > 0 && genres.length > 0
