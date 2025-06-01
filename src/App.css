@@ -44,7 +44,7 @@ body {
 
 header {
     text-align: center;
-    padding: 20px 0 5px;
+    padding: 20px 0 0;
 }
 
 footer {
@@ -97,8 +97,8 @@ select {
 
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
-    position: sticky;
-    top: 58px; 
+    /* position: sticky;
+    top: 58px;  */
     background: lightyellow;
     padding: 5px 0 3px;
 }
@@ -196,6 +196,10 @@ select {
 .row img {
     height: auto;
     object-fit: contain;
+}
+
+.row.row-movie {
+    padding-top: 4px;
 }
 
 .row.row-movie .data-column {
@@ -422,14 +426,16 @@ ol li a + span {
 
 .range-wrapper {
     width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     background: lightyellow;
-    position: sticky;
-    top: 0;
+    /* position: sticky;
+    top: 0; */
+    height: 60px;
 }
 
 .slider-row {
@@ -445,6 +451,7 @@ ol li a + span {
 .stick-to-top {
     position: sticky;
     top: 0;
+    background-color: lightyellow;
 }
 
 input[type="range"] {
@@ -464,8 +471,9 @@ datalist
     width: 240px; /* 300px */
 }
 
-option {
+datalist option {
     padding: 0;
+    display: none;
 }
 
 @media only screen and (min-width: 768px) {
