@@ -97,8 +97,8 @@ select {
 
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
-    /* position: sticky;
-    top: 58px;  */
+    position: sticky;
+    top: 59px;
     background: lightyellow;
     padding: 5px 0 3px;
 }
@@ -433,8 +433,8 @@ ol li a + span {
     justify-content: center;
     align-items: center;
     background: lightyellow;
-    /* position: sticky;
-    top: 0; */
+    position: sticky;
+    top: 0;
     height: 60px;
 }
 
