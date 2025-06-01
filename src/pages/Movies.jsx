@@ -31,6 +31,25 @@ const Movies = ({ templateRef }) => {
         scrollToTop(headerHeight);
     };
 
+    const scrollToCurrentFilterButton = useCallback((ref) => {
+        const filterButtonsNode = ref;
+        const currentFilterButton = filterButtonsNode.querySelector('.btn.on');
+
+        // Scroll animates into view, but has bug which causes page to zoom in and scroll down
+        // currentFilterButton.scrollIntoView({
+        //     behavior: 'smooth',
+        //     block: 'start',
+        //     inline: 'start'
+        // });
+
+        // filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
+
+        filterButtonsNode.scrollTo({
+            left: currentFilterButton.offsetLeft,
+            behavior: 'smooth'
+        });
+    }, []);
+
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
 
@@ -67,7 +86,9 @@ const Movies = ({ templateRef }) => {
         });
     };
 
-    const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
+    const listID_80s = ensureEnv('VITE_TMDB_LIST_ID_80S');
+    const listID_90s = ensureEnv('VITE_TMDB_LIST_ID_90S');
+    const listID_00s = ensureEnv('VITE_TMDB_LIST_ID_00S');
 
     const sortMovies = useCallback(
         (moviesArray) => {
@@ -142,61 +163,26 @@ const Movies = ({ templateRef }) => {
         if (!loading && pageLoaded && filterButtonsRef.current) {
             // Resource: https://medium.com/@ryan_forrester_/javascript-scroll-to-anchor-fast-easy-guide-48dde5878fbe
 
-            const filterButtonsNode = filterButtonsRef.current;
-            const currentFilterButton =
-                filterButtonsNode.querySelector('.btn.on');
-
-            // Scroll animates into view, but has bug which causes page to zoom in and scroll down
-            // currentFilterButton.scrollIntoView({
-            //     behavior: 'smooth',
-            //     block: 'start',
-            //     inline: 'start'
-            // });
-
-            // filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
-
-            filterButtonsNode.scrollTo({
-                left: currentFilterButton.offsetLeft,
-                behavior: 'smooth'
-            });
+            scrollToCurrentFilterButton(filterButtonsRef.current);
         }
-
-        // set heading logic
-        // if (pageLoaded) {
-        //     let decadeString;
-
-        //     switch (decade) {
-        //         case '1980':
-        //             decadeString = "80's";
-        //             break;
-        //         case '2000':
-        //             decadeString = "00's";
-        //             break;
-        //         default:
-        //             decadeString = "90's";
-        //     }
-
-        //     if (templateRef.current) {
-        //         templateRef.current.getHeaderSpan().innerHTML = `: ${decadeString}`;
-        //     }
-        // }
-    }, [loading, pageLoaded]); // , decade, templateRef
+    }, [loading, pageLoaded, scrollToCurrentFilterButton]);
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const errorsArray = [];
 
             const getListID = () => {
                 let id;
                 switch (decade) {
                     case '1980':
-                        id = 8531383;
+                        id = listID_80s;
                         break;
                     case '2000':
-                        id = 8517669;
+                        id = listID_00s;
                         break;
                     default:
-                        id = 8531415;
+                        id = listID_90s;
                 }
                 return id;
             };
@@ -264,7 +250,7 @@ const Movies = ({ templateRef }) => {
 
             setLoading(false); // after both genres and movies have been fetched
         })(); // IIFE
-    }, [accountID, decade]);
+    }, [decade, listID_80s, listID_90s, listID_00s]);
 
     const moviesCategorized = useMemo(() => {
         return movies.length > 0 && genres.length > 0
