@@ -31,10 +31,29 @@ const Movies = ({ templateRef }) => {
         scrollToTop(headerHeight);
     };
 
+    const scrollToCurrentFilterButton = useCallback((ref) => {
+        console.log('scrollToCurrentFilterButton ref', ref);
+
+        const filterButtonsNode = ref;
+        const currentFilterButton = filterButtonsNode.querySelector('.btn.on');
+
+        // Scroll animates into view, but has bug which causes page to zoom in and scroll down
+        // currentFilterButton.scrollIntoView({
+        //     behavior: 'smooth',
+        //     block: 'start',
+        //     inline: 'start'
+        // });
+
+        // filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
+
+        filterButtonsNode.scrollTo({
+            left: currentFilterButton.offsetLeft,
+            behavior: 'smooth'
+        });
+    }, []);
+
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
-
-        scrollToTopOffsetHeader();
 
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
@@ -42,29 +61,31 @@ const Movies = ({ templateRef }) => {
             ...(sortValue ? { sortby: sortValue } : {}),
             ...(order ? { order: order } : {})
         });
+
+        scrollToTopOffsetHeader();
     };
 
     const handleClickButtonOrder = () => {
-        scrollToTopOffsetHeader();
-
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortby ? { sortby: sortby } : {}),
             ...(!order ? { order: 'Ascending' } : {})
         });
+
+        scrollToTopOffsetHeader();
     };
 
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
-
-        scrollToTopOffsetHeader();
 
         setSearchParams({
             ...{ decade: selectedDecade },
             ...(sortby ? { sortby: sortby } : {}),
             ...(order ? { order: order } : {})
         });
+
+        scrollToTopOffsetHeader();
     };
 
     const accountID = ensureEnv('VITE_TMDB_ACCOUNT_ID');
@@ -142,48 +163,13 @@ const Movies = ({ templateRef }) => {
         if (!loading && pageLoaded && filterButtonsRef.current) {
             // Resource: https://medium.com/@ryan_forrester_/javascript-scroll-to-anchor-fast-easy-guide-48dde5878fbe
 
-            const filterButtonsNode = filterButtonsRef.current;
-            const currentFilterButton =
-                filterButtonsNode.querySelector('.btn.on');
-
-            // Scroll animates into view, but has bug which causes page to zoom in and scroll down
-            // currentFilterButton.scrollIntoView({
-            //     behavior: 'smooth',
-            //     block: 'start',
-            //     inline: 'start'
-            // });
-
-            // filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
-
-            filterButtonsNode.scrollTo({
-                left: currentFilterButton.offsetLeft,
-                behavior: 'smooth'
-            });
+            scrollToCurrentFilterButton(filterButtonsRef.current);
         }
-
-        // set heading logic
-        // if (pageLoaded) {
-        //     let decadeString;
-
-        //     switch (decade) {
-        //         case '1980':
-        //             decadeString = "80's";
-        //             break;
-        //         case '2000':
-        //             decadeString = "00's";
-        //             break;
-        //         default:
-        //             decadeString = "90's";
-        //     }
-
-        //     if (templateRef.current) {
-        //         templateRef.current.getHeaderSpan().innerHTML = `: ${decadeString}`;
-        //     }
-        // }
-    }, [loading, pageLoaded]); // , decade, templateRef
+    }, [loading, pageLoaded, scrollToCurrentFilterButton]);
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const errorsArray = [];
 
             const getListID = () => {

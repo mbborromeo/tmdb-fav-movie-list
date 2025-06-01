@@ -97,8 +97,8 @@ select {
 
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
-    /* position: sticky;
-    top: 60px;  */
+    position: sticky;
+    top: 58px; 
     background: lightyellow;
     padding: 5px 0 3px;
 }
@@ -333,11 +333,15 @@ ol {
 
 ol li {
     margin: 0;
-    padding: 0 0 10px 0;
+    padding: 12px 0 10px 0;
     list-style-position: inside;
     min-height: 237px;
     font-size: 14px;
     width: 100%;
+}
+
+ol li h2 {
+    display: inline;
 }
 
 ol li a {
@@ -424,8 +428,8 @@ ol li a + span {
     flex-direction: column;
     align-items: center;
     background: lightyellow;
-    /* position: sticky;
-    top: 0; */
+    position: sticky;
+    top: 0;
 }
 
 .slider-row {
