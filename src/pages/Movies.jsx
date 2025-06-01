@@ -269,6 +269,38 @@ const Movies = ({ templateRef }) => {
 
     return (
         <>
+            <div className="range-wrapper">
+                <div className="slider-row">
+                    <span>80's</span>
+                    <input
+                        type="range"
+                        id="decade"
+                        name="decade"
+                        list="values"
+                        min="1980"
+                        max="2000"
+                        step="10"
+                        value={decade}
+                        onChange={handleRangeSelection}
+                    />
+                    <span>00's</span>
+                </div>
+                <datalist id="values">
+                    <option
+                        value="1980"
+                        // label="80's"
+                    ></option>
+                    <option
+                        value="1990"
+                        // label="90's"
+                    ></option>
+                    <option
+                        value="2000"
+                        // label="00's"
+                    ></option>
+                </datalist>
+            </div>
+
             {loading && <img src={loadingGif} alt="loading" width="32" />}
 
             {errorMessages.length > 0 && (
@@ -282,109 +314,73 @@ const Movies = ({ templateRef }) => {
 
                     {moviesSorted.length > 0 && (
                         <>
-                            <div className="stick-to-top">
-                                <div className="range-wrapper">
-                                    <div className="slider-row">
-                                        <span>80's</span>
-                                        <input
-                                            type="range"
-                                            id="decade"
-                                            name="decade"
-                                            list="values"
-                                            min="1980"
-                                            max="2000"
-                                            step="10"
-                                            value={decade}
-                                            onChange={handleRangeSelection}
-                                        />
-                                        <span>00's</span>
-                                    </div>
-                                    <datalist id="values">
-                                        <option
-                                            value="1980"
-                                            // label="80's"
-                                        ></option>
-                                        <option
-                                            value="1990"
-                                            // label="90's"
-                                        ></option>
-                                        <option
-                                            value="2000"
-                                            // label="00's"
-                                        ></option>
-                                    </datalist>
-                                </div>
+                            {/* <div className="stick-to-top"> */}
+                            <div className="buttons-wrapper">
+                                <select
+                                    value={sortby}
+                                    onChange={handleSelectChange}
+                                >
+                                    <option value="">Date</option>
+                                    <option value="stars">Stars</option>
+                                    <option value="votes">Votes</option>
+                                </select>
 
-                                <div className="buttons-wrapper">
-                                    <select
-                                        value={sortby}
-                                        onChange={handleSelectChange}
-                                    >
-                                        <option value="">Date</option>
-                                        <option value="stars">Stars</option>
-                                        <option value="votes">Votes</option>
-                                    </select>
+                                <button
+                                    type="button"
+                                    className="btn order"
+                                    onClick={handleClickButtonOrder}
+                                >
+                                    <span
+                                        className={`icon${!order ? '' : ' asc'}`}
+                                    ></span>
+                                </button>
 
-                                    <button
-                                        type="button"
-                                        className="btn order"
-                                        onClick={handleClickButtonOrder}
-                                    >
-                                        <span
-                                            className={`icon${!order ? '' : ' asc'}`}
-                                        ></span>
-                                    </button>
+                                <div
+                                    className="buttons-filter"
+                                    ref={filterButtonsRef}
+                                >
+                                    {Object.keys(moviesCategorized).length >
+                                        0 && (
+                                        <>
+                                            <Link
+                                                to={{
+                                                    pathname: '/',
+                                                    search: new URLSearchParams(
+                                                        {
+                                                            ...(decade
+                                                                ? {
+                                                                      decade: decade
+                                                                  }
+                                                                : {}),
+                                                            ...(order
+                                                                ? {
+                                                                      order: order
+                                                                  }
+                                                                : {}),
+                                                            ...(sortby
+                                                                ? {
+                                                                      sortby: sortby
+                                                                  }
+                                                                : {})
+                                                        }
+                                                    ).toString()
+                                                }}
+                                                onClick={
+                                                    scrollToTopOffsetHeader
+                                                }
+                                                className={
+                                                    filter === null
+                                                        ? 'btn on'
+                                                        : 'btn'
+                                                }
+                                                key="btn-all"
+                                            >
+                                                ALL
+                                                <span> ({movies.length})</span>
+                                            </Link>
 
-                                    <div
-                                        className="buttons-filter"
-                                        ref={filterButtonsRef}
-                                    >
-                                        {Object.keys(moviesCategorized).length >
-                                            0 && (
-                                            <>
-                                                <Link
-                                                    to={{
-                                                        pathname: '/',
-                                                        search: new URLSearchParams(
-                                                            {
-                                                                ...(decade
-                                                                    ? {
-                                                                          decade: decade
-                                                                      }
-                                                                    : {}),
-                                                                ...(order
-                                                                    ? {
-                                                                          order: order
-                                                                      }
-                                                                    : {}),
-                                                                ...(sortby
-                                                                    ? {
-                                                                          sortby: sortby
-                                                                      }
-                                                                    : {})
-                                                            }
-                                                        ).toString()
-                                                    }}
-                                                    onClick={
-                                                        scrollToTopOffsetHeader
-                                                    }
-                                                    className={
-                                                        filter === null
-                                                            ? 'btn on'
-                                                            : 'btn'
-                                                    }
-                                                    key="btn-all"
-                                                >
-                                                    ALL
-                                                    <span>
-                                                        {' '}
-                                                        ({movies.length})
-                                                    </span>
-                                                </Link>
-
-                                                {Object.keys(
-                                                    moviesCategorized
-                                                ).map((genre) => (
+                                            {Object.keys(moviesCategorized).map(
+                                                (genre) => (
                                                     <Link
                                                         to={{
                                                             pathname: '/',
@@ -435,12 +431,13 @@ const Movies = ({ templateRef }) => {
                                                             )
                                                         </span>
                                                     </Link>
-                                                ))}
-                                            </>
-                                        )}
-                                    </div>
+                                                )
+                                            )}
+                                        </>
+                                    )}
                                 </div>
                             </div>
+                            {/* </div> */}
 
                             <ol>
                                 {moviesSorted.map((movie) => (
