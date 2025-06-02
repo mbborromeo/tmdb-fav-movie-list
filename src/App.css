@@ -111,7 +111,7 @@ select {
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
     position: sticky;
-    top: 59px;
+    top: 60px;
     background: lightyellow;
     padding-top: 5px;
     padding-bottom: 3px;
