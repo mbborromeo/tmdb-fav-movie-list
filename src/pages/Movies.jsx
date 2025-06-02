@@ -269,7 +269,7 @@ const Movies = ({ templateRef }) => {
 
     return (
         <>
-            <div className="range-wrapper">
+            <div className="range-wrapper side-padding">
                 <div className="slider-row">
                     <span>80's</span>
                     <input
@@ -314,8 +314,7 @@ const Movies = ({ templateRef }) => {
 
                     {moviesSorted.length > 0 && (
                         <>
-                            {/* <div className="stick-to-top"> */}
-                            <div className="buttons-wrapper">
+                            <div className="buttons-wrapper side-padding">
                                 <select
                                     value={sortby}
                                     onChange={handleSelectChange}
@@ -437,9 +436,8 @@ const Movies = ({ templateRef }) => {
                                     )}
                                 </div>
                             </div>
-                            {/* </div> */}
 
-                            <ol>
+                            <ol className="side-padding">
                                 {moviesSorted.map((movie) => (
                                     <li key={movie.id}>
                                         <Movie id={movie.id} />
