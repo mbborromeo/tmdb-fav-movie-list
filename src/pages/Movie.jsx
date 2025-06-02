@@ -8,11 +8,11 @@ const Movie = () => {
 
     return (
         <>
-            <div className="top-padding bottom-padding side-padding">
+            <div className="top-padding bottom-padding">
                 <BackButton />
             </div>
 
-            <div className="content-wrapper page side-padding">
+            <div className="content-wrapper page">
                 <MovieComponent id={id} page={true} />
             </div>
         </>
