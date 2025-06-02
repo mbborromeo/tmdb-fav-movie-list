@@ -53,37 +53,37 @@ const Movies = ({ templateRef }) => {
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
 
+        scrollToTopOffsetHeader();
+
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortValue ? { sortby: sortValue } : {}),
             ...(order ? { order: order } : {})
         });
-
-        scrollToTopOffsetHeader();
     };
 
     const handleClickButtonOrder = () => {
+        scrollToTopOffsetHeader();
+
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
             ...(filter ? { filter: filter } : {}),
             ...(sortby ? { sortby: sortby } : {}),
             ...(!order ? { order: 'Ascending' } : {})
         });
-
-        scrollToTopOffsetHeader();
     };
 
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
+
+        scrollToTopOffsetHeader();
 
         setSearchParams({
             ...{ decade: selectedDecade },
             ...(sortby ? { sortby: sortby } : {}),
             ...(order ? { order: order } : {})
         });
-
-        scrollToTopOffsetHeader();
     };
 
     const listID_80s = ensureEnv('VITE_TMDB_LIST_ID_80S');
