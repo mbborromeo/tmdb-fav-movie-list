@@ -36,7 +36,7 @@ const Movie = memo(({ id, page = false }) => {
 
             {!loading && movie && (
                 <>
-                    <h2 className="margin-bottom-none">
+                    <h2>
                         {page ? (
                             movie.title
                         ) : (

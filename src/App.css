@@ -35,11 +35,23 @@ body {
 
 #root {
     width: 100%;
-    padding: 0 10px;
     position: relative;
     border: 1px dashed grey;
     background-color: lightyellow;
     padding-bottom: 120px; /* for footer */
+}
+
+.side-padding {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.top-padding {
+    padding-top: 20px;
+}
+
+.bottom-padding {
+    padding-bottom: 20px;
 }
 
 header {
@@ -75,6 +87,7 @@ h2 {
     font-family: monospace;
     font-size: 17px;
     display: inline-block;
+    margin: 0;
 }
 
 .margin-bottom-none {
@@ -87,9 +100,9 @@ h2 span {
 }
 
 select {
+    padding-left: 3px;
     height: 36px;
     border: 1px solid black;
-    font-size: 15px;
     /* line-height: 200%; */
     font-weight: bold;
     font-family: inherit;
@@ -100,7 +113,8 @@ select {
     position: sticky;
     top: 59px;
     background: lightyellow;
-    padding: 5px 0 3px;
+    padding-top: 5px;
+    padding-bottom: 3px;
 }
 
 .buttons-filter {
@@ -109,9 +123,8 @@ select {
     overflow-y: hidden;
     white-space: nowrap;
     scrollbar-width: none;
-    margin-left: 5px;
-    /* scroll-margin-top: 36px; */
-    position: relative; /* so child offsetwidth can be calculated correctly */ 
+    position: relative; /* so child offsetwidth can be calculated correctly */
+    margin-left: 4px;
 }
 
 .btn {
@@ -120,15 +133,18 @@ select {
     border-radius: 16px;
     border: 1px solid black;
     height: 34px;
-    padding: 0 8px; /* 4px 8px, 0.3em 0.6em */
+    padding: 0 10px; /* 0 8px, 4px 8px, 0.3em 0.6em */
     margin-right: .3em;
     margin-bottom: .3em;
-    font-size: 15px; /* 13px, 1em */
     line-height: 200%; /* vertical align middle */
     font-weight: bold;
     font-family: inherit;
     background-color: azure; /* lightcyan */
     cursor: pointer;
+}
+
+.btn, select {
+    font-size: 15px;
 }
 
 .btn.back {
@@ -165,7 +181,7 @@ select {
 
 .btn.order {
     border-radius: unset;
-    margin-left: 10px;
+    margin-left: 9px;
     height: 36px;
 }
 
@@ -198,7 +214,9 @@ select {
     object-fit: contain;
 }
 
-.row.row-movie {
+.row.row-movie, 
+.row.row-person
+{
     padding-top: 4px;
 }
 
@@ -250,6 +268,10 @@ select {
 .row.row-person .description
 {
     width: 100%;
+}
+
+.row.row-person .description {
+    margin-top: 0;
 }
 
 .content-wrapper.page > div {
@@ -425,9 +447,6 @@ ol li a + span {
 }
 
 .range-wrapper {
-    width: 100%;
-    /* padding-top: 10px;
-    padding-bottom: 10px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -468,7 +487,7 @@ datalist {
 input[type="range"],
 datalist
 {
-    width: 240px; /* 300px */
+    width: 220px; /* 300px */
 }
 
 datalist option {
@@ -521,7 +540,6 @@ datalist option {
 
     .row.row-person .description {
         width: 100%;
-        margin-top: 0;
     }
 
     .row.row-movie .description {

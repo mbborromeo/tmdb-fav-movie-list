@@ -114,12 +114,12 @@ const Person = () => {
 
             {!loading && (
                 <>
-                    <div>
+                    <div className="top-padding bottom-padding side-padding">
                         <BackButton />
                     </div>
 
                     {person && (
-                        <div className="content-wrapper page">
+                        <div className="content-wrapper page side-padding">
                             <h2>{person.name}</h2>
 
                             <div className="row row-person">
