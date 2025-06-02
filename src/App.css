@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -38,12 +42,7 @@ body {
     position: relative;
     border: 1px dashed grey;
     background-color: lightyellow;
-    padding-bottom: 120px; /* for footer */
-}
-
-.side-padding {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 10px 120px; /* for footer */
 }
 
 .top-padding {
@@ -222,7 +221,7 @@ select {
 
 .row.row-movie .data-column {
     font-size: 13px;
-    width: 63%;
+    width: 67%;
     padding-right: 0;
     padding-left: 4%;
 }
@@ -231,12 +230,18 @@ select {
     display: none;
 }
 
-.row.row-movie img {
-    width: 33%;
-}
-
 .page .row.row-movie {
     align-items: stretch;
+}
+
+.row.row-movie img,
+.row.row-person img
+{
+    box-sizing: content-box;
+}
+
+.row.row-movie img {
+    width: 33%;
 }
 
 .page .row.row-movie img,
@@ -515,7 +520,7 @@ datalist option {
     }
 
     .row.row-movie .data-column {
-        width: 61%;
+        width: 67%;
         padding-left: 3%;
         padding-right: 3%;
     }
