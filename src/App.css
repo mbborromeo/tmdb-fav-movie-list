@@ -69,7 +69,7 @@ footer {
     justify-content: flex-end;
     align-items: center; /* flex-end */
     border-top: 1px dashed grey;
-    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 footer div {
