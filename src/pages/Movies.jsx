@@ -84,7 +84,7 @@ const Movies = ({ templateRef }) => {
             ...(order ? { order: order } : {})
         });
 
-        // scrollToTopOffsetHeader(); // after content has loaded
+        scrollToTopOffsetHeader(); // after content has loaded
     };
 
     const listID_80s = ensureEnv('VITE_TMDB_LIST_ID_80S');
