@@ -28,6 +28,7 @@ const Movies = ({ templateRef }) => {
 
     const scrollToTopOffsetHeader = () => {
         const headerHeight = templateRef.current?.getHeaderHeight() || 0;
+
         scrollToTop(headerHeight);
     };
 
@@ -77,13 +78,13 @@ const Movies = ({ templateRef }) => {
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
 
-        scrollToTopOffsetHeader();
-
         setSearchParams({
             ...{ decade: selectedDecade },
             ...(sortby ? { sortby: sortby } : {}),
             ...(order ? { order: order } : {})
         });
+
+        // scrollToTopOffsetHeader(); // after content has loaded
     };
 
     const listID_80s = ensureEnv('VITE_TMDB_LIST_ID_80S');
