@@ -77,7 +77,7 @@ const Movies = ({ templateRef }) => {
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
 
-        scrollToTopOffsetHeader();
+        // by default will browser will start at top of page after setSearchParams
 
         setSearchParams({
             ...{ decade: selectedDecade },
