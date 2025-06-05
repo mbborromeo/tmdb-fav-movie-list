@@ -132,7 +132,6 @@ const Movies = () => {
                 }
 
                 // if that genre does not exist yet, create an array for that genre
-                // if (moviesByGenre[genre] === undefined) {
                 if (!Object.hasOwn(moviesByGenre, genre)) {
                     moviesByGenre[genre] = [];
                 }
