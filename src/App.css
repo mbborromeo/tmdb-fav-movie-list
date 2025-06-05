@@ -54,12 +54,13 @@ body {
 
 header {
     text-align: center;
+    display: block;
     height: 65px;
     padding: 20px 0 15px;
     background-color: lightyellow;
     position: sticky;
     top: 0;
-    z-index: 8;
+    z-index: 9;
 }
 
 footer {
@@ -289,7 +290,7 @@ select {
     position: sticky;
     top: 65px;
     padding-bottom: 4px;
-    z-index: 9;
+    z-index: 8;
 }
 
 ol .content-wrapper > div {
