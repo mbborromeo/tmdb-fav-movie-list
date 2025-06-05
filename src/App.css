@@ -47,9 +47,9 @@ body {
 
 .back-button-wrapper {
     padding-bottom: 20px;
-    position: sticky;
+    /* position: sticky;
     top: 27px;
-    z-index: 10;
+    z-index: 10; */
 }
 
 header {
