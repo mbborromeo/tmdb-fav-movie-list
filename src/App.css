@@ -61,7 +61,6 @@ header {
 }
 
 footer {
-    /* min-height: 80px; */ /* corresponds to padding-bottom on #root */
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -69,7 +68,7 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: center; /* flex-end */
+    align-items: center;
     border-top: 1px dashed grey;
     padding-top: 10px;
 }
@@ -134,7 +133,7 @@ select {
     border-radius: 16px;
     border: 1px solid black;
     height: 34px;
-    padding: 0 10px; /* 0 8px, 4px 8px, 0.3em 0.6em */
+    padding: 0 10px;
     margin-right: .3em;
     margin-bottom: .3em;
     line-height: 200%; /* vertical align middle */
@@ -266,7 +265,7 @@ select {
 
 .row.row-movie iframe {
     width: 100%;
-    aspect-ratio: 16 / 9; /* 640/360 */
+    aspect-ratio: 16 / 9;
 }
 
 .row.row-movie .description, 
@@ -391,7 +390,7 @@ ol li a {
 
 ol li a + span {
     font-family: initial;
-    font-size: 13px; /* 11px; */
+    font-size: 13px;
 }
 
 .info-bar div {
@@ -494,7 +493,7 @@ datalist {
 input[type="range"],
 datalist
 {
-    width: 220px; /* 300px */
+    width: 220px;
 }
 
 datalist option {
@@ -506,7 +505,7 @@ datalist option {
     #root {
         max-width: 1024px;
         width: 90%;
-        margin: 0 auto; /* center */
+        margin: 0 auto;
     }
 
     ol {
