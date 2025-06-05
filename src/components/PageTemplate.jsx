@@ -1,9 +1,7 @@
-import { useRef, useImperativeHandle, forwardRef } from 'react'; // useEffect,
+import { useRef, useImperativeHandle, forwardRef } from 'react';
 
 import Header from './Header';
 import Footer from './Footer';
-
-// import { scrollToTop } from '../utils/scrollToTop';
 
 const PageTemplate = forwardRef(({ children }, ref) => {
     const headerRef = useRef(null);
@@ -15,10 +13,6 @@ const PageTemplate = forwardRef(({ children }, ref) => {
             100
         // , getHeaderSpan: () => headerRef?.current?.querySelector('h1 span')
     }));
-
-    // useEffect(() => {
-    //     scrollToTop();
-    // }, []);
 
     return (
         <>

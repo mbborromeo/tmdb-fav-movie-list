@@ -10,7 +10,8 @@ import ErrorFeedback from '../components/ErrorFeedback';
 
 import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
 
-const Movies = ({ templateRef }) => {
+const Movies = () => {
+    // { templateRef }
     const [movies, setMovies] = useState([]);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,10 +27,10 @@ const Movies = ({ templateRef }) => {
     const order = searchParams.get('order') || null;
     const decade = searchParams.get('decade') || '1990';
 
-    const scrollToTopOffsetHeader = () => {
-        const headerHeight = templateRef.current?.getHeaderHeight() || 0;
-        scrollToTop(headerHeight);
-    };
+    // const scrollToTopOffsetHeader = () => {
+    //     const headerHeight = templateRef.current?.getHeaderHeight() || 0;
+    //     scrollToTop(headerHeight);
+    // };
 
     const scrollToCurrentFilterButton = useCallback((ref) => {
         const filterButtonsNode = ref;
@@ -53,7 +54,7 @@ const Movies = ({ templateRef }) => {
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
 
-        scrollToTopOffsetHeader();
+        scrollToTop();
 
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
@@ -64,7 +65,7 @@ const Movies = ({ templateRef }) => {
     };
 
     const handleClickButtonOrder = () => {
-        scrollToTopOffsetHeader();
+        scrollToTop();
 
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
@@ -77,7 +78,7 @@ const Movies = ({ templateRef }) => {
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
 
-        // by default will browser will start at top of page after setSearchParams
+        scrollToTop();
 
         setSearchParams({
             ...{ decade: selectedDecade },
@@ -364,9 +365,7 @@ const Movies = ({ templateRef }) => {
                                                         }
                                                     ).toString()
                                                 }}
-                                                onClick={
-                                                    scrollToTopOffsetHeader
-                                                }
+                                                onClick={scrollToTop}
                                                 className={
                                                     filter === null
                                                         ? 'btn on'
@@ -408,9 +407,7 @@ const Movies = ({ templateRef }) => {
                                                                 }
                                                             ).toString()
                                                         }}
-                                                        onClick={
-                                                            scrollToTopOffsetHeader
-                                                        }
+                                                        onClick={scrollToTop}
                                                         className={
                                                             filter === genre
                                                                 ? 'btn on'
