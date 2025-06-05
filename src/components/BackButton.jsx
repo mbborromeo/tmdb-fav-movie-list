@@ -11,7 +11,7 @@ const BackButton = () => {
             &laquo;Back
         </button>
     ) : (
-        <Link to="/">&laquo;Back to Movies</Link>
+        <Link to="/">&laquo;Back</Link>
     );
 };
 

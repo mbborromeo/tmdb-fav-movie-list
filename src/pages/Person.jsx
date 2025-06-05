@@ -114,7 +114,7 @@ const Person = () => {
 
             {!loading && (
                 <>
-                    <div className="top-padding bottom-padding">
+                    <div className="back-button-wrapper">
                         <BackButton />
                     </div>
 
