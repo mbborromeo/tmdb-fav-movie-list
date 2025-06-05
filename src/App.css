@@ -58,6 +58,7 @@ header {
     background-color: lightyellow;
     position: sticky;
     top: 0;
+    z-index: 8;
 }
 
 footer {
@@ -287,6 +288,7 @@ select {
     position: sticky;
     top: 65px;
     padding-bottom: 4px;
+    z-index: 9;
 }
 
 ol .content-wrapper > div {
