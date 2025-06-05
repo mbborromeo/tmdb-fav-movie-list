@@ -219,12 +219,6 @@ select {
     object-fit: contain;
 }
 
-.row.row-movie, 
-.row.row-person
-{
-    padding-top: 4px;
-}
-
 .row.row-movie .data-column {
     font-size: 13px;
     width: 67%;
@@ -294,6 +288,7 @@ select {
     background-color: lightyellow;
     position: sticky;
     top: 65px;
+    padding-bottom: 4px;
 }
 
 ol .content-wrapper > div {
