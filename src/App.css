@@ -287,10 +287,10 @@ select {
 .page h2 {
     display: block;
     background-color: lightyellow;
-    position: sticky;
-    top: 65px;
     padding-bottom: 4px;
-    z-index: 8;
+    /* position: sticky;
+    top: 65px;
+    z-index: 8; */
 }
 
 ol .content-wrapper > div {
