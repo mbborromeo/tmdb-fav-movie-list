@@ -54,6 +54,7 @@ body {
 
 header {
     text-align: center;
+    height: 65px;
     padding: 20px 0 15px;
     background-color: lightyellow;
     position: sticky;
