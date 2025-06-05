@@ -56,6 +56,9 @@ jobs:
               env:
                 VITE_TMDB_TOKEN: ${{ secrets.VITE_TMDB_TOKEN }}
                 VITE_TMDB_ACCOUNT_ID: ${{ secrets.VITE_TMDB_ACCOUNT_ID }}
+                VITE_TMDB_LIST_ID_80S: ${{ secrets.VITE_TMDB_LIST_ID_80S }}
+                VITE_TMDB_LIST_ID_90S: ${{ secrets.VITE_TMDB_LIST_ID_90S }}
+                VITE_TMDB_LIST_ID_00S: ${{ secrets.VITE_TMDB_LIST_ID_00S }}
 
             - name: Setup Pages
               uses: actions/configure-pages@v4

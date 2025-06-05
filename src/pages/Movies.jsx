@@ -43,8 +43,6 @@ const Movies = () => {
         //     inline: 'start'
         // });
 
-        // filterButtonsNode.scrollLeft = currentFilterButton.offsetLeft;
-
         filterButtonsNode.scrollTo({
             left: currentFilterButton.offsetLeft,
             behavior: 'smooth'
