@@ -32,14 +32,17 @@ const Movie = memo(({ id, page = false }) => {
 
     return (
         <>
-            {loading && <img src={loadingGif} alt="loading" width="32" />}
-
-            {!loading && movie && (
-                <>
-                    <h2>
-                        {page ? (
+            {/* {loading && <img src={loadingGif} alt="loading" width="32" />} */}
+            <h2>
+                {page ? (
+                    <>
+                        {!loading && movie && (
                             movie.title
-                        ) : (
+                        )}
+                    </>
+                ) : (
+                    <>
+                        {!loading && movie && (
                             <Link
                                 to={{
                                     pathname: `/movie/${movie.id}`
@@ -56,43 +59,65 @@ const Movie = memo(({ id, page = false }) => {
                                 {movie.title}
                             </Link>
                         )}
+                    </>
+                )}
 
-                        <ReleaseInfo
-                            releaseDate={movie.release_date}
-                            rating={rating}
-                        />
-                    </h2>
+                {!loading && movie && (
+                    <ReleaseInfo
+                        releaseDate={movie.release_date}
+                        rating={rating}
+                    />
+                )}
+            </h2>
 
-                    <div className="row row-movie">
-                        <img
-                            className={page ? ' show-on-desktop' : ''}
-                            src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                            alt="Poster"
-                            width={page ? '338' : '185'}
-                            height={page ? '508' : '278'}
-                        />
+            <div className="row row-movie">
+                <img
+                    className={page ? ' show-on-desktop' : ''}
+                    // style={{ 
+                    //     ...(loading && !movie && { objectFit: 'unset' })
+                    // }}
+                    src={!loading && movie ? 
+                        `${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`
+                        : loadingGif
+                    }
+                    alt={!loading && movie ? 'Poster' : 'Loading'}
+                    width={page ? '338' : '185'}
+                    height={page ? '508' : '278'}
+                />
 
-                        {page ? (
-                            <>
-                                <Trailer id={id} />
+                {page ? (
+                    <>
+                        <Trailer id={id} />
 
-                                <div className="description">
-                                    <img
-                                        className="show-on-mobile"
-                                        src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                                        alt="Poster"
-                                        width={page ? '338' : '185'}
-                                        height={page ? '508' : '278'}
-                                    />
+                        <div className="description">
+                            <img
+                                className="show-on-mobile"
+                                // style={{ 
+                                //     ...(loading && !movie && { objectFit: 'unset' })
+                                // }}
+                                src={!loading && movie ? 
+                                    `${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`
+                                    : loadingGif
+                                }
+                                alt={!loading && movie ? 'Poster' : 'Loading'}
+                                width={page ? '338' : '185'}
+                                height={page ? '508' : '278'}
+                            />
 
+                            {!loading && movie && (
+                                <>
                                     <p>
                                         <em>{movie.tagline}</em>
                                     </p>
 
                                     <p>{movie.overview}</p>
-                                </div>
-                            </>
-                        ) : (
+                                </>
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {!loading && movie && (
                             <div className="data-column">
                                 <Genres genres={movie.genres} />
 
@@ -117,9 +142,13 @@ const Movie = memo(({ id, page = false }) => {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </>
+                )}
+            </div>
 
-                    {page ? (
+            {page ? (
+                <>
+                    {!loading && movie && (
                         <>
                             <Genres genres={movie.genres} />
 
@@ -139,12 +168,14 @@ const Movie = memo(({ id, page = false }) => {
                                 voteCount={movie.vote_count}
                             />
                         </>
-                    ) : (
-                        <div className="show-on-mobile">
-                            <p>{movie.overview}</p>
-                        </div>
                     )}
                 </>
+            ) : (
+                <div className="show-on-mobile">
+                    {!loading && movie && (
+                        <p>{movie.overview}</p>
+                    )}
+                </div>
             )}
 
             {errorMessages.length > 0 && (
