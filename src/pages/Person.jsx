@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 
 import ErrorFeedback from '../components/ErrorFeedback';
 import BackButton from '../components/BackButton';
+import ImageWrappingLoader from '../components/ImageWrappingLoader';
 
 import {
     fetchApiCallOrThrowError,
@@ -150,22 +151,17 @@ const Person = () => {
                             movies.map((movie) => {
                                 return (
                                     <div key={`${movie.id}-${movie.job}`}>
-                                        <div
-                                            className={`image-wrapper${loading ? ' loading' : ''}`}
-                                        >
-                                            {/* {!loading && movie.poster_path && ( */}
-                                            <img
-                                                src={
+                                        {movie.poster_path && (
+                                            <ImageWrappingLoader
+                                                imageSrc={
                                                     BASE_URL_IMAGE +
                                                     POSTER_SIZE +
                                                     movie.poster_path
                                                 }
-                                                alt="Poster"
-                                                // width="123"
-                                                // height="184"
+                                                imageAlt="Poster"
+                                                className="image-wrapper"
                                             />
-                                            {/* )} */}
-                                        </div>
+                                        )}
 
                                         <Link to={`/movie/${movie.id}`}>
                                             {movie.title}
