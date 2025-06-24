@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import ImageWrappingLoader from './ImageWrappingLoader';
+
 import { BASE_URL_IMAGE } from '../utils/api';
 
 const Person = ({
@@ -13,11 +15,12 @@ const Person = ({
     return (
         <div>
             {showPic && person.profile_path && (
-                <img
-                    src={BASE_URL_IMAGE + PROFILE_SIZE + person.profile_path}
-                    alt="Photo"
-                    width="164"
-                    height="246"
+                <ImageWrappingLoader
+                    imageSrc={
+                        BASE_URL_IMAGE + PROFILE_SIZE + person.profile_path
+                    }
+                    imageAlt="Photo"
+                    className="image-wrapper"
                 />
             )}
 
