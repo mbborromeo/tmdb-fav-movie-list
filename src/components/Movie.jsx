@@ -11,8 +11,6 @@ import Trailer from './Trailer';
 
 import useFetchMovie from '../hooks/useFetchMovie';
 
-import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
-
 import { BASE_URL_IMAGE } from '../utils/api';
 
 const Movie = memo(({ id, page = false }) => {
@@ -32,17 +30,12 @@ const Movie = memo(({ id, page = false }) => {
 
     return (
         <>
-            {/* {loading && <img src={loadingGif} alt="loading" width="32" />} */}
             <h2>
-                {page ? (
+                {!loading && movie && (
                     <>
-                        {!loading && movie && (
+                        {page ? (
                             movie.title
-                        )}
-                    </>
-                ) : (
-                    <>
-                        {!loading && movie && (
+                        ) : (
                             <Link
                                 to={{
                                     pathname: `/movie/${movie.id}`
@@ -71,38 +64,32 @@ const Movie = memo(({ id, page = false }) => {
             </h2>
 
             <div className="row row-movie">
-                <img
-                    className={page ? ' show-on-desktop' : ''}
-                    // style={{ 
-                    //     ...(loading && !movie && { objectFit: 'unset' })
-                    // }}
-                    src={!loading && movie ? 
-                        `${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`
-                        : loadingGif
-                    }
-                    alt={!loading && movie ? 'Poster' : 'Loading'}
-                    width={page ? '338' : '185'}
-                    height={page ? '508' : '278'}
-                />
+                <div
+                    className={`image-wrapper${page ? ' show-on-desktop' : ''}${loading ? ' loading' : ''}`}
+                >
+                    {!loading && movie && (
+                        <img
+                            src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                            alt="Poster"
+                        />
+                    )}
+                </div>
 
                 {page ? (
                     <>
                         <Trailer id={id} />
 
                         <div className="description">
-                            <img
-                                className="show-on-mobile"
-                                // style={{ 
-                                //     ...(loading && !movie && { objectFit: 'unset' })
-                                // }}
-                                src={!loading && movie ? 
-                                    `${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`
-                                    : loadingGif
-                                }
-                                alt={!loading && movie ? 'Poster' : 'Loading'}
-                                width={page ? '338' : '185'}
-                                height={page ? '508' : '278'}
-                            />
+                            <div
+                                className={`image-wrapper show-on-mobile${loading ? ' loading' : ''}`}
+                            >
+                                {!loading && movie && (
+                                    <img
+                                        src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                                        alt="Poster"
+                                    />
+                                )}
+                            </div>
 
                             {!loading && movie && (
                                 <>
@@ -172,9 +159,7 @@ const Movie = memo(({ id, page = false }) => {
                 </>
             ) : (
                 <div className="show-on-mobile">
-                    {!loading && movie && (
-                        <p>{movie.overview}</p>
-                    )}
+                    {!loading && movie && <p>{movie.overview}</p>}
                 </div>
             )}
 

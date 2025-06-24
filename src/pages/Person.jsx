@@ -4,8 +4,6 @@ import { useParams, Link } from 'react-router-dom';
 import ErrorFeedback from '../components/ErrorFeedback';
 import BackButton from '../components/BackButton';
 
-import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
-
 import {
     fetchApiCallOrThrowError,
     BASE_URL,
@@ -110,88 +108,83 @@ const Person = () => {
 
     return (
         <>
-            {loading && <img src={loadingGif} alt="loading" width="64" />}
+            <div className="back-button-wrapper">
+                <BackButton />
+            </div>
 
-            {!loading && (
-                <>
-                    <div className="back-button-wrapper">
-                        <BackButton />
-                    </div>
+            <div className="content-wrapper page">
+                <h2>{person && person.name}</h2>
 
-                    {person && (
-                        <div className="content-wrapper page">
-                            <h2>{person.name}</h2>
-
-                            <div className="row row-person">
-                                <p className="description">
-                                    {person.profile_path && (
-                                        <img
-                                            src={
-                                                BASE_URL_IMAGE +
-                                                PROFILE_SIZE +
-                                                person.profile_path
-                                            }
-                                            alt={`${person.name}'s profile pic`}
-                                            width="246"
-                                            height="368"
-                                        />
-                                    )}
-
-                                    {person.biography}
-                                </p>
-                            </div>
-
-                            <div>
-                                <b>Known for department:</b>{' '}
-                                {person.known_for_department}
-                            </div>
-
-                            {movies.length > 0 && (
-                                <div>
-                                    <b>Movies:</b>
-                                    <div className="row movies-wrapper">
-                                        {movies.map((movie) => {
-                                            return (
-                                                <div
-                                                    key={`${movie.id}-${movie.job}`}
-                                                >
-                                                    {movie.poster_path && (
-                                                        <img
-                                                            src={
-                                                                BASE_URL_IMAGE +
-                                                                POSTER_SIZE +
-                                                                movie.poster_path
-                                                            }
-                                                            alt="Poster"
-                                                            width="123"
-                                                            height="184"
-                                                        />
-                                                    )}
-
-                                                    <Link
-                                                        to={`/movie/${movie.id}`}
-                                                    >
-                                                        {movie.title}
-                                                    </Link>
-                                                    <span>
-                                                        {person.known_for_department ===
-                                                        'Acting'
-                                                            ? ` (${movie.character})`
-                                                            : ` (${movie.job})`}
-                                                    </span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
+                <div className="row row-person">
+                    <p className="description">
+                        <div
+                            className={`image-wrapper${loading ? ' loading' : ''}`}
+                        >
+                            {!loading && person && (
+                                <img
+                                    src={
+                                        BASE_URL_IMAGE +
+                                        PROFILE_SIZE +
+                                        person.profile_path
+                                    }
+                                    alt={`${person.name}'s profile pic`}
+                                    // width="246"
+                                    // height="368"
+                                />
                             )}
                         </div>
-                    )}
 
-                    {errorMessages.length > 0 && (
-                        <ErrorFeedback errors={errorMessages} />
-                    )}
-                </>
+                        {person && person.biography}
+                    </p>
+                </div>
+
+                <div>
+                    <b>Known for department:</b>{' '}
+                    {person && person.known_for_department}
+                </div>
+
+                <div>
+                    <b>Movies:</b>
+                    <div className="row movies-wrapper">
+                        {movies.length > 0 &&
+                            movies.map((movie) => {
+                                return (
+                                    <div key={`${movie.id}-${movie.job}`}>
+                                        <div
+                                            className={`image-wrapper${loading ? ' loading' : ''}`}
+                                        >
+                                            {/* {!loading && movie.poster_path && ( */}
+                                            <img
+                                                src={
+                                                    BASE_URL_IMAGE +
+                                                    POSTER_SIZE +
+                                                    movie.poster_path
+                                                }
+                                                alt="Poster"
+                                                // width="123"
+                                                // height="184"
+                                            />
+                                            {/* )} */}
+                                        </div>
+
+                                        <Link to={`/movie/${movie.id}`}>
+                                            {movie.title}
+                                        </Link>
+                                        <span>
+                                            {person.known_for_department ===
+                                            'Acting'
+                                                ? ` (${movie.character})`
+                                                : ` (${movie.job})`}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                    </div>
+                </div>
+            </div>
+
+            {errorMessages.length > 0 && (
+                <ErrorFeedback errors={errorMessages} />
             )}
         </>
     );

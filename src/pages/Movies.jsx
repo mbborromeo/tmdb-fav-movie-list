@@ -8,8 +8,6 @@ import { scrollToTop } from '../utils/scrollToTop';
 import Movie from '../components/Movie';
 import ErrorFeedback from '../components/ErrorFeedback';
 
-import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
-
 const Movies = () => {
     // { templateRef }
     const [movies, setMovies] = useState([]);
@@ -299,148 +297,127 @@ const Movies = () => {
                 </datalist>
             </div>
 
-            {loading && <img src={loadingGif} alt="loading" width="32" />}
-
             {errorMessages.length > 0 && (
                 <ErrorFeedback errors={errorMessages} />
             )}
 
-            {!loading && (
-                <>
-                    {moviesSorted.length === 0 &&
-                        errorMessages.length === 0 && <b>No movies found!</b>}
+            {!loading &&
+                moviesSorted.length === 0 &&
+                errorMessages.length === 0 && <b>No movies found!</b>}
 
-                    {moviesSorted.length > 0 && (
-                        <>
-                            <div className="buttons-wrapper">
-                                <select
-                                    value={sortby}
-                                    onChange={handleSelectChange}
+            <div className={`buttons-wrapper${loading ? ' loading' : ''}`}>
+                {!loading && (
+                    <>
+                        <select
+                            name="select-orderby"
+                            value={sortby}
+                            onChange={handleSelectChange}
+                        >
+                            <option value="">Date</option>
+                            <option value="stars">Stars</option>
+                            <option value="votes">Votes</option>
+                        </select>
+
+                        <button
+                            type="button"
+                            className="btn order"
+                            onClick={handleClickButtonOrder}
+                        >
+                            <span
+                                className={`icon${!order ? '' : ' asc'}`}
+                            ></span>
+                        </button>
+
+                        {Object.keys(moviesCategorized).length > 0 && (
+                            <div
+                                className="buttons-filter"
+                                ref={filterButtonsRef}
+                            >
+                                <Link
+                                    to={{
+                                        pathname: '/',
+                                        search: new URLSearchParams({
+                                            ...(decade
+                                                ? {
+                                                      decade: decade
+                                                  }
+                                                : {}),
+                                            ...(order
+                                                ? {
+                                                      order: order
+                                                  }
+                                                : {}),
+                                            ...(sortby
+                                                ? {
+                                                      sortby: sortby
+                                                  }
+                                                : {})
+                                        }).toString()
+                                    }}
+                                    onClick={scrollToTop}
+                                    className={
+                                        filter === null ? 'btn on' : 'btn'
+                                    }
+                                    key="btn-all"
                                 >
-                                    <option value="">Date</option>
-                                    <option value="stars">Stars</option>
-                                    <option value="votes">Votes</option>
-                                </select>
+                                    ALL
+                                    <span> ({movies.length})</span>
+                                </Link>
 
-                                <button
-                                    type="button"
-                                    className="btn order"
-                                    onClick={handleClickButtonOrder}
-                                >
-                                    <span
-                                        className={`icon${!order ? '' : ' asc'}`}
-                                    ></span>
-                                </button>
-
-                                <div
-                                    className="buttons-filter"
-                                    ref={filterButtonsRef}
-                                >
-                                    {Object.keys(moviesCategorized).length >
-                                        0 && (
-                                        <>
-                                            <Link
-                                                to={{
-                                                    pathname: '/',
-                                                    search: new URLSearchParams(
-                                                        {
-                                                            ...(decade
-                                                                ? {
-                                                                      decade: decade
-                                                                  }
-                                                                : {}),
-                                                            ...(order
-                                                                ? {
-                                                                      order: order
-                                                                  }
-                                                                : {}),
-                                                            ...(sortby
-                                                                ? {
-                                                                      sortby: sortby
-                                                                  }
-                                                                : {})
-                                                        }
-                                                    ).toString()
-                                                }}
-                                                onClick={scrollToTop}
-                                                className={
-                                                    filter === null
-                                                        ? 'btn on'
-                                                        : 'btn'
-                                                }
-                                                key="btn-all"
-                                            >
-                                                ALL
-                                                <span> ({movies.length})</span>
-                                            </Link>
-
-                                            {Object.keys(moviesCategorized).map(
-                                                (genre) => (
-                                                    <Link
-                                                        to={{
-                                                            pathname: '/',
-                                                            search: new URLSearchParams(
-                                                                {
-                                                                    ...(decade
-                                                                        ? {
-                                                                              decade: decade
-                                                                          }
-                                                                        : {}),
-                                                                    ...(genre
-                                                                        ? {
-                                                                              filter: genre
-                                                                          }
-                                                                        : {}),
-                                                                    ...(sortby
-                                                                        ? {
-                                                                              sortby: sortby
-                                                                          }
-                                                                        : {}),
-                                                                    ...(order
-                                                                        ? {
-                                                                              order: order
-                                                                          }
-                                                                        : {})
-                                                                }
-                                                            ).toString()
-                                                        }}
-                                                        onClick={scrollToTop}
-                                                        className={
-                                                            filter === genre
-                                                                ? 'btn on'
-                                                                : 'btn'
-                                                        }
-                                                        key={`btn-${genre}`}
-                                                    >
-                                                        {genre}
-                                                        <span>
-                                                            {' '}
-                                                            (
-                                                            {
-                                                                moviesCategorized[
-                                                                    genre
-                                                                ].length
-                                                            }
-                                                            )
-                                                        </span>
-                                                    </Link>
-                                                )
-                                            )}
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-
-                            <ol>
-                                {moviesSorted.map((movie) => (
-                                    <li key={movie.id}>
-                                        <Movie id={movie.id} />
-                                    </li>
+                                {Object.keys(moviesCategorized).map((genre) => (
+                                    <Link
+                                        to={{
+                                            pathname: '/',
+                                            search: new URLSearchParams({
+                                                ...(decade
+                                                    ? {
+                                                          decade: decade
+                                                      }
+                                                    : {}),
+                                                ...(genre
+                                                    ? {
+                                                          filter: genre
+                                                      }
+                                                    : {}),
+                                                ...(sortby
+                                                    ? {
+                                                          sortby: sortby
+                                                      }
+                                                    : {}),
+                                                ...(order
+                                                    ? {
+                                                          order: order
+                                                      }
+                                                    : {})
+                                            }).toString()
+                                        }}
+                                        onClick={scrollToTop}
+                                        className={
+                                            filter === genre ? 'btn on' : 'btn'
+                                        }
+                                        key={`btn-${genre}`}
+                                    >
+                                        {genre}
+                                        <span>
+                                            {' '}
+                                            ({moviesCategorized[genre].length})
+                                        </span>
+                                    </Link>
                                 ))}
-                            </ol>
-                        </>
-                    )}
-                </>
+                            </div>
+                        )}
+                    </>
+                )}
+            </div>
+
+            {!loading && moviesSorted.length > 0 && (
+                <ol>
+                    {moviesSorted.map((movie) => (
+                        <li key={movie.id}>
+                            <Movie id={movie.id} />
+                        </li>
+                    ))}
+                </ol>
             )}
         </>
     );

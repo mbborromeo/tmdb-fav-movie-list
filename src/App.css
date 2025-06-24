@@ -117,6 +117,7 @@ select {
     top: 110px;
     background: lightyellow;
     padding-bottom: 5px;
+    height: 45.5px;
 }
 
 .buttons-filter {
@@ -216,8 +217,10 @@ select {
 }
 
 .row img {
+    width: 100%;
     height: auto;
-    object-fit: contain;
+    /* object-fit: contain; */
+    display: block;
 }
 
 .row.row-movie .data-column {
@@ -235,38 +238,62 @@ select {
     align-items: stretch;
 }
 
-.row.row-movie img,
-.row.row-person img
+/* .row.row-movie img,
+.row.row-person img */
+.image-wrapper
 {
     box-sizing: content-box;
+    height: 100%;
+    aspect-ratio: 2 / 3;
 }
 
-.row.row-movie img {
+.image-wrapper,
+.iframe-wrapper {
+    background-color: grey;
+}
+
+.row.row-movie .image-wrapper
+{
     width: 33%;
 }
 
-.page .row.row-movie img,
-.row.row-person img
+.page .row.row-movie .image-wrapper,
+.row.row-person .image-wrapper
 {
     width: 48%;
     float: left;
 }
 
-.page .row.row-movie .description img,
-.row.row-person .description img {
-    padding-right: 4%;
+.page .row.row-movie .description .image-wrapper,
+.row.row-person .description .image-wrapper {
+    margin-right: 4%;
 }
 
-.page .row.row-movie .description img {
-    padding-top: 5%;
+.page .row.row-movie .description .image-wrapper {
+    margin-top: 5%;
+    height: unset;
 }
 
-.page .row.row-movie img {
-    padding-bottom: 10px;
+.page .row.row-movie .image-wrapper {
+    margin-bottom: 10px;
+}
+
+.loading {
+    background-image: url('./assets/images/gifer_loading_VAyR.gif');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 32px;
 }
 
 .row.row-movie iframe {
     width: 100%;
+    height: 100%;
+}
+
+.row.row-movie .iframe-wrapper {
+    width: 100%;
+    min-height: 220px;
+    height: auto;
     aspect-ratio: 16 / 9;
 }
 
@@ -427,31 +454,32 @@ ol li a + span {
     display: inline;
 }
 
-.credits.no-photos .persons-wrapper div {
+.credits.no-photos .persons-wrapper > div {
     display: inline-block;
     width: unset;
     padding-right: 10px;
 }
 
-.persons-wrapper div,
-.movies-wrapper div {
+.persons-wrapper > div,
+.movies-wrapper > div {
     display: flex;
     flex-direction: column;
 }
 
-.persons-wrapper.directors div {
+.persons-wrapper.directors > div {
     width: 100%;
 }
 
-.persons-wrapper div,
-.movies-wrapper div {
+.persons-wrapper > div,
+.movies-wrapper > div {
     width: 31%;
 }
 
-.persons-wrapper div img,
+/* .persons-wrapper div img,
 .movies-wrapper div img {
     width: unset;
-}
+} 
+*/
 
 .release-data {
     display: inline;
@@ -529,21 +557,21 @@ datalist option {
         padding-right: 3%;
     }
 
-    .row.row-person img,
-    .page .row.row-movie img {
+    .row.row-person .image-wrapper,
+    .page .row.row-movie .image-wrapper {
         width: 32.5%;
     }
 
-    .page .row.row-movie .description img,
-    .row.row-person .description img {
-        padding-right: 2%;
+    .page .row.row-movie .description .image-wrapper,
+    .row.row-person .description .image-wrapper {
+        margin-right: 2%;
     }
 
-    .page .row.row-movie img {
-        padding-bottom: 0;
+    .page .row.row-movie .image-wrapper {
+        margin-bottom: 0;
     }
 
-    .row.row-movie iframe {
+    .row.row-movie .iframe-wrapper {
         width: 66%;
     }
 
@@ -555,8 +583,8 @@ datalist option {
         width: 100%;
     }
 
-    .persons-wrapper div,
-    .movies-wrapper div {
+    .persons-wrapper > div,
+    .movies-wrapper > div {
         width: 10%;
     }
 
