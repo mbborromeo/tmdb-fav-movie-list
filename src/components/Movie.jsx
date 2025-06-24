@@ -11,8 +11,6 @@ import Trailer from './Trailer';
 
 import useFetchMovie from '../hooks/useFetchMovie';
 
-import loadingGif from '../assets/images/gifer_loading_VAyR.gif';
-
 import { BASE_URL_IMAGE } from '../utils/api';
 
 const Movie = memo(({ id, page = false }) => {
@@ -32,11 +30,9 @@ const Movie = memo(({ id, page = false }) => {
 
     return (
         <>
-            {loading && <img src={loadingGif} alt="loading" width="32" />}
-
-            {!loading && movie && (
-                <>
-                    <h2>
+            <h2>
+                {!loading && movie && (
+                    <>
                         {page ? (
                             movie.title
                         ) : (
@@ -56,43 +52,59 @@ const Movie = memo(({ id, page = false }) => {
                                 {movie.title}
                             </Link>
                         )}
+                    </>
+                )}
 
-                        <ReleaseInfo
-                            releaseDate={movie.release_date}
-                            rating={rating}
-                        />
-                    </h2>
+                {!loading && movie && (
+                    <ReleaseInfo
+                        releaseDate={movie.release_date}
+                        rating={rating}
+                    />
+                )}
+            </h2>
 
-                    <div className="row row-movie">
+            <div className="row row-movie">
+                <div
+                    className={`image-wrapper${page ? ' show-on-desktop' : ''}${loading ? ' loading' : ''}`}
+                >
+                    {!loading && movie && (
                         <img
-                            className={page ? ' show-on-desktop' : ''}
                             src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                             alt="Poster"
-                            width={page ? '338' : '185'}
-                            height={page ? '508' : '278'}
                         />
+                    )}
+                </div>
 
-                        {page ? (
-                            <>
-                                <Trailer id={id} />
+                {page ? (
+                    <>
+                        <Trailer id={id} />
 
-                                <div className="description">
+                        <div className="description">
+                            <div
+                                className={`image-wrapper show-on-mobile${loading ? ' loading' : ''}`}
+                            >
+                                {!loading && movie && (
                                     <img
-                                        className="show-on-mobile"
                                         src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                                         alt="Poster"
-                                        width={page ? '338' : '185'}
-                                        height={page ? '508' : '278'}
                                     />
+                                )}
+                            </div>
 
+                            {!loading && movie && (
+                                <>
                                     <p>
                                         <em>{movie.tagline}</em>
                                     </p>
 
                                     <p>{movie.overview}</p>
-                                </div>
-                            </>
-                        ) : (
+                                </>
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {!loading && movie && (
                             <div className="data-column">
                                 <Genres genres={movie.genres} />
 
@@ -117,9 +129,13 @@ const Movie = memo(({ id, page = false }) => {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </>
+                )}
+            </div>
 
-                    {page ? (
+            {page ? (
+                <>
+                    {!loading && movie && (
                         <>
                             <Genres genres={movie.genres} />
 
@@ -139,12 +155,12 @@ const Movie = memo(({ id, page = false }) => {
                                 voteCount={movie.vote_count}
                             />
                         </>
-                    ) : (
-                        <div className="show-on-mobile">
-                            <p>{movie.overview}</p>
-                        </div>
                     )}
                 </>
+            ) : (
+                <div className="show-on-mobile">
+                    {!loading && movie && <p>{movie.overview}</p>}
+                </div>
             )}
 
             {errorMessages.length > 0 && (
