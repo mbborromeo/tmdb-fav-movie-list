@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 /* Resource: https://blog.logrocket.com/progressive-image-loading-react-tutorial */
 const ImageWrappingLoader = ({ imageSrc, imageAlt, className }) => {
-    // imagePlaceholderSrc, ...props
     const [imgSrc, setImgSrc] = useState(null);
 
     /* load an invisible image tag (not placed on page) for loading purposes */
@@ -22,14 +21,14 @@ const ImageWrappingLoader = ({ imageSrc, imageAlt, className }) => {
           : '';
 
     return (
-        <div className={customClasses}>
+        <span className={customClasses}>
             {imgSrc && (
                 <img
                     src={imgSrc}
                     alt={imageAlt} // needs to be explicitly defined for img
                 />
             )}
-        </div>
+        </span>
     );
 };
 

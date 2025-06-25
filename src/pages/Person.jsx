@@ -118,7 +118,7 @@ const Person = () => {
 
                 <div className="row row-person">
                     <p className="description">
-                        <div
+                        <span
                             className={`image-wrapper${loading ? ' loading' : ''}`}
                         >
                             {!loading && person && (
@@ -129,11 +129,9 @@ const Person = () => {
                                         person.profile_path
                                     }
                                     alt={`${person.name}'s profile pic`}
-                                    // width="246"
-                                    // height="368"
                                 />
                             )}
-                        </div>
+                        </span>
 
                         {person && person.biography}
                     </p>
