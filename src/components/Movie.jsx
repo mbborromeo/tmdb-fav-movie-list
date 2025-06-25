@@ -8,6 +8,7 @@ import ReleaseInfo from './ReleaseInfo';
 import Votes from './Votes';
 import Runtime from './Runtime';
 import Trailer from './Trailer';
+import ImageWrappingLoader from './ImageWrappingLoader';
 
 import useFetchMovie from '../hooks/useFetchMovie';
 
@@ -64,32 +65,26 @@ const Movie = memo(({ id, page = false }) => {
             </h2>
 
             <div className="row row-movie">
-                <div
-                    className={`image-wrapper${page ? ' show-on-desktop' : ''}${loading ? ' loading' : ''}`}
-                >
-                    {!loading && movie && (
-                        <img
-                            src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                            alt="Poster"
-                        />
-                    )}
-                </div>
+                {!loading && movie && (
+                    <ImageWrappingLoader
+                        imageSrc={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                        imageAlt="Poster"
+                        className={`image-wrapper${page ? ' show-on-desktop' : ''}`}
+                    />
+                )}
 
                 {page ? (
                     <>
                         <Trailer id={id} />
 
                         <div className="description">
-                            <div
-                                className={`image-wrapper show-on-mobile${loading ? ' loading' : ''}`}
-                            >
-                                {!loading && movie && (
-                                    <img
-                                        src={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                                        alt="Poster"
-                                    />
-                                )}
-                            </div>
+                            {!loading && movie && (
+                                <ImageWrappingLoader
+                                    imageSrc={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                                    imageAlt="Poster"
+                                    className="image-wrapper show-on-mobile"
+                                />
+                            )}
 
                             {!loading && movie && (
                                 <>
