@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
+
 const Header = ({ ref }) => {
     return (
         <header ref={ref}>
-            <h1>Mike's movie picks</h1>
+            <h1>
+                <Link to="/">Mike's movie picks</Link>
+            </h1>
         </header>
     );
 };
