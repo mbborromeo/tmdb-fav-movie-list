@@ -109,76 +109,83 @@ const Person = () => {
 
     return (
         <>
-            <div className="back-button-wrapper">
-                <BackButton />
-            </div>
-
-            <div className="content-wrapper page">
-                <h2>{person && person.name}</h2>
-
-                <div className="row row-person">
-                    <p className="description">
-                        <span
-                            className={`image-wrapper${loading ? ' loading' : ''}`}
-                        >
-                            {!loading && person && (
-                                <img
-                                    src={
-                                        BASE_URL_IMAGE +
-                                        PROFILE_SIZE +
-                                        person.profile_path
-                                    }
-                                    alt={`${person.name}'s profile pic`}
-                                />
-                            )}
-                        </span>
-
-                        {person && person.biography}
-                    </p>
-                </div>
-
-                <div>
-                    <b>Known for department:</b>{' '}
-                    {person && person.known_for_department}
-                </div>
-
-                <div>
-                    <b>Movies:</b>
-                    <div className="row movies-wrapper">
-                        {movies.length > 0 &&
-                            movies.map((movie) => {
-                                return (
-                                    <div key={`${movie.id}-${movie.job}`}>
-                                        {movie.poster_path && (
-                                            <ImageWrappingLoader
-                                                imageSrc={
-                                                    BASE_URL_IMAGE +
-                                                    POSTER_SIZE +
-                                                    movie.poster_path
-                                                }
-                                                imageAlt="Poster"
-                                                className="image-wrapper"
-                                            />
-                                        )}
-
-                                        <Link to={`/movie/${movie.id}`}>
-                                            {movie.title}
-                                        </Link>
-                                        <span>
-                                            {person.known_for_department ===
-                                            'Acting'
-                                                ? ` (${movie.character})`
-                                                : ` (${movie.job})`}
-                                        </span>
-                                    </div>
-                                );
-                            })}
+            {!loading && (
+                <>
+                    <div className="back-button-wrapper">
+                        <BackButton />
                     </div>
-                </div>
-            </div>
 
-            {errorMessages.length > 0 && (
-                <ErrorFeedback errors={errorMessages} />
+                    {errorMessages.length > 0 && (
+                        <ErrorFeedback errors={errorMessages} />
+                    )}
+
+                    {person && (
+                        <div className="content-wrapper page">
+                            <h2>{person.name}</h2>
+
+                            <div className="row row-person">
+                                <p className="description">
+                                    {person.profile_path && (
+                                        <ImageWrappingLoader
+                                            imageSrc={
+                                                BASE_URL_IMAGE +
+                                                PROFILE_SIZE +
+                                                person.profile_path
+                                            }
+                                            imageAlt={`${person.name}'s profile pic`}
+                                            className="image-wrapper"
+                                        />
+                                    )}
+
+                                    {person.biography && person.biography}
+                                </p>
+                            </div>
+
+                            <div>
+                                <b>Known for department:</b>{' '}
+                                {person.known_for_department}
+                            </div>
+
+                            <div>
+                                <b>Movies:</b>
+                                <div className="row movies-wrapper">
+                                    {movies.length > 0 &&
+                                        movies.map((movie) => {
+                                            return (
+                                                <div
+                                                    key={`${movie.id}-${movie.job}`}
+                                                >
+                                                    {movie.poster_path && (
+                                                        <ImageWrappingLoader
+                                                            imageSrc={
+                                                                BASE_URL_IMAGE +
+                                                                POSTER_SIZE +
+                                                                movie.poster_path
+                                                            }
+                                                            imageAlt="Poster"
+                                                            className="image-wrapper"
+                                                        />
+                                                    )}
+
+                                                    <Link
+                                                        to={`/movie/${movie.id}`}
+                                                    >
+                                                        {movie.title}
+                                                    </Link>
+                                                    <span>
+                                                        {person.known_for_department ===
+                                                        'Acting'
+                                                            ? ` (${movie.character})`
+                                                            : ` (${movie.job})`}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
         </>
     );

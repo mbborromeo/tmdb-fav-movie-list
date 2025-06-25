@@ -31,135 +31,121 @@ const Movie = memo(({ id, page = false }) => {
 
     return (
         <>
-            <h2>
-                {!loading && movie && (
-                    <>
-                        {page ? (
-                            movie.title
-                        ) : (
-                            <Link
-                                to={{
-                                    pathname: `/movie/${movie.id}`
-                                }}
-                                state={{
-                                    movie,
-                                    directors,
-                                    writers,
-                                    novelists,
-                                    actors,
-                                    rating
-                                }}
-                            >
-                                {movie.title}
-                            </Link>
-                        )}
-                    </>
-                )}
+            {!loading && (
+                <>
+                    {movie && (
+                        <>
+                            <h2>
+                                {page ? (
+                                    movie.title
+                                ) : (
+                                    <Link
+                                        to={{
+                                            pathname: `/movie/${movie.id}`
+                                        }}
+                                        state={{
+                                            movie,
+                                            directors,
+                                            writers,
+                                            novelists,
+                                            actors,
+                                            rating
+                                        }}
+                                    >
+                                        {movie.title}
+                                    </Link>
+                                )}
 
-                {!loading && movie && (
-                    <ReleaseInfo
-                        releaseDate={movie.release_date}
-                        rating={rating}
-                    />
-                )}
-            </h2>
+                                <ReleaseInfo
+                                    releaseDate={movie.release_date}
+                                    rating={rating}
+                                />
+                            </h2>
 
-            <div className="row row-movie">
-                {!loading && movie && (
-                    <ImageWrappingLoader
-                        imageSrc={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
-                        imageAlt="Poster"
-                        className={`image-wrapper${page ? ' show-on-desktop' : ''}`}
-                    />
-                )}
-
-                {page ? (
-                    <>
-                        <Trailer id={id} />
-
-                        <div className="description">
-                            {!loading && movie && (
+                            <div className="row row-movie">
                                 <ImageWrappingLoader
                                     imageSrc={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
                                     imageAlt="Poster"
-                                    className="image-wrapper show-on-mobile"
+                                    className={`image-wrapper${page ? ' show-on-desktop' : ''}`}
                                 />
-                            )}
 
-                            {!loading && movie && (
+                                {page ? (
+                                    <>
+                                        <Trailer id={id} />
+
+                                        <div className="description">
+                                            <ImageWrappingLoader
+                                                imageSrc={`${BASE_URL_IMAGE}${POSTER_SIZE}/${movie.poster_path}`}
+                                                imageAlt="Poster"
+                                                className="image-wrapper show-on-mobile"
+                                            />
+
+                                            <p>
+                                                <em>{movie.tagline}</em>
+                                            </p>
+
+                                            <p>{movie.overview}</p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="data-column">
+                                        <Genres genres={movie.genres} />
+
+                                        <Runtime runtime={movie.runtime} />
+
+                                        <Credits
+                                            directors={directors}
+                                            writers={writers}
+                                            novelists={novelists}
+                                            actors={actors}
+                                            actorsDisplayMaxThree={true}
+                                        />
+
+                                        <Votes
+                                            className="stars-voted"
+                                            voteAverage={movie.vote_average}
+                                            voteCount={movie.vote_count}
+                                        />
+
+                                        <div className="show-on-desktop">
+                                            <p>{movie.overview}</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {page ? (
                                 <>
-                                    <p>
-                                        <em>{movie.tagline}</em>
-                                    </p>
+                                    <Genres genres={movie.genres} />
 
-                                    <p>{movie.overview}</p>
+                                    <Runtime runtime={movie.runtime} />
+
+                                    <Credits
+                                        directors={directors}
+                                        writers={writers}
+                                        novelists={novelists}
+                                        actors={actors}
+                                        showActorsPic={true}
+                                        displayLinks={true}
+                                    />
+
+                                    <Votes
+                                        voteAverage={movie.vote_average}
+                                        voteCount={movie.vote_count}
+                                    />
                                 </>
-                            )}
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        {!loading && movie && (
-                            <div className="data-column">
-                                <Genres genres={movie.genres} />
-
-                                <Runtime runtime={movie.runtime} />
-
-                                <Credits
-                                    directors={directors}
-                                    writers={writers}
-                                    novelists={novelists}
-                                    actors={actors}
-                                    actorsDisplayMaxThree={true}
-                                />
-
-                                <Votes
-                                    className="stars-voted"
-                                    voteAverage={movie.vote_average}
-                                    voteCount={movie.vote_count}
-                                />
-
-                                <div className="show-on-desktop">
+                            ) : (
+                                <div className="show-on-mobile">
                                     <p>{movie.overview}</p>
                                 </div>
-                            </div>
-                        )}
-                    </>
-                )}
-            </div>
-
-            {page ? (
-                <>
-                    {!loading && movie && (
-                        <>
-                            <Genres genres={movie.genres} />
-
-                            <Runtime runtime={movie.runtime} />
-
-                            <Credits
-                                directors={directors}
-                                writers={writers}
-                                novelists={novelists}
-                                actors={actors}
-                                showActorsPic={true}
-                                displayLinks={true}
-                            />
-
-                            <Votes
-                                voteAverage={movie.vote_average}
-                                voteCount={movie.vote_count}
-                            />
+                            )}
                         </>
                     )}
-                </>
-            ) : (
-                <div className="show-on-mobile">
-                    {!loading && movie && <p>{movie.overview}</p>}
-                </div>
-            )}
 
-            {errorMessages.length > 0 && (
-                <ErrorFeedback errors={errorMessages} />
+                    {errorMessages.length > 0 && (
+                        <ErrorFeedback errors={errorMessages} />
+                    )}
+                </>
             )}
         </>
     );

@@ -297,16 +297,8 @@ const Movies = () => {
                 </datalist>
             </div>
 
-            {errorMessages.length > 0 && (
-                <ErrorFeedback errors={errorMessages} />
-            )}
-
-            {!loading &&
-                moviesSorted.length === 0 &&
-                errorMessages.length === 0 && <b>No movies found!</b>}
-
             <div className={`buttons-wrapper${loading ? ' loading' : ''}`}>
-                {!loading && (
+                {!loading && moviesSorted.length > 0 && (
                     <>
                         <select
                             name="select-orderby"
@@ -409,6 +401,14 @@ const Movies = () => {
                     </>
                 )}
             </div>
+
+            {!loading && errorMessages.length > 0 && (
+                <ErrorFeedback errors={errorMessages} />
+            )}
+
+            {!loading &&
+                moviesSorted.length === 0 &&
+                errorMessages.length === 0 && <b>No movies found!</b>}
 
             {!loading && moviesSorted.length > 0 && (
                 <ol>
