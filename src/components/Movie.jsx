@@ -107,7 +107,7 @@ const Movie = memo(({ id, page = false }) => {
                                             voteCount={movie.vote_count}
                                         />
 
-                                        <div className="show-on-desktop">
+                                        <div className="truncate show-on-desktop">
                                             <p>{movie.overview}</p>
                                         </div>
                                     </div>
@@ -135,7 +135,7 @@ const Movie = memo(({ id, page = false }) => {
                                     />
                                 </>
                             ) : (
-                                <div className="show-on-mobile">
+                                <div className="truncate show-on-mobile">
                                     <p>{movie.overview}</p>
                                 </div>
                             )}
