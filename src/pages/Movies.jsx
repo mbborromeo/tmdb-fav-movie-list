@@ -10,6 +10,8 @@ import ErrorFeedback from '../components/ErrorFeedback';
 
 const Movies = () => {
     // { templateRef }
+    const rangeRef = useRef(null);
+
     const [movies, setMovies] = useState([]);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -25,10 +27,13 @@ const Movies = () => {
     const order = searchParams.get('order') || null;
     const decade = searchParams.get('decade') || '1990';
 
-    // const scrollToTopOffsetHeader = () => {
-    //     const headerHeight = templateRef.current?.getHeaderHeight() || 0;
-    //     scrollToTop(headerHeight);
-    // };
+    const scrollToTopOffsetHeaderAndSlider = () => {
+        const element = rangeRef.current;
+        const rect = element.getBoundingClientRect();
+        const elementHeight = rect.height;
+        const topOffset = element.offsetTop + elementHeight;
+        scrollToTop(topOffset);
+    };
 
     const scrollToCurrentFilterButton = useCallback((ref) => {
         const filterButtonsNode = ref;
@@ -41,16 +46,18 @@ const Movies = () => {
         //     inline: 'start'
         // });
 
-        filterButtonsNode.scrollTo({
-            left: currentFilterButton.offsetLeft,
-            behavior: 'smooth'
-        });
+        if (currentFilterButton) {
+            filterButtonsNode.scrollTo({
+                left: currentFilterButton.offsetLeft,
+                behavior: 'smooth'
+            });
+        }
     }, []);
 
     const handleSelectChange = (event) => {
         const sortValue = event.target.value || '';
 
-        scrollToTop();
+        scrollToTopOffsetHeaderAndSlider();
 
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
@@ -61,7 +68,7 @@ const Movies = () => {
     };
 
     const handleClickButtonOrder = () => {
-        scrollToTop();
+        scrollToTopOffsetHeaderAndSlider();
 
         setSearchParams({
             ...(decade ? { decade: decade } : {}),
@@ -73,8 +80,6 @@ const Movies = () => {
 
     const handleRangeSelection = (event) => {
         const selectedDecade = event.target.value;
-
-        scrollToTop();
 
         setSearchParams({
             ...{ decade: selectedDecade },
@@ -265,7 +270,7 @@ const Movies = () => {
 
     return (
         <>
-            <div className="range-wrapper">
+            <div className="range-wrapper" ref={rangeRef}>
                 <div className="slider-row">
                     <span>80's</span>
                     <input
@@ -346,7 +351,7 @@ const Movies = () => {
                                                 : {})
                                         }).toString()
                                     }}
-                                    onClick={scrollToTop}
+                                    onClick={scrollToTopOffsetHeaderAndSlider}
                                     className={
                                         filter === null ? 'btn on' : 'btn'
                                     }
@@ -383,7 +388,9 @@ const Movies = () => {
                                                     : {})
                                             }).toString()
                                         }}
-                                        onClick={scrollToTop}
+                                        onClick={
+                                            scrollToTopOffsetHeaderAndSlider
+                                        }
                                         className={
                                             filter === genre ? 'btn on' : 'btn'
                                         }

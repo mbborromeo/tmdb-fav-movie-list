@@ -58,9 +58,9 @@ header {
     height: 65px;
     padding: 20px 0 15px;
     background-color: lightyellow;
-    position: sticky;
+    /* position: sticky;
     top: 0;
-    z-index: 9;
+    z-index: 9; */
 }
 
 footer {
@@ -123,8 +123,9 @@ select {
 .buttons-wrapper {
     display: flex; /* to fix vertical align */
     position: sticky;
-    top: 110px;
+    top: 0; 
     background: lightyellow;
+    padding-top: 5px;
     padding-bottom: 5px;
     height: 45.5px;
 }
@@ -485,9 +486,9 @@ ol li a + span {
     justify-content: start;
     align-items: center;
     background-color: lightyellow;
-    position: sticky;
-    top: 65px;
-    height: 45px;
+    /* position: sticky;
+    top: 65px; */
+    height: 40px; /* 45px */
 }
 
 .slider-row {
